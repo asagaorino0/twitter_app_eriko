@@ -1,6 +1,10 @@
 {
   "database": {
+<<<<<<< HEAD
     "rules": "atabase.rules.json"
+=======
+    "rules": "database.rules"
+>>>>>>> bd985c69f2c4798211a34def7b09906d1b5a841d
   },
   "hosting": {
     "public": "build",
@@ -10,4 +14,8 @@
       "**/node_modules/**"
     ]
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bd985c69f2c4798211a34def7b09906d1b5a841d
