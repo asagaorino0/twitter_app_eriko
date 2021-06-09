@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, MemoryRouter, Route, Switch } from 'react-router-dom'
+import Login from './pages/Login'
+import Main from './pages/Main'
+import CreateUser from './pages/CreateUser';
+// import CreateUser from './pages/CreateUser'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <MemoryRouter>
+        <Router>
+          {/* <Login /> */}
+          <Switch>
+            {/* <Route exact path='/Main/:name' component={Main} /> */}
+            <Route exact path='/' component={Login} />
+            <Route exact path='/createUser/:new!' component={CreateUser} />
+            <Route exact path='/Main' component={Main} />
+            {/* <Route exact path='/CreateUser/' component={CreateUser} /> */}
+          </Switch>
+        </Router>
+      </MemoryRouter>
+    </div >
   );
 }
-
 export default App;
