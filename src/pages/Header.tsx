@@ -1,6 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import React, { useState, useRef, useCallback } from 'react';
 import firebase from '../config/firebase'
 import { AppBar, Toolbar } from '@material-ui/core';
 import { useHistory, Link } from 'react-router-dom';
@@ -9,6 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Upload from "./Upload";
 import SendIcon from '@material-ui/icons/Send';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { Typography, Button } from "@material-ui/core";
+import { useDropzone } from "react-dropzone";
+import { storage } from "../config/firebase";
+import FolderIcon from '@material-ui/icons/Folder';
 
 const Header: React.FC<{}> = () => {
     const db = firebase.firestore();
@@ -58,36 +62,15 @@ const Header: React.FC<{}> = () => {
             history.push('/')
         }).catch((error) => {
             var errorMessage = error.message;
-
         });
     }
-
-    // const handlImg = async () => {
-    // storageRef.child('images/stars.jpg').getDownloadURL().then(function(url) {
-    //     // `url` is the download URL for 'images/stars.jpg'
-    //     // This can be downloaded directly:
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.responseType = 'blob';
-    //     xhr.onload = function(event) {
-    //       var blob = xhr.response;
-    //     };
-    //     xhr.open('GET', url);
-    //     xhr.send();
-    //     // Or inserted into an <img> element:
-    //     var img = document.getElementById('myimg');
-    //     img.src = url;
-    //   }).catch(function(error) {
-    //     // Handle any errors
-    //   });
-    // }
-
     const handleCreate = async () => {
         // if (e.key === 'Enter') {
         await
             db.collection('messages').add({
                 name: nameG,
                 message,
-                src: "",
+                src: `${src}`,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 avatar,
                 star: 0,
@@ -97,6 +80,9 @@ const Header: React.FC<{}> = () => {
                 .then((docref) => {
                     // console.log("Document successfully written!:", docref.id);
                     setMessage("");
+                    setSrc("");
+                    setMyFiles([]);
+                    setClickable(false);
                     db.collection("messages").doc(docref.id).set({
                         id: docref.id,
                     }, { merge: true }//←上書きされないおまじない
@@ -107,6 +93,50 @@ const Header: React.FC<{}> = () => {
                 })
     }
     // }
+    const [myFiles, setMyFiles] = useState<File[]>([]);
+    const [clickable, setClickable] = useState(false);
+    const [src, setSrc] = useState("");
+    const onDrop = useCallback(async (acceptedFiles: File[]) => {
+        if (!acceptedFiles[0]) return;
+        try {
+            setMyFiles([...acceptedFiles]);
+            setClickable(true);
+            handlePreview(acceptedFiles);
+        } catch (error) {
+            alert(error);
+
+        }
+    }, []);
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+    });
+    const handleUpload = async (accepterdImg: any) => {
+        try {
+            // アップロード処理
+            const uploadTask: any = storage
+                .ref(`/images/${myFiles[0].name}`)
+                .put(myFiles[0]);
+            // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, next, error);
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
+        }
+        catch (error) {
+        }
+    };
+    const handlePreview = (files: any) => {
+        if (files === null) {
+            return;
+        }
+        const file = files[0];
+        if (file === null) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setSrc(reader.result as string);
+        };
+    };
+
     return (
         <div>
             {nameG !== 'null' && (
@@ -123,7 +153,6 @@ const Header: React.FC<{}> = () => {
                     )}
                     <h3>{`${nameG}さん！ようこそ！！`}</h3>
                     <br />
-                    <SendIcon onClick={handleCreate} />
                     <Button variant="contained" onClick={signOut}>
                         Logout
             </Button>
@@ -144,13 +173,48 @@ const Header: React.FC<{}> = () => {
                                 autoFocus={true}
                             />
                         </Grid>
+                        <SendIcon onClick={handleCreate} />
                         <Grid item>
                             {/* <Upload /> */}
                         </Grid>
                     </Toolbar>
                 )}
             </AppBar>
-            <Upload />
+            {/* <Upload /> */}
+            <Card>
+                <CardContent>
+                    <Typography variant="h6">ファイルを添付</Typography>
+                    {/* <p>File should be Jpeg, Png,...</p> */}
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        {myFiles.length === 0 ? (
+                            <p >
+                                {/* <Avatar> */}
+                                <FolderIcon />
+                                {/* </Avatar> */}
+                            </p>
+                        ) : (
+                            <div style={{ width: '180px', height: '180px' }}>
+                                {myFiles.map((file: File) => (
+                                    <React.Fragment key={file.name}>
+                                        {src && <img src={src} />}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                    <Button
+                        disabled={!clickable}
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                        style={{ marginTop: "16px" }}
+                        onClick={() => handleUpload(myFiles)}
+                    >
+                        UPLOAD
+        </Button>
+                </CardContent>
+            </Card>
         </div>
     )
 }

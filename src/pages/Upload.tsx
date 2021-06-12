@@ -43,16 +43,6 @@ const Upload: React.FC<{}> = () => {
             //     console.log("エラーキャッチ", error);
         }
     };
-    // const next = (snapshot: { bytesTransferred: number; totalBytes: number }) => {
-    //     // 進行中のsnapshotを得る
-    //     // アップロードの進行度を表示
-    //     const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     console.log(percent + "% done");
-    //     console.log(snapshot);
-    // };
-    // const error = (error: any) => {
-    //     alert(error);
-    // };
     const handlePreview = (files: any) => {
         if (files === null) {
             return;
