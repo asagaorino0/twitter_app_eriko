@@ -1,28 +1,17 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useParams } from 'react-router-dom'
-// import TextField from '@material-ui/core/TextField';
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import Header from './Header';
-import Paper from './Paper'
-import MyPaper from './MyPaper'
-import StarPaper from './StarPaper'
-import MyStarPaper from './MyStarPaper'
 import { makeStyles } from '@material-ui/core/styles';
-// import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-// import { Store } from '../store/index'
-// import Fab from '@material-ui/core/Fab';
-// import NavigationIcon from '@material-ui/icons/Navigation';
-import { MessageListType } from '../types/MessageListType';
-import { DockOutlined } from '@material-ui/icons';
-// import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
-// import { firebaseApp } from 'firebase/app';
+import { MessageListType } from '../types/MessageListType';
 
 const Main: React.FC<MessageListType> = () => {
     const [messages, setMessages] = useState<MessageListType[]>([]);
@@ -30,7 +19,7 @@ const Main: React.FC<MessageListType> = () => {
         firebase
             .firestore()
             .collection("messages")
-            .orderBy("timestamp")
+            .orderBy("timestamp", "desc")
             .onSnapshot((docs) => {
                 const messages: MessageListType[] = [];
                 // const messages = snapshot.docs.map((doc) => {//これは×
@@ -42,14 +31,16 @@ const Main: React.FC<MessageListType> = () => {
             })
     }, []
     );
-
-
-
-    // // const useStyles = makeStyles((theme) => ({
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
             margin: '26px',
+        },
+        paper: {
+            maxWidth: 400,
+            margin: '5px 0px 5px 0px ',
+            padding: '16px',
+            boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
         },
         green: {
             color: '#fff',
@@ -58,7 +49,6 @@ const Main: React.FC<MessageListType> = () => {
         },
         yellow: {
             color: 'yelloW',
-            // backgroundColor: 'yelloW',
         },
         formControl: {
             margin: 'spacing(1)',
@@ -67,211 +57,109 @@ const Main: React.FC<MessageListType> = () => {
         selectEmpty: {
             marginTop: 'spacing(2)',
         },
+        pos: {
+            marginBottom: 10,
+        },
+        pink: {
+            color: '#fff',
+            backgroundColor: 'pink',
+        },
+        largePink: {
+            width: 'spacing(20)',
+            height: 'spacing(20)',
+            fontSize: '100px',
+            color: '#fff',
+            backgroundColor: 'pink',
+        },
     });
-    // const { globalState, setGlobalState } = useContext(Store)
     const [message, setMessage] = useState<string>('');
-
-    // const [names, setNames] = useState('');
+    const [names, setNames] = useState<string>('');
     const db = firebase.firestore();
     const doc = firebase.firestore();
-    // const { name } = useParams();
-    // const { avatarG } = useParams();
-    // const avatar = name.charAt(0);
-    const date = new Date()
-    const Y = date.getFullYear()
-    const M = ("00" + (date.getMonth() + 1)).slice(-2)
-    const D = ("00" + date.getDate()).slice(-2)
-    const h = ("00" + date.getHours()).slice(-2)
-    const m = ("00" + date.getMinutes()).slice(-2)
-    const s = ("00" + date.getSeconds()).slice(-2)
-    const no = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
-    const handleCreate = () => {
-        // const handleCreate = async (event) => {
-        // if (event.key === 'Enter') {
-        // await
-        db.collection('messages').add({
-            // name,
-            message,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            // avatar,
-            star: 0,
-            // avatarG,
-            time: no
-        })
-            .then((docref) => {
-                // console.log("Document successfully written!:", docref.id);
-                setMessage("");
-                db.collection("messages").doc(docref.id).set({
-                    id: docref.id,
-                    //// capital: true //←上書きされないおまじない
-                }, { merge: true }//←上書きされないおまじない
-                )
-            })
-            .catch((error) => {
-                console.error("Error writing document: ", error);
-            })
-        // }
+    var storage = firebase.app().storage("gs://my-custom-bucket");
+    const handleDelete = async () => {
+        await
+            db.collection("messages").where("message", "==", "")
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        doc.ref.delete();
+                    })
+                })
     };
-
-
-
-    // const messageEndRef = React.useRef();
-    // const scrollToLatest = () =>
-    //     messageEndRef.current.scrollIntoView({ behavior: "auto", block: "start", inline: "center" })
-    // const handleDelete = async () => {
-    //     await
-    //         db.collection("messages").where("name", "==", name)
-    //             .get()
-    //             .then((querySnapshot) => {
-    //                 querySnapshot.forEach((doc) => {
-    //                     doc.ref.delete();
-    //                 })
-    //             })
-    // };
-    // const handleReset = async () => {
-    //     // (() => {
-    //     messageEndRef.current.scrollIntoView({ behavior: "auto", block: "start", inline: "center" })
-    //     firebase
-    //         .firestore()
-    //         .collection("messages")
-    //         .orderBy("timestamp")
-    //         .onSnapshot((snapshot) => {
-    //             const messages = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //                 // doc.data().timestamp.toDate()
-    //             });
-    //             setMessages(messages);
-    //         })
-
-    // };
-    // const handleChoice = async (event) => {
-    //     // = (event) => {
-    //     setNames(event.target.value);
-    //     console.log(names)
-    //     await db.collection("messages").where("name", "==", `${names}`)
-    //         .get()
-    //         .then((querySnapshot) => {
-    //             querySnapshot.forEach((doc) => {
-    //                 console.log(doc.id, " => ", doc.data())
-    //             })
-    //         })
-    //         .catch((error) => {
-    //             console.log("Error getting documents: ", error);
-    //         })
-    // }
-    // const starChoice = async () => {
-    //     await db.collection("messages")
-    //         .orderBy("star")
-    //         .onSnapshot((snapshot) => {
-    //             const messages = snapshot.docs
-    //                 .filter((doc) => doc.data().star > 0)
-    //                 .map((doc) => {
-    //                     return doc.id &&
-    //                         doc.data()
-    //                 });
-    //             setMessages(messages);
-    //         })
-    //     console.log(messages)
-    // }
-
     const classes = useStyles();
-    // const ref = useRef<HTMLDivElement>(null);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (e: any) => {
+        setAnchorEl(e.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return (
         <div>
             <Header />
-            {/* <button onClick={scrollToLatest}>goto</button>
-            <Fab variant="extended" onClick={scrollToLatest}>
-                <NavigationIcon className={classes.extendedIcon} />
-             Navigate
-            </Fab> */}
-
             <div className={classes.root}>
                 {messages.length !== 0 &&
                     messages.map((messages, index) => {
-                        // if (name === messages.name) {
-                        //     if (messages.star > 0)
-                        //         return (
-                        //             <MyStarPaper messages={messages} key={`${messages.id} `} />
-                        //         )
-                        //     else {
-                        //         return (
-                        //             <MyPaper messages={messages} key={`${messages.id} `} />
-                        //         )
-                        //     }
-                        // }
-                        // else if (messages.star > 0)
-                        //     return (
-                        //         <StarPaper messages={messages} key={`${messages.id} `} />
-                        //     )
-                        // else {
                         return (
-                            <Paper messages={messages} key={`${messages.id} `} />
+                            // <Papers messages={messages} key={`${messages.id} `} />
+                            <Paper className={classes.paper}>
+                                <Grid container wrap="nowrap" spacing={2}>
+                                    {messages.avatarG === "" &&
+                                        <Grid item>
+                                            <Avatar className={classes.pink} onClick={handleClick} >{messages.avatar} </Avatar>
+                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
+                                        </Grid>
+                                    }
+                                    {messages.avatarG !== "" &&
+                                        <Grid item>
+                                            <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
+                                        </Grid>
+                                    }
+                                    <Grid item xs>
+                                        <Typography variant="h6" component="h6">
+                                            {messages.name}
+                                        </Typography>
+                                        <Typography className={classes.pos} color="textSecondary">
+                                            {messages.message}
+                                        </Typography>
+                                        <Typography variant="caption" color="textSecondary">
+                                            {messages.time}
+                                        </Typography>
+                                    </Grid>
+                                    <StarBorderIcon className={classes.yellow} />
+                                    {/* <StarBorderIcon className={classes.yellow} onClick={starId} /> */}
+                                </Grid>
+                                <div>
+                                    <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                    >
+                                        {messages.avatarG === "0" &&
+                                            <MenuItem onClick={handleClose} >
+                                                <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
+                                            </MenuItem>
+                                        }
+                                        {messages.avatarG !== "0" &&
+                                            <MenuItem onClick={handleClose}>
+                                                <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '180px', height: '180px' }} />
+                                            </MenuItem>
+                                        }
+                                        <MenuItem onClick={handleClose}>{messages.name}</MenuItem>
+                                    </Menu>
+                                </div>
+                            </Paper>
                         )
                         // }
                     })
                 }
             </div>
-            {/* <div style={{ display: 'flex', flexWrap: 'wrap' }} />
-            <div className={classes.root}>
-                {globalState.avater === '0' &&
-                    <Avatar className={classes.green} >{avater}</Avatar>}
-                {globalState.avater !== '0' &&
-                    <img src={globalState.avater} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
-                }
-                <Grid item xs={10}>
-                    <TextField
-                        // inputRef={ref}
-                        ref={messageEndRef}
-                        label="message"
-                        fullWidth={true}
-                        onChange={(e) => setMessage(e.target.value)}
-                        value={message}
-                        onKeyDown={handleCreate}
-                        autoFocus={true}
-                    />
-                </Grid>
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }} />
-            <div className={classes.root} />
-            <Avatar className={classes.yellow} onClick={starChoice} >★</Avatar>
-            <button onClick={handleReset} color="secondary">reset</button>
-            <button onClick={handleChoice} color="secondary">set</button>
-
-            <FormControl required className={classes.formControl}>
-                <InputLabel id="demo-simple-select-required-label">Lock On</InputLabel>
-                <Select
-                    labelId="demo-simple-select-required-label"
-                    id="demo-simple-select-required"
-                    value={names}
-                    // onChange={(e) => setNames(e.target.value)}
-                    // onKeyDown={handleChoice}
-                    onChange={handleChoice}
-                    className={classes.selectEmpty}
-                > */}
-            {/* {messages.length !== 0 && */}
-            {
-                messages.map((messages, index) => {
-                    return (
-                        <MenuItem value={messages.name} key={index}>
-                            {messages.name}
-                        </MenuItem>
-                        // <h1>
-                        //     {messages.name}
-                        // </h1>
-                    )
-                })}
-            {/* </Select> */}
-            {/* <FormHelperText>Required</FormHelperText>
-            {/* </FormControl>  */}
-
-
-main
-
-
-
-
+            <button onClick={handleDelete} color="secondary">delete</button>
         </div>
     );
 };

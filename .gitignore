@@ -7,6 +7,10 @@
 # dotenv environment variables file
 .env
 .env.test
+/node_modules
+/build
+.jsonbuild
+.firebase
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
