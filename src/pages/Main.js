@@ -14,21 +14,30 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { MessageListType } from '../types/MessageListType';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Link from '@material-ui/core/Link';
+import { Store } from '../store/index'
 
-const Main: React.FC<MessageListType> = () => {
-    const [messages, setMessages] = useState<MessageListType[]>([]);
+const Main = () => {
+    const { globalState, setGlobalState } = useContext(Store)
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState('');
+    const [names, setNames] = useState('');
+    const [id, setId] = useState('');
+    const [src, setSrc] = useState('');
+    const db = firebase.firestore();
+    const doc = firebase.firestore();
+    var storage = firebase.app().storage("gs://my-custom-bucket");
+
     useEffect(() => {
         firebase
             .firestore()
             .collection("messages")
             .orderBy("timestamp", "desc")
-            .onSnapshot((docs) => {
-                const messages: MessageListType[] = [];
-                // const messages = snapshot.docs.map((doc) => {//これは×
-                docs.forEach(doc => {
-                    messages.push(doc.data() as MessageListType);
+            .onSnapshot((snapshot) => {
+                const messages = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                    // doc.data().timestamp.toDate()
                 });
-                console.log(messages)
                 setMessages(messages);
             })
     }, []
@@ -74,13 +83,7 @@ const Main: React.FC<MessageListType> = () => {
             backgroundColor: 'pink',
         },
     });
-    const [message, setMessage] = useState<string>('');
-    const [names, setNames] = useState<string>('');
-    const [id, setId] = useState<string>('');
-    const [src, setSrc] = useState<string>('');
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    var storage = firebase.app().storage("gs://my-custom-bucket");
+
     const handleDelete = async () => {
         await
             db.collection("messages").where("message", "==", "")
@@ -93,20 +96,17 @@ const Main: React.FC<MessageListType> = () => {
     };
 
     const deleteId = async () => {
-        console.log(`${messages[0].id}`)
-        // const messages: MessageListType[] = [];
+        console.log(`${messages.id}`)
+        // // const messages: MessageListType[] = [];
         // await
         //     db.collection("messages")
-        //         .doc(`${messages[0].id}`)
-        //         // .doc(`${id}`)
+        //         .doc(`${messages.id}`)
         //         .delete()
     };
     const classes = useStyles();
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const anchorRef = React.useRef<HTMLButtonElement>(null);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
@@ -117,28 +117,9 @@ const Main: React.FC<MessageListType> = () => {
     var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
     const handleWindow = () => {
         windowObjectReference = window
-            .open(`${src}`,
+            .open(`${messages.src}`,
                 "",
                 windowFeatures);
-    }
-    // const imageHander = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (event.target.files === null) {
-    //     return;
-    // }
-    // const file = event.target.files[0];
-    // if (file === null) {
-    //     return;
-    // }
-    const imageHander = () => {
-
-        // const file = "https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c"
-        let imgTag = document.getElementById("preview") as HTMLImageElement;
-        // const reader = new FileReader();
-        // reader.readAsDataURL("https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c");
-        // reader.onload = () => {
-        // const result: string = reader.result as string;
-        // imgTag.src = result;
-        imgTag.src = "https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c";
     }
 
     return (
@@ -153,20 +134,14 @@ const Main: React.FC<MessageListType> = () => {
                                 <Grid container wrap="nowrap" spacing={2}>
                                     {messages.avatarG === "" &&
                                         <Grid item>
-                                            <Avatar className={classes.pink} onClick={handleClick} aria-expanded={open ? 'true' : undefined} >{messages.avatar} </Avatar>
+                                            <Avatar className={classes.pink} onClick={handleClick} >{messages.avatar} </Avatar>
                                         </Grid>
                                     }
                                     {messages.avatarG !== "" &&
                                         <Grid item>
                                             <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
-                                            {/* <Link href={messages.src} underline="none"> */}
-                                            {/* <input type="file" accept="image/png, image/jpeg, image/gif" onChange={imageHander} /> */}
-                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={imageHander} />
+                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={handleWindow} />
 
-                                            {/* <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={handleWindow} /> */}
-
-
-                                            {/* </Link> */}
                                         </Grid>
                                     }
                                     <Grid item xs>
@@ -179,10 +154,6 @@ const Main: React.FC<MessageListType> = () => {
                                             <Link href={messages.src} underline="none" target="_blank">
                                                 <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
                                             </Link>
-                                            <a href={messages.src} target="_blank">
-                                                <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
-                                            </a>
-
                                         </Typography>
                                         <Typography variant="caption" color="textSecondary">
                                             {messages.time}
@@ -194,31 +165,27 @@ const Main: React.FC<MessageListType> = () => {
                                     <StarBorderIcon className={classes.yellow} />
                                     {/* <StarBorderIcon className={classes.yellow} onClick={starId} /> */}
                                 </Grid>
-
-                                <Menu
-                                    id="simple-menu"
-                                    anchorEl={anchorEl}
-                                    keepMounted
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleClose}
-                                >
-                                    {messages.avatarG === "" &&
-                                        <MenuItem onClick={handleClose} >
-                                            <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
-                                        </MenuItem>
-                                    }
-                                    {messages.avatarG !== "" &&
-                                        <MenuItem onClick={handleClose}>
-                                            <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '100px', height: '100px' }} />
-                                        </MenuItem>
-                                    }
-                                    <MenuItem onClick={handleClose}>{messages.message}</MenuItem>
-                                    <MenuItem >
-                                        <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
-
-                                    </MenuItem>
-                                </Menu>
-
+                                <div>
+                                    <Menu
+                                        id="simple-menu"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                    >
+                                        {messages.avaterUrl === "0" &&
+                                            <MenuItem onClick={handleClose} >
+                                                <Avatar className={classes.largePink}>{messages.avater} </Avatar>
+                                            </MenuItem>
+                                        }
+                                        {messages.avaterUrl !== "0" &&
+                                            <MenuItem onClick={handleClose}>
+                                                <img src={messages.avaterUrl} alt="" style={{ borderRadius: '50%', width: '180px', height: '180px' }} />
+                                            </MenuItem>
+                                        }
+                                        <MenuItem onClick={handleClose}>{messages.name}</MenuItem>
+                                    </Menu>
+                                </div>
                             </Paper>
                         )
                         // }

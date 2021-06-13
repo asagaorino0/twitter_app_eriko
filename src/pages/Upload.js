@@ -5,11 +5,11 @@ import { Typography, Button } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import firebase, { storage } from "../config/firebase";
 
-const Upload: React.FC<{}> = () => {
-    const [myFiles, setMyFiles] = useState<File[]>([]);
+const Upload = () => {
+    const [myFiles, setMyFiles] = useState([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState("");
-    const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const onDrop = useCallback(async (acceptedFiles) => {
         if (!acceptedFiles[0]) return;
         try {
             setMyFiles([...acceptedFiles]);
@@ -29,10 +29,10 @@ const Upload: React.FC<{}> = () => {
         onDrop,
         // onDropRejected,
     });
-    const handleUpload = async (accepterdImg: any) => {
+    const handleUpload = async (accepterdImg) => {
         try {
             // アップロード処理
-            const uploadTask: any = storage
+            const uploadTask = storage
                 .ref(`/images/${myFiles[0].name}`)
                 .put(myFiles[0]);
             // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, next, error);
@@ -43,7 +43,7 @@ const Upload: React.FC<{}> = () => {
             //     console.log("エラーキャッチ", error);
         }
     };
-    const handlePreview = (files: any) => {
+    const handlePreview = (files) => {
         if (files === null) {
             return;
         }
@@ -54,7 +54,7 @@ const Upload: React.FC<{}> = () => {
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-            setSrc(reader.result as string);
+            setSrc(reader.result);
         };
     };
 

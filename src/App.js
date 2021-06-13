@@ -11,7 +11,7 @@ import Main from './pages/Main';
 import CreateUser from './pages/CreateUser';
 // import CreateUser from './pages/CreateUser'
 
-const App: React.FC<{}> = () => {
+const App = () => {
   return (
     <div className="App">
       <MemoryRouter>

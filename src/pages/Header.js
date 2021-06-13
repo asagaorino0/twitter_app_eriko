@@ -14,14 +14,22 @@ import { useDropzone } from "react-dropzone";
 import { storage } from "../config/firebase";
 import FolderIcon from '@material-ui/icons/Folder';
 
-const Header: React.FC<{}> = () => {
+const Header = () => {
     const db = firebase.firestore();
-    const [avatar, setAvatar] = useState<string>('');
-    const [avatarG, setAvatarG] = useState<string>('');
-    const [nameG, setNameG] = useState<string>('');
-    const [message, setMessage] = useState<string>('');
-    const [email, setEmail] = useState<string>('')
-    const ref = useRef<HTMLDivElement>(null);
+    const [avatar, setAvatar] = useState('');
+    const [avatarG, setAvatarG] = useState('');
+    const [nameG, setNameG] = useState('');
+    const [message, setMessage] = useState('');
+    const [email, setEmail] = useState('');
+    const [mochimono, setMochimono] = useState('');
+    const [basyo, setBasyo] = useState('');
+    const [ninzuu, setNinzuu] = useState('');
+    const [zikan, setZikan] = useState('');
+    const [day, setDay] = useState('');
+    const [syugoZ, setSyugoZ] = useState('');
+    const [syugoB, setSyugoB] = useState('');
+    const [menu, setMenu] = useState('');
+    const ref = useRef < HTMLDivElement > (null);
     const history = useHistory()
     const date = new Date()
     const Y = date.getFullYear()
@@ -93,10 +101,10 @@ const Header: React.FC<{}> = () => {
                 })
     }
     // }
-    const [myFiles, setMyFiles] = useState<File[]>([]);
+    const [myFiles, setMyFiles] = useState([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState("");
-    const onDrop = useCallback(async (acceptedFiles: File[]) => {
+    const onDrop = useCallback(async (acceptedFiles) => {
         if (!acceptedFiles[0]) return;
         try {
             setMyFiles([...acceptedFiles]);
@@ -110,10 +118,10 @@ const Header: React.FC<{}> = () => {
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
     });
-    const handleUpload = async (accepterdImg: any) => {
+    const handleUpload = async (accepterdImg) => {
         try {
             // アップロード処理
-            const uploadTask: any = storage
+            const uploadTask = storage
                 .ref(`/images/${myFiles[0].name}`)
                 .put(myFiles[0]);
             // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, next, error);
@@ -122,7 +130,7 @@ const Header: React.FC<{}> = () => {
         catch (error) {
         }
     };
-    const handlePreview = (files: any) => {
+    const handlePreview = (files) => {
         if (files === null) {
             return;
         }
@@ -133,7 +141,7 @@ const Header: React.FC<{}> = () => {
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-            setSrc(reader.result as string);
+            setSrc(reader.result);
         };
     };
 
@@ -163,15 +171,61 @@ const Header: React.FC<{}> = () => {
                     <Toolbar>
                         <Grid item xs={10}>
                             <TextField
-                                // inputRef={ref}
-                                // ref={messageEndRef}
-                                label="message"
+                                label="開催日"
                                 fullWidth={true}
-                                onChange={(e) => setMessage(e.target.value)}
+                                onChange={(e) => setDay(e.target.value)}
                                 value={message}
-                                // onKeyDown={handleCreate}
                                 autoFocus={true}
                             />
+                            <TextField
+                                label="時間"
+                                fullWidth={true}
+                                onChange={(e) => setZikan(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="集合時間"
+                                fullWidth={true}
+                                onChange={(e) => setSyugoZ(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="集合場所"
+                                fullWidth={true}
+                                onChange={(e) => setSyugoB(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="開催場所"
+                                fullWidth={true}
+                                onChange={(e) => setBasyo(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="募集人数"
+                                fullWidth={true}
+                                onChange={(e) => setNinzuu(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="施術内容"
+                                fullWidth={true}
+                                onChange={(e) => setMenu(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="持ち物"
+                                fullWidth={true}
+                                onChange={(e) => setMochimono(e.target.value)}
+                                value={message}
+                            />
+                            <TextField
+                                label="e-mail"
+                                fullWidth={true}
+                                onChange={(e) => setEmail(e.target.value)}
+                                value={message}
+                            />
+
                         </Grid>
                         <SendIcon onClick={handleCreate} />
                         <Grid item>
