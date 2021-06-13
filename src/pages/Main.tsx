@@ -93,13 +93,13 @@ const Main: React.FC<MessageListType> = () => {
     };
 
     const deleteId = async () => {
-        console.log(`${id}`)
+        console.log(`${messages[0].id}`)
         // const messages: MessageListType[] = [];
-        await
-            db.collection("messages")
-                .doc("1Fx0qf04isbyCxQV4iwZ")
-                // .doc(`${id}`)
-                .delete()
+        // await
+        //     db.collection("messages")
+        //         .doc(`${messages[0].id}`)
+        //         // .doc(`${id}`)
+        //         .delete()
     };
     const classes = useStyles();
     // const [anchorEl, setAnchorEl] = React.useState(null);
@@ -121,6 +121,25 @@ const Main: React.FC<MessageListType> = () => {
                 "",
                 windowFeatures);
     }
+    // const imageHander = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // if (event.target.files === null) {
+    //     return;
+    // }
+    // const file = event.target.files[0];
+    // if (file === null) {
+    //     return;
+    // }
+    const imageHander = () => {
+
+        // const file = "https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c"
+        let imgTag = document.getElementById("preview") as HTMLImageElement;
+        // const reader = new FileReader();
+        // reader.readAsDataURL("https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c");
+        // reader.onload = () => {
+        // const result: string = reader.result as string;
+        // imgTag.src = result;
+        imgTag.src = "https://lh3.googleusercontent.com/a/AATXAJwnvJ7Z9ZSETZKB0i4eSCXafMkTWB5piCoom7lX=s96-c";
+    }
 
     return (
         <div>
@@ -141,7 +160,12 @@ const Main: React.FC<MessageListType> = () => {
                                         <Grid item>
                                             <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
                                             {/* <Link href={messages.src} underline="none"> */}
-                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={handleWindow} />
+                                            {/* <input type="file" accept="image/png, image/jpeg, image/gif" onChange={imageHander} /> */}
+                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={imageHander} />
+
+                                            {/* <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={handleWindow} /> */}
+
+
                                             {/* </Link> */}
                                         </Grid>
                                     }
