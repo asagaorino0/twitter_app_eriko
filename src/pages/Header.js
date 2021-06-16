@@ -13,6 +13,21 @@ import { Typography, Button } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import { storage } from "../config/firebase";
 import FolderIcon from '@material-ui/icons/Folder';
+import { makeStyles } from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+    },
+    heading: {
+        fontSize: theme.typography.pxToRem(11),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
+}));
 
 const Header = () => {
     const db = firebase.firestore();
@@ -29,6 +44,7 @@ const Header = () => {
     const [syugoZ, setSyugoZ] = useState('');
     const [syugoB, setSyugoB] = useState('');
     const [menu, setMenu] = useState('');
+    const [insta, setInsta] = useState('');
     const ref = useRef < HTMLDivElement > (null);
     const history = useHistory()
     const date = new Date()
@@ -83,12 +99,14 @@ const Header = () => {
                 avatar,
                 star: 0,
                 avatarG,
-                time: now
+                time: now,
+                insta: `${insta}`,
             })
                 .then((docref) => {
                     // console.log("Document successfully written!:", docref.id);
                     setMessage("");
                     setSrc("");
+                    setInsta("");
                     setMyFiles([]);
                     setClickable(false);
                     db.collection("messages").doc(docref.id).set({
@@ -145,32 +163,73 @@ const Header = () => {
         };
     };
 
+    const useStyles = makeStyles({
+        root: {
+            gridRow: 2,
+            margin: '26px',
+        },
+        // green: {
+        //     color: '#fff',
+        //     backgroundColor: 'green',
+        //     margin: '5px 5px 5px 20px',
+        // },
+        textfield: {
+            backgroundColor: '#fff',
+        },
+        formControl: {
+            margin: 'spacing(1)',
+            minWidth: '120px',
+        },
+        selectEmpty: {
+            marginTop: 'spacing(2)',
+        },
+    });
+    const classes = useStyles();
+
     return (
-        <div>
-            {nameG !== 'null' && (
-                <Toolbar>
-                    {`${avatarG}`.length !== 0 && (
-                        <img
-                            src={`${avatarG}`}
-                            alt=""
-                            style={{ borderRadius: '50%', width: '40px', height: '40px' }}
-                        />
-                    )}
-                    {`${avatar}`.length !== 0 && (
-                        <Avatar>{avatar}</Avatar>
-                    )}
-                    <h3>{`${nameG}さん！ようこそ！！`}</h3>
-                    <br />
-                    <Button variant="contained" onClick={signOut}>
-                        Logout
+        <div className={classes.root}>
+            <Toolbar>
+                {`${avatarG}`.length !== 0 && (
+                    <img
+                        src={`${avatarG}`}
+                        alt=""
+                        style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+                    />
+                )}
+                {`${avatar}`.length !== 0 && (
+                    <Avatar className={classes.green} >{avatar}</Avatar>
+                )}
+                <h3>{`${nameG}さん！ようこそ！！`}</h3>
+                <br />
+                <Button variant="contained" onClick={signOut}>
+                    Logout
             </Button>
-                </Toolbar>
-            )}
-            <AppBar position="static">
-                {nameG.length !== 0 && (
-                    <Toolbar>
-                        <Grid item xs={10}>
-                            <TextField
+            </Toolbar>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" >メッセージを送る</Typography>
+                    {message.length !== 0 && (
+                        <Toolbar >
+                            <SendIcon onClick={handleCreate} />
+                        </Toolbar>
+                    )}
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Typography>
+                        {/* <Toolbar > */}
+                        {/* <Grid item xs={10} > */}
+                        <TextField
+                            label="message"
+                            fullWidth={true}
+                            onChange={(e) => setMessage(e.target.value)}
+                            value={message}
+                            autoFocus={true}
+                        />
+                        {/* <TextField
                                 label="開催日"
                                 fullWidth={true}
                                 onChange={(e) => setDay(e.target.value)}
@@ -224,39 +283,25 @@ const Header = () => {
                                 fullWidth={true}
                                 onChange={(e) => setEmail(e.target.value)}
                                 value={message}
-                            />
-
-                        </Grid>
-                        <SendIcon onClick={handleCreate} />
-                        <Grid item>
-                            {/* <Upload /> */}
-                        </Grid>
-                    </Toolbar>
-                )}
-            </AppBar>
-            {/* <Upload /> */}
-            <Card>
-                <CardContent>
-                    <Typography variant="h6">ファイルを添付</Typography>
-                    {/* <p>File should be Jpeg, Png,...</p> */}
-                    <div {...getRootProps()}>
-                        <input {...getInputProps()} />
-                        {myFiles.length === 0 ? (
-                            <p >
-                                {/* <Avatar> */}
-                                <FolderIcon />
-                                {/* </Avatar> */}
-                            </p>
-                        ) : (
-                            <div style={{ width: '180px', height: '180px' }}>
-                                {myFiles.map((file: File) => (
-                                    <React.Fragment key={file.name}>
-                                        {src && <img src={src} />}
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                            /> */}
+                        <TextField
+                            label="instagram"
+                            fullWidth={true}
+                            onChange={(e) => setInsta(e.target.value)}
+                            value={insta}
+                        />
+                    </Typography>
+                </AccordionDetails>
+                {/* </Accordion> */}
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        <Typography className={classes.heading} variant="button" >ファイルを添付
+                    </Typography>
+                    </AccordionSummary>
                     <Button
                         disabled={!clickable}
                         type="submit"
@@ -266,9 +311,35 @@ const Header = () => {
                         onClick={() => handleUpload(myFiles)}
                     >
                         UPLOAD
-        </Button>
-                </CardContent>
-            </Card>
+                        </Button>
+                    <Card>
+                        <CardContent>
+                            <div {...getRootProps()}>
+                                <input {...getInputProps()} />
+                                {myFiles.length === 0 ? (
+                                    // <p >
+                                    <FolderIcon />
+                                    // </p>
+                                ) : (
+                                    <div style={{ width: '180px', height: '180px' }}>
+                                        {myFiles.map((file) => (
+                                            <React.Fragment key={file.name}>
+                                                {src && <img src={src} />}
+                                            </React.Fragment>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Accordion>
+            </Accordion>
+
+
+            {/* <AppBar position="static" className={classes.textfield}> */}
+            {/* </AppBar> */}
+            {/* <Upload /> */}
+
         </div>
     )
 }

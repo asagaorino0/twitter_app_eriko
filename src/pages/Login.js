@@ -85,9 +85,9 @@ const Login = () => {
                 const nameG = (result.user?.displayName)
                 setNameG(`${nameG}`)
                 const avatarG = (result.user?.photoURL)
-                console.log(avatarG)
                 setAvatar(`${avatarG}`)
                 history.push('/Main');
+                console.log(avatar)
             }).catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;

@@ -1,19 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Store } from '../store/index'
+import React, { useState, useRef, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from "firebase/app"
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import InstagramIcon from '@material-ui/icons/Instagram';
-import Follower from './Follower'
-// import Badge from '@material-ui/core/Badge';
-// import { USER_PRO } from '../actions/index'
-// import { useHistory } from 'react-router-dom';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
@@ -31,42 +24,35 @@ const useStyles = makeStyles((theme) => ({
         padding: '16px',
         boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     },
-    pos: {
-        marginBottom: 0,
-    },
     pink: {
         color: '#fff',
         backgroundColor: 'pink',
     },
-    followPink: {
+    green: {
         color: '#fff',
-        backgroundColor: 'pink',
-        fontSize: '10px',
-        borderRadius: '50%',
-        width: '20px',
-        height: '20px'
+        backgroundColor: 'green',
     },
     yellow: {
         color: 'yelloW',
-        // backgroundColor: 'yelloW',
+    },
+    pos: {
+        marginBottom: 10,
     },
     largePink: {
-        width: '40px',
-        height: '40px',
+        width: 'spacing(20)',
+        height: 'spacing(20)',
+        fontSize: '40px',
         color: '#fff',
         backgroundColor: 'pink',
     },
 }));
 
 export default function SimplePaper({ messages }) {
-    // const { globalState, setGlobalState } = useContext(Store)
-    // const history = useHistory()
     const classes = useStyles();
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    const follower = firebase.firestore();
     const [avatar, setAvatar] = useState('');
     const [name, setName] = useState('');
+    const db = firebase.firestore();
+    const doc = firebase.firestore();
     const deleteId = async () => {
         console.log('messages:', doc.id)
         await
@@ -92,112 +78,26 @@ export default function SimplePaper({ messages }) {
             }
         }
     })
-    // const starId = async () => {
-    //     await
-    //         db.collection("messages").doc(messages.id).set({
-    //             star: `${count}`,
-    //             follower2: `${avatar}`,
-    //             followerName2: `${name}`
-    //         }, { merge: true }//←上書きされないおまじない
-    //         )
-    //     console.log('star:', messages.star)
-    // };
     const starId = async () => {
-        // if (followers.name !== name) {
+        console.log('id:', `${avatar}`)
+        await
+            db.collection("messages").doc(messages.id).update({
+                star: (1),
+            }, { merge: true }//←上書きされないおまじない
+            )
         await
             db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
                 follower: `${avatar}`,
                 followerName: `${name}`
             }, { merge: true }//←上書きされないおまじない
             )
-        console.log(followers.length)
-        // await
-        //     console.log(`${messages.id}`)
-        // db.collection("messages").doc(`${messages.id}`).set({
-        //     star: `${followers.length}`
-        // })
-        // console.log(messages.star)
-    }
-    // else {
-    //     await
-    //         console.log(name)
-    // db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-    //     follower: false,
-    //     followerName: false
-    // }, { merge: true }//←上書きされないおまじない
-    // )
-    // db.collection("messages").doc(messages.id).collection('follower').doc(name).delete()
-    // }
-    // }
-
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').add({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`
-    //         })
-    //             .then((docref) => {
-    //                 console.log("Document successfully written!:", docref.id);
-    //                 db.collection("messages").doc(messages.id).collection('follower').doc(docref.id).set({
-    //                     id: docref.id,
-    //                 }, { merge: true }//←上書きされないおまじない
-    //                 )
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
-    useEffect(() => {
-        firebase
-            .firestore()
-            .collection("messages")
-            .doc(messages.id)
-            .collection('follower')
-            // .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const followers = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                    // doc.data().timestamp.toDate()
-                });
-                setFollowers(followers);
-                // console.log(followers)
-                // console.log(followers.follower)
-                // console.log(followers.followerName)
-            })
-
-    }, []
-    );
-
-    const [followers, setFollowers] = useState('');
-    // const starId = async () => {
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').add({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`
-    //         })
-    //             .then((docref) => {
-    //                 console.log("Document successfully written!:", docref.id);
-    //                 setFollowers(docref)
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
-
-
-
+    };
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorFl, setAnchorFl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleFollower = (event) => {
-        setAnchorFl(event.currentTarget);
-        console.log(messages.follower.length)
-    };
     const handleClose = () => {
         setAnchorEl(null);
-        setAnchorFl(null);
     };
 
     return (
@@ -236,25 +136,11 @@ export default function SimplePaper({ messages }) {
                     <Typography variant="caption" color="textSecondary">
                         {messages.time}
                     </Typography>
-                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.length === 0 &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />}
-                        {followers.length !== 0 &&
-                            <StarIcon className={classes.yellow} onClick={starId} />}
-                        {followers.length !== 0 &&
-                            followers.map((followers, index) => {
-                                return (
-                                    <div>
-                                        <Follower followers={followers} key={followers.id} />
-                                    </div>
-                                )
-                            })
-                        }
-                    </Grid>
-
-                </Grid>
-                <Grid item>
-                    <DeleteIcon color="disabled" onClick={deleteId} />
+                    <Typography >
+                        <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        </Grid>
+                    </Typography>
                 </Grid>
             </Grid>
             <div>
@@ -278,6 +164,6 @@ export default function SimplePaper({ messages }) {
                     <MenuItem onClick={handleClose}>{`${messages.name}`}</MenuItem>
                 </Menu>
             </div>
-        </Paper >
+        </Paper>
     );
 }

@@ -5,15 +5,17 @@ import "firebase/auth";
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Paper from '@material-ui/core/Paper';
+import Paper from './Paper';
+import StarPaper from './StarPaper'
+// import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { MessageListType } from '../types/MessageListType';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Link from '@material-ui/core/Link';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import Link from '@material-ui/core/Link';
 import { Store } from '../store/index'
 
 const Main = () => {
@@ -39,9 +41,11 @@ const Main = () => {
                     // doc.data().timestamp.toDate()
                 });
                 setMessages(messages);
+                console.log(messages)
             })
     }, []
     );
+
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
@@ -83,7 +87,7 @@ const Main = () => {
             backgroundColor: 'pink',
         },
     });
-
+    const classes = useStyles();
     const handleDelete = async () => {
         await
             db.collection("messages").where("message", "==", "")
@@ -95,32 +99,37 @@ const Main = () => {
                 })
     };
 
-    const deleteId = async () => {
-        console.log(`${messages.id}`)
-        // // const messages: MessageListType[] = [];
-        // await
-        //     db.collection("messages")
-        //         .doc(`${messages.id}`)
-        //         .delete()
-    };
-    const classes = useStyles();
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const deleteId = async () => {
+    //     console.log(`${messages.id}`)
+    //     // // const messages: MessageListType[] = [];
+    //     // await
+    //     //     db.collection("messages")
+    //     //         .doc(`${messages.id}`)
+    //     //         .delete()
+    // };
+    // const deleteId = async () => {
+    //     await
+    //         db.collection("messages").doc(`${messages.id}`).delete()
+    // };
 
-    var windowObjectReference;
-    var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
-    const handleWindow = () => {
-        windowObjectReference = window
-            .open(`${messages.src}`,
-                "",
-                windowFeatures);
-    }
+
+    // const [anchorEl, setAnchorEl] = React.useState(null);
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    // var windowObjectReference;
+    // var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
+    // const handleWindow = () => {
+    //     windowObjectReference = window
+    //         .open(`${messages.src}`,
+    //             "",
+    //             windowFeatures);
+    // }
 
     return (
         <div>
@@ -128,71 +137,35 @@ const Main = () => {
             <div className={classes.root}>
                 {messages.length !== 0 &&
                     messages.map((messages, index) => {
+
+                        // return (
+                        //     <Paper messages={messages} key={`${messages.id} `} />
+                        // )
+                        // if (name === messages.name) {
+                        //     if (messages.star > 0)
+                        //         return (
+                        //             <MyStarPaper messages={messages} key={`${messages.id} `} />
+                        //         )
+                        //     else {
+                        //         return (
+                        //             <MyPaper messages={messages} key={`${messages.id} `} />
+                        //         )
+                        //     }
+                        // }
+                        // else 
+                        // if (messages.star > 0)
                         return (
-                            // <Papers messages={messages} key={`${messages.id} `} />
-                            <Paper className={classes.paper} key={`${messages.id} `}>
-                                <Grid container wrap="nowrap" spacing={2}>
-                                    {messages.avatarG === "" &&
-                                        <Grid item>
-                                            <Avatar className={classes.pink} onClick={handleClick} >{messages.avatar} </Avatar>
-                                        </Grid>
-                                    }
-                                    {messages.avatarG !== "" &&
-                                        <Grid item>
-                                            <img src={messages.avatarG} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
-                                            <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} onClick={handleWindow} />
-
-                                        </Grid>
-                                    }
-                                    <Grid item xs>
-                                        <Typography variant="h6" component="h6">
-                                            {messages.name}
-                                        </Typography>
-                                        <Typography className={classes.pos} color="textSecondary">
-                                            {messages.message}
-
-                                            <Link href={messages.src} underline="none" target="_blank">
-                                                <img src={messages.src} alt="" style={{ width: '80px', height: '80px' }} />
-                                            </Link>
-                                        </Typography>
-                                        <Typography variant="caption" color="textSecondary">
-                                            {messages.time}
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        <DeleteIcon color="disabled" onClick={deleteId} />
-                                    </Grid>
-                                    <StarBorderIcon className={classes.yellow} />
-                                    {/* <StarBorderIcon className={classes.yellow} onClick={starId} /> */}
-                                </Grid>
-                                <div>
-                                    <Menu
-                                        id="simple-menu"
-                                        anchorEl={anchorEl}
-                                        keepMounted
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                    >
-                                        {messages.avaterUrl === "0" &&
-                                            <MenuItem onClick={handleClose} >
-                                                <Avatar className={classes.largePink}>{messages.avater} </Avatar>
-                                            </MenuItem>
-                                        }
-                                        {messages.avaterUrl !== "0" &&
-                                            <MenuItem onClick={handleClose}>
-                                                <img src={messages.avaterUrl} alt="" style={{ borderRadius: '50%', width: '180px', height: '180px' }} />
-                                            </MenuItem>
-                                        }
-                                        <MenuItem onClick={handleClose}>{messages.name}</MenuItem>
-                                    </Menu>
-                                </div>
-                            </Paper>
+                            <StarPaper messages={messages} key={`${messages.id} `} />
                         )
+                        // else {
+                        //     return (
+                        //         <Paper messages={messages} key={`${messages.id} `} />
+                        //     )
                         // }
                     })
                 }
             </div>
-            <button onClick={handleDelete} color="secondary">delete</button>
+            {/* <button onClick={handle} color="secondary">delete</button> */}
             {/* <button onClick={handleWindow} color="secondary">open</button> */}
         </div>
     );
