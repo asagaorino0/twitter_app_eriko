@@ -141,7 +141,7 @@ const Login = () => {
         <div className={classes.paper}>
             <img src={logo} style={{ borderRadius: '50%', width: '60px', height: '60px' }} alt="logo" />
             <div>
-                <span className={styles.value}>コノユビ</span>
+                <span className={styles.value}>konoyubi</span>
                 <Typography component="h6" variant="h6">
                     介護✕美容のつながるアプリ
                 </Typography>

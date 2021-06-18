@@ -67,6 +67,7 @@ export default function SimplePaper({ messages }) {
     const follower = firebase.firestore();
     const [avatar, setAvatar] = useState('');
     const [name, setName] = useState('');
+    const [star, setStar] = useState('');
     const deleteId = async () => {
         console.log('messages:', doc.id)
         await
@@ -92,67 +93,62 @@ export default function SimplePaper({ messages }) {
             }
         }
     })
-    // const starId = async () => {
-    //     await
-    //         db.collection("messages").doc(messages.id).set({
-    //             star: `${count}`,
-    //             follower2: `${avatar}`,
-    //             followerName2: `${name}`
-    //         }, { merge: true }//←上書きされないおまじない
-    //         )
-    //     console.log('star:', messages.star)
-    // };
+
     const starId = async () => {
-        // if (followers.name !== name) {
+        // console.log(name, followers.followerName)
         await
-            db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-                follower: `${avatar}`,
-                followerName: `${name}`
-            }, { merge: true }//←上書きされないおまじない
-            )
-        console.log(followers.length)
-        // await
-        //     console.log(`${messages.id}`)
-        // db.collection("messages").doc(`${messages.id}`).set({
-        //     star: `${followers.length}`
-        // })
-        // console.log(messages.star)
+            db.collection("messages").doc(messages.id).collection('follower').where("followerName", "==", name)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        doc.ref.delete();
+                    })
+                })
+                .catch((error) => {
+                    console.error("keshitenaiyo ", error)
+                    // await
+                    db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
+                        follower: `${avatar}`,
+                        followerName: `${name}`,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    }, { merge: true }//←上書きされないおまじない
+                    )
+                })
     }
-    // else {
+
+    // const starId = async () => {
+    //     // if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
+    //     //     await
+    //     //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "===", name)
+    //     //             .get()
+    //     //             .then((querySnapshot) => {
+    //     //                 console.log("消したよ ")
+    //     //                 querySnapshot.forEach((doc) => {
+    //     //                     console.log(querySnapshot)
+    //     //                     doc.ref.delete();
+    //     //                 })
+    //     //             })
+    //     // // .catch(() => {
+    //     // else {
+    //     if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
+    //         console.log("keshitenaiyo ")
     //     await
-    //         console.log(name)
-    // db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-    //     follower: false,
-    //     followerName: false
-    // }, { merge: true }//←上書きされないおまじない
-    // )
-    // db.collection("messages").doc(messages.id).collection('follower').doc(name).delete()
-    // }
+    //         db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
+    //             follower: `${avatar}`,
+    //             followerName: `${name}`,
+    //             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //         }, { merge: true }//←上書きされないおまじない
+
+    //         )
     // }
 
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').add({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`
-    //         })
-    //             .then((docref) => {
-    //                 console.log("Document successfully written!:", docref.id);
-    //                 db.collection("messages").doc(messages.id).collection('follower').doc(docref.id).set({
-    //                     id: docref.id,
-    //                 }, { merge: true }//←上書きされないおまじない
-    //                 )
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
     useEffect(() => {
         firebase
             .firestore()
             .collection("messages")
             .doc(messages.id)
             .collection('follower')
-            // .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 const followers = snapshot.docs.map((doc) => {
                     return doc.id &&
@@ -160,32 +156,12 @@ export default function SimplePaper({ messages }) {
                     // doc.data().timestamp.toDate()
                 });
                 setFollowers(followers);
-                // console.log(followers)
-                // console.log(followers.follower)
-                // console.log(followers.followerName)
             })
 
     }, []
     );
 
     const [followers, setFollowers] = useState('');
-    // const starId = async () => {
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').add({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`
-    //         })
-    //             .then((docref) => {
-    //                 console.log("Document successfully written!:", docref.id);
-    //                 setFollowers(docref)
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
-
-
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorFl, setAnchorFl] = React.useState(null);
     const handleClick = (event) => {
