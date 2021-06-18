@@ -94,53 +94,53 @@ export default function SimplePaper({ messages }) {
         }
     })
 
-    const starId = async () => {
-        // console.log(name, followers.followerName)
-        await
-            db.collection("messages").doc(messages.id).collection('follower').where("followerName", "==", name)
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        doc.ref.delete();
-                    })
-                })
-                .catch((error) => {
-                    console.error("keshitenaiyo ", error)
-                    // await
-                    db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-                        follower: `${avatar}`,
-                        followerName: `${name}`,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    }, { merge: true }//←上書きされないおまじない
-                    )
-                })
-    }
-
     // const starId = async () => {
-    //     // if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
-    //     //     await
-    //     //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "===", name)
-    //     //             .get()
-    //     //             .then((querySnapshot) => {
-    //     //                 console.log("消したよ ")
-    //     //                 querySnapshot.forEach((doc) => {
-    //     //                     console.log(querySnapshot)
-    //     //                     doc.ref.delete();
-    //     //                 })
-    //     //             })
-    //     // // .catch(() => {
-    //     // else {
-    //     if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
-    //         console.log("keshitenaiyo ")
+    //     // console.log(name, followers.followerName)
     //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`,
-    //             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //         }, { merge: true }//←上書きされないおまじない
-
-    //         )
+    //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "==", name)
+    //             .get()
+    //             .then((querySnapshot) => {
+    //                 querySnapshot.forEach((doc) => {
+    //                     doc.ref.delete();
+    //                 })
+    //             })
+    //             .catch((error) => {
+    //                 console.error("keshitenaiyo ", error)
+    //                 // await
+    //                 db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
+    //                     follower: `${avatar}`,
+    //                     followerName: `${name}`,
+    //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //                 }, { merge: true }//←上書きされないおまじない
+    //                 )
+    //             })
     // }
+
+    const starId = async () => {
+        // if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
+        //     await
+        //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "===", name)
+        //             .get()
+        //             .then((querySnapshot) => {
+        //                 console.log("消したよ ")
+        //                 querySnapshot.forEach((doc) => {
+        //                     console.log(querySnapshot)
+        //                     doc.ref.delete();
+        //                 })
+        //             })
+        // // .catch(() => {
+        // else {
+        if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
+            console.log("keshitenaiyo ")
+        await
+            db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
+                follower: `${avatar}`,
+                followerName: `${name}`,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            }, { merge: true }//←上書きされないおまじない
+
+            )
+    }
 
     useEffect(() => {
         firebase
