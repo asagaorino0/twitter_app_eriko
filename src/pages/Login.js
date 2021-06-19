@@ -148,10 +148,10 @@ const Login = () => {
                 {nameG.length === 0 && (
                     <div>
                         <Typography>
-                            <TextField id="email" fullWidth label="email" value={email} onChange={e => setEmail(e.target.value)} />
+                            <TextField id="email" Width="90%" label="email" value={email} onChange={e => setEmail(e.target.value)} />
                         </Typography>
                         <Typography>
-                            <TextField id="password" fullWidth label="password" value={password} onChange={e => setPassword(e.target.value)} />
+                            <TextField id="password" Width="90%" label="password" value={password} onChange={e => setPassword(e.target.value)} />
                         </Typography>
                         <Typography>
                             <Button

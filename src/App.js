@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import MyPage from './pages/MyPage';
 import CreateUser from './pages/CreateUser';
 // import CreateUser from './pages/CreateUser'
 
@@ -22,6 +23,7 @@ const App = () => {
             <Route exact path="/" component={Login} />
             <Route exact path="/createUser/:new!" component={CreateUser} />
             <Route exact path="/Main" component={Main} />
+            <Route exact path="/MyPage" component={MyPage} />
             {/* <Route exact path='/CreateUser/' component={CreateUser} /> */}
           </Switch>
         </Router>

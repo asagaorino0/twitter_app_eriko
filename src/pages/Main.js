@@ -17,12 +17,13 @@ import { MessageListType } from '../types/MessageListType';
 // import DeleteIcon from '@material-ui/icons/Delete';
 // import Link from '@material-ui/core/Link';
 import { Store } from '../store/index'
+import Follower from './Follower'
 
 const Main = () => {
     const { globalState, setGlobalState } = useContext(Store)
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState('');
-    const [names, setNames] = useState('');
+    const [name, setName] = useState('');
     const [id, setId] = useState('');
     const [src, setSrc] = useState('');
     const db = firebase.firestore();
@@ -45,6 +46,18 @@ const Main = () => {
             })
     }, []
     );
+    //現在ログインしているユーザーを取得する
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            const nameG = (user?.displayName)
+            if (`${nameG}` !== 'null') {
+                setName(`${nameG}`)
+            } else {
+                const email = (user?.email)
+                setName(`${email}`)
+            }
+        }
+    })
 
     const useStyles = makeStyles({
         root: {
@@ -136,36 +149,16 @@ const Main = () => {
             <Header />
             <div className={classes.root}>
                 {messages.length !== 0 &&
-                    messages.map((messages, index) => {
-
-                        // return (
-                        //     <Paper messages={messages} key={`${messages.id} `} />
-                        // )
-                        // if (name === messages.name) {
-                        //     if (messages.star > 0)
-                        //         return (
-                        //             <MyStarPaper messages={messages} key={`${messages.id} `} />
-                        //         )
-                        //     else {
-                        //         return (
-                        //             <MyPaper messages={messages} key={`${messages.id} `} />
-                        //         )
-                        //     }
-                        // }
-                        // else 
-                        // if (messages.star > 0)
-                        return (
-                            <StarPaper messages={messages} key={`${messages.id} `} />
-                        )
-                        // else {
-                        //     return (
-                        //         <Paper messages={messages} key={`${messages.id} `} />
-                        //     )
-                        // }
-                    })
+                    messages
+                        // .filter((messages) => messages.name === name)
+                        .map((messages, index) => {
+                            return (
+                                <StarPaper messages={messages} key={`${messages.id} `} />
+                            )
+                        })
                 }
             </div>
-            {/* <button onClick={handle} color="secondary">delete</button> */}
+            {/* <button onClick={readData} color="secondary">readData</button> */}
             {/* <button onClick={handleWindow} color="secondary">open</button> */}
         </div>
     );

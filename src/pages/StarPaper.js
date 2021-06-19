@@ -17,6 +17,7 @@ import Follower from './Follower'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
+import { MessageSharp } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,11 +69,7 @@ export default function SimplePaper({ messages }) {
     const [avatar, setAvatar] = useState('');
     const [name, setName] = useState('');
     const [star, setStar] = useState('');
-    const deleteId = async () => {
-        console.log('messages:', doc.id)
-        await
-            db.collection("messages").doc(`${messages.id}`).delete()
-    };
+
     //現在ログインしているユーザーを取得する
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -93,6 +90,11 @@ export default function SimplePaper({ messages }) {
             }
         }
     })
+    const deleteId = async () => {
+        console.log('messages:', messages.id)
+        await
+            db.collection(name).doc(`${messages.id}`).delete()
+    };
 
     // const starId = async () => {
     //     // console.log(name, followers.followerName)
@@ -117,7 +119,6 @@ export default function SimplePaper({ messages }) {
     // }
 
     const starId = async () => {
-        // if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
         //     await
         //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "===", name)
         //             .get()
@@ -128,10 +129,7 @@ export default function SimplePaper({ messages }) {
         //                     doc.ref.delete();
         //                 })
         //             })
-        // // .catch(() => {
-        // else {
-        if ([db.collection("messages").doc(messages.id).collection('follower')].indexOf(name) !== -1)
-            console.log("keshitenaiyo ")
+        //  .catch(() => {
         await
             db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
                 follower: `${avatar}`,
@@ -140,6 +138,21 @@ export default function SimplePaper({ messages }) {
             }, { merge: true }//←上書きされないおまじない
 
             )
+        db.collection(name).doc(messages.id).set({
+            id: messages.id,
+            name: messages.name,
+            message: messages.message,
+            src: messages.src,
+            avatar: messages.avatar,
+            avatarG: messages.avatarG,
+            time: messages.time,
+            insta: messages.insta,
+            del: true,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+            .then((docRef) => {
+                console.log("Document written with ID: ");
+            })
     }
 
     useEffect(() => {
@@ -229,9 +242,11 @@ export default function SimplePaper({ messages }) {
                     </Grid>
 
                 </Grid>
-                <Grid item>
-                    <DeleteIcon color="disabled" onClick={deleteId} />
-                </Grid>
+                {messages.del === true &&
+                    <Grid item>
+                        <DeleteIcon color="disabled" onClick={deleteId} />
+                    </Grid>
+                }
             </Grid>
             <div>
                 <Menu

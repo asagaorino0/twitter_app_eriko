@@ -1,11 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 import firebase from '../config/firebase'
-import { AppBar, Toolbar } from '@material-ui/core';
-import { useHistory, Link } from 'react-router-dom';
+import { Toolbar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Upload from "./Upload";
 import SendIcon from '@material-ui/icons/Send';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -88,8 +86,10 @@ const Header = () => {
             var errorMessage = error.message;
         });
     }
+    const myPage = () => {
+        history.push('/MyPage')
+    }
     const handleCreate = async () => {
-        // if (e.key === 'Enter') {
         await
             db.collection('messages').add({
                 name: nameG,
@@ -118,7 +118,6 @@ const Header = () => {
                     console.error("Error writing document: ", error);
                 })
     }
-    // }
     const [myFiles, setMyFiles] = useState([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState("");
@@ -130,7 +129,6 @@ const Header = () => {
             handlePreview(acceptedFiles);
         } catch (error) {
             alert(error);
-
         }
     }, []);
     const { getRootProps, getInputProps } = useDropzone({
@@ -168,11 +166,6 @@ const Header = () => {
             gridRow: 2,
             margin: '26px',
         },
-        // green: {
-        //     color: '#fff',
-        //     backgroundColor: 'green',
-        //     margin: '5px 5px 5px 20px',
-        // },
         textfield: {
             backgroundColor: '#fff',
         },
@@ -199,8 +192,11 @@ const Header = () => {
                 {`${avatar}`.length !== 0 && (
                     <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
-                <h3>{`${nameG}さん！ようこそ！！`}</h3>
+                <h5>{`${nameG}さん！ようこそ！！`}</h5>
                 <br />
+                <Button variant="outlined" color="primary" onClick={myPage}>
+                    MyPage
+            </Button>
                 <Button variant="contained" onClick={signOut}>
                     Logout
             </Button>
@@ -211,7 +207,7 @@ const Header = () => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={classes.heading} variant="button" >メッセージを送る</Typography>
+                    <Typography className={classes.heading} variant="button" >イベントの募集</Typography>
                     {message.length !== 0 && (
                         <Toolbar >
                             <SendIcon onClick={handleCreate} />
@@ -229,60 +225,62 @@ const Header = () => {
                             value={message}
                             autoFocus={true}
                         />
-                        {/* <TextField
-                                label="開催日"
-                                fullWidth={true}
-                                onChange={(e) => setDay(e.target.value)}
-                                value={message}
-                                autoFocus={true}
-                            />
+                        <TextField
+                            label=""
+                            type="datetime-local"
+                            fullWidth={true}
+                            onChange={(e) => setDay(e.target.value)}
+                            value={day}
+                            autoFocus={true}
+                        />
+                        {/* 
                             <TextField
                                 label="時間"
                                 fullWidth={true}
                                 onChange={(e) => setZikan(e.target.value)}
-                                value={message}
+                                value={zikan}
                             />
                             <TextField
                                 label="集合時間"
                                 fullWidth={true}
                                 onChange={(e) => setSyugoZ(e.target.value)}
-                                value={message}
+                                value={syugoZ}
                             />
                             <TextField
                                 label="集合場所"
                                 fullWidth={true}
                                 onChange={(e) => setSyugoB(e.target.value)}
-                                value={message}
+                                value={syugoB}
                             />
                             <TextField
                                 label="開催場所"
                                 fullWidth={true}
                                 onChange={(e) => setBasyo(e.target.value)}
-                                value={message}
+                                value={basyo}
                             />
                             <TextField
                                 label="募集人数"
                                 fullWidth={true}
                                 onChange={(e) => setNinzuu(e.target.value)}
-                                value={message}
+                                value={ninzuu}
                             />
                             <TextField
                                 label="施術内容"
                                 fullWidth={true}
                                 onChange={(e) => setMenu(e.target.value)}
-                                value={message}
+                                value={menu}
                             />
                             <TextField
                                 label="持ち物"
                                 fullWidth={true}
                                 onChange={(e) => setMochimono(e.target.value)}
-                                value={message}
+                                value={mochimono}
                             />
                             <TextField
                                 label="e-mail"
                                 fullWidth={true}
                                 onChange={(e) => setEmail(e.target.value)}
-                                value={message}
+                                value={email}
                             /> */}
                         <TextField
                             label="instagram"
@@ -292,54 +290,37 @@ const Header = () => {
                         />
                     </Typography>
                 </AccordionDetails>
-                {/* </Accordion> */}
-                <Accordion>
-                    <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography className={classes.heading} variant="button" >ファイルを添付
-                    </Typography>
-                    </AccordionSummary>
-                    <Button
-                        disabled={!clickable}
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        style={{ marginTop: "16px" }}
-                        onClick={() => handleUpload(myFiles)}
-                    >
-                        UPLOAD
+                <Card>
+                    <CardContent>
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            {myFiles.length === 0 ? (
+                                <FolderIcon />
+                            ) : (
+                                <div style={{ width: '180px', height: '180px' }}>
+                                    {myFiles.map((file) => (
+                                        <React.Fragment key={file.name}>
+                                            {src && <img src={src} />}
+                                        </React.Fragment>
+                                    )
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <Button
+                            disabled={!clickable}
+                            type="submit"
+                            variant="contained"
+                            fullWidth
+                            style={{ marginTop: "16px" }}
+                            onClick={() => handleUpload(myFiles)}
+                        >
+                            UPLOAD
                         </Button>
-                    <Card>
-                        <CardContent>
-                            <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                {myFiles.length === 0 ? (
-                                    // <p >
-                                    <FolderIcon />
-                                    // </p>
-                                ) : (
-                                    <div style={{ width: '180px', height: '180px' }}>
-                                        {myFiles.map((file) => (
-                                            <React.Fragment key={file.name}>
-                                                {src && <img src={src} />}
-                                            </React.Fragment>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Accordion>
+                    </CardContent>
+                </Card>
+                {/* </Accordion> */}
             </Accordion>
-
-
-            {/* <AppBar position="static" className={classes.textfield}> */}
-            {/* </AppBar> */}
-            {/* <Upload /> */}
-
         </div>
     )
 }
