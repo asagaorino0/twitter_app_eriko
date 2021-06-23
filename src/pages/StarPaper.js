@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Store } from '../store/index'
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -25,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         overflow: 'hidden',
-        padding: 'spacing(0, 3)',
+        padding: 'spacing(0, 0)',
         backgroundColor: '#fff',
     },
     paper: {
         maxWidth: 400,
         margin: '5px 0px 5px 0px ',
-        padding: '16px',
+        padding: '12px',
         boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
     },
     pos: {
@@ -64,13 +65,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SimplePaper({ messages }) {
     const classes = useStyles();
     const { uid } = useParams();
+    const history = useHistory()
     const db = firebase.firestore();
     const doc = firebase.firestore();
     const follower = firebase.firestore();
     const [users, setUsers] = useState([]);
     const [avatar, setAvatar] = useState('');
     const [name, setName] = useState('');
-    const [star, setStar] = useState('');
+    // const [sid, setSid] = useState('');
+
 
 
     // 現在ログインしているユーザーを取得する
@@ -93,6 +96,15 @@ export default function SimplePaper({ messages }) {
         await
             db.collection("users").doc(`${uid}`).collection("likes").doc(`${messages.id}`).delete()
     };
+    const readId = async () => {
+        console.log('messages:', messages.id)
+        // setSid(messages.id)
+        await
+            db.collection("messages").doc(messages.id).set({
+                hensyu: true,
+            }, { merge: true }//←上書きされないおまじない
+            )
+    }
 
 
     // const starId = async () => {
@@ -261,6 +273,7 @@ export default function SimplePaper({ messages }) {
                 {messages.myPage === true &&
                     <Grid item>
                         <DeleteIcon color="disabled" onClick={deleteId} />
+                        <button onClick={readId} color="secondary">read</button>
                     </Grid>
                 }
             </Grid>
@@ -350,9 +363,11 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {followers.length === 0 &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />}
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
                         {followers.length !== 0 &&
-                            <StarIcon className={classes.yellow} onClick={starId} />}
+                            <StarIcon className={classes.yellow} onClick={starId} />
+                        }
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (

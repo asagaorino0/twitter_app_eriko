@@ -48,7 +48,7 @@ const MyPro = () => {
         },
     }));
     const classes = useStyles();
-    const [pro, setPro] = useState(true);
+    const [pro, setPro] = useState(false);
     const [betsumei, setBetsumei] = useState();
     const [avatar, setAvatar] = useState('');
     const [name, setName] = useState('');
@@ -126,7 +126,7 @@ const MyPro = () => {
                 })
     }
     const [state, setState] = React.useState({
-        checkedA: true,
+        checkedA: false,
         checkedB: true,
     });
     const handleChange = (event) => {
@@ -136,8 +136,7 @@ const MyPro = () => {
         db.collection('users').doc(name).set({
             name,
             nName: nameG,
-            avatar: `${avatar}`,
-            // avatarG: `${avatarG}`,
+            // avatar: `${avatar}`,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
             .then((docref) => {

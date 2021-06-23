@@ -40,28 +40,12 @@ const Main = () => {
                 const messages = snapshot.docs.map((doc) => {
                     return doc.id &&
                         doc.data()
-                    // doc.data().timestamp.toDate()
                 });
                 setMessages(messages);
                 // console.log(messages)
             })
     }, []
     );
-    // //現在ログインしているユーザーを取得する
-    // firebase.auth().onAuthStateChanged(function (user) {
-    //     if (user) {
-    // const nameG = (user?.displayName)
-    // if (`${nameG}` !== 'null') {
-    //     setName(`${nameG}`)
-    // } else {
-    //     const email = (user?.email)
-    //     setName(`${email}`)
-    // }
-    // const uid = (user?.uid)
-    // setName(`${uid}`)
-    //     }
-    // })
-
     const useStyles = makeStyles({
         root: {
             gridRow: 2,

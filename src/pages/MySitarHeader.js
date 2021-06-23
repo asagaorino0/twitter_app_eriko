@@ -21,13 +21,17 @@ import SaveIcon from '@material-ui/icons/Save';
 import Icon from '@material-ui/core/Icon';
 
 const MySitarHeader = () => {
+    // const MySitarHeader = () => {
     const db = firebase.firestore();
     const [users, setUsers] = useState([]);
     const [avatar, setAvatar] = useState('');
     // const [avatarG, setAvatarG] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
+    const [messages, setMessages] = useState('');
+    const [sitarMsg, setSitarMsg] = useState([]);
     const { uid } = useParams();
+    // const { sid } = useParams();
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
@@ -72,14 +76,16 @@ const MySitarHeader = () => {
         firebase
             .firestore()
             .collection("messages")
-            .orderBy("timestamp", "desc")
+            .where("hensyu", "==", true)
+            // .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
-                const sitagaki = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                    // doc.data().timestamp.toDate()
-                });
-                setSitarMsg(sitagaki)
+                const sitagaki = snapshot.docs
+                    .map((doc) => {
+                        return doc.id &&
+                            doc.data()
+                        // doc.data().timestamp.toDate()
+                    });
+                // setSitarMsg(sitagaki)
                 setMessages(sitagaki)
                 console.log(sitagaki)
             })
@@ -144,188 +150,259 @@ const MySitarHeader = () => {
         },
     });
     const classes = useStyles();
+    const sitarId = async () => {
+        await
+            firebase
+                .firestore()
+                .collection("messages")
+                // .doc(`${messages.id}`)
+                .doc("g6gMzLNmkHLIkCYZKZHM")
+                .set({
+                    hensyu: false,
+                    // myPage: true,
+                    // sita: true,
+                    message: `${message}`,
+                    // src: `${src}`,
+                    // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    // star: 0,
+                    // time: now,
+                    // insta: `${insta}`,
+                    // event: `${event}`,
+                    // email: `${email}`,
+                    // mochimono: `${mochimono}`,
+                    // basyo: `${basyo}`,
+                    // ninzuu: `${ninzuu}`,
+                    // nichizi: `${nichizi}`,
+                    // daihyou: `${daihyou}`,
+                    // syugoZ: `${syugoZ}`,
+                    // syugoB: `${syugoB}`,
+                    // menu: `${menu}`,
+                    // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                }, { merge: true }//←上書きされないおまじない
+                )
+                .then((docRef) => {
+                    console.log("Document written with ID: ");
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                })
+    }
 
     return (
-        <div className={classes.root}>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography className={classes.heading} variant="button" >イベントの募集</Typography>
-                    {event.length !== 0 && (
-                        <Toolbar >
-                            {/* <SendIcon onClick={handleCreate} /> */}
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                className={classes.button}
-                                endIcon={<SaveIcon />}
-                                onClick={sitarId}
-                            >
-                                下書き保存
+        <div>
+            {
+                messages.length !== 0 &&
+                messages
+                    // .filter((messages) => messages.id === `${sid}` & messages.myPage === true)
+                    .filter((messages) => messages.hensyu == true)
+                    .map((messages, index) => {
+                        return (
+                            <div className={classes.root}>
+                                {/* <Toolbar >
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        size="small"
+                                        className={classes.button}
+                                        endIcon={<SaveIcon />}
+                                        onClick={sitarId}
+                                    >
+                                        下書き保存
   </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                size="small"
-                                endIcon={<SendIcon />}
-                            >
-                                投稿
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.button}
+                                        size="small"
+                                        endIcon={<SendIcon />}
+                                    >
+                                        投稿
   </Button>
-                        </Toolbar>
-                    )}
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography>
-                        {/* <Toolbar > */}
-                        {/* <Grid item xs={10} > */}
-                        <TextField
-                            label="イベント名"
-                            fullWidth={true}
-                            onChange={(e) => setEvent(e.target.value)}
-                            value={event}
+                                </Toolbar> */}
 
-                        />
-                        <TextField
-                            label="代表者又はチーム名"
-                            fullWidth={true}
-                            onChange={(e) => setDaihyou(e.target.value)}
-                            value={daihyou}
-                        />
-                        <TextField
-                            label="日時"
-                            type="datetime-local"
-                            defaultValue="2017-05-24T10:30"
-                            fullWidth={true}
-                            onChange={(e) => setNichizi(e.target.value)}
-                            value={nichizi}
-                            autoFocus={true}
-                        />
+                                <Typography className={classes.heading} variant="button" >イベントの編集   </Typography>
 
-                        <TextField
-                            label="集合時間"
-                            type="time"
-                            className={classes.textField}
-                            fullWidth={true}
-                            onChange={(e) => setSyugoZ(e.target.value)}
-                            value={syugoZ}
-                        />
-                        <TextField
-                            label="集合場所"
-                            fullWidth={true}
-                            onChange={(e) => setSyugoB(e.target.value)}
-                            value={syugoB}
-                        />
-                        <TextField
-                            label="開催場所"
-                            fullWidth={true}
-                            onChange={(e) => setBasyo(e.target.value)}
-                            value={basyo}
-                        />
-                        <TextField
-                            label="募集人数"
-                            fullWidth={true}
-                            onChange={(e) => setNinzuu(e.target.value)}
-                            value={ninzuu}
-                        />
-                        <TextField
-                            label="施術内容"
-                            fullWidth={true}
-                            onChange={(e) => setMenu(e.target.value)}
-                            value={menu}
-                        />
-                        <TextField
-                            label="料金"
-                            fullWidth={true}
-                            onChange={(e) => setOdai(e.target.value)}
-                            value={odai}
-                        />
-                        <TextField
-                            label="交通費"
-                            fullWidth={true}
-                            onChange={(e) => setKoutuuhi(e.target.value)}
-                            value={koutuuhi}
-                        />
-                        <TextField
-                            label="e-mail"
-                            fullWidth={true}
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                        />
-                        <TextField
-                            label="関連url"
-                            fullWidth={true}
-                            onChange={(e) => setInsta(e.target.value)}
-                            value={insta}
-                        />
-                        <TextField
-                            label="メッセージ"
-                            fullWidth={true}
-                            onChange={(e) => setEvent(e.target.value)}
-                            value={message}
-                        />
-                    </Typography>
-                </AccordionDetails>
-                <Card>
-                    <CardContent>
-                        <div {...getRootProps()}>
-                            <input {...getInputProps()} />
-                            {myFiles.length === 0 ? (
-                                <FolderIcon />
-                            ) : (
-                                <div style={{ width: '180px', height: '180px' }}>
-                                    {myFiles.map((file) => (
-                                        <React.Fragment key={file.name}>
-                                            {src && <img src={src} />}
-                                        </React.Fragment>
-                                    )
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                        <Button
-                            disabled={!clickable}
-                            type="submit"
-                            variant="contained"
-                            fullWidth
-                            style={{ marginTop: "16px" }}
-                            onClick={() => handleUpload(myFiles)}
-                        >
-                            UPLOAD
+
+                                <Typography>
+                                    {/* 
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="イベント名"
+                                        fullWidth={true}
+                                        onChange={(e) => setEvent(e.target.value)}
+                                        defaultValue={messages.hensyu}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="イベント名"
+                                        fullWidth={true}
+                                        onChange={(e) => setEvent(e.target.value)}
+                                        defaultValue={messages.event}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="代表者又はチーム名"
+                                        fullWidth={true}
+                                        onChange={(e) => setDaihyou(e.target.value)}
+                                        defaultValue={messages.daihyou}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="日時"
+                                        type="datetime-local"
+                                        defaultValue="2017-05-24T10:30"
+                                        fullWidth={true}
+                                        onChange={(e) => setNichizi(e.target.value)}
+                                        defaultValue={messages.nichizi}
+                                        autoFocus={true}
+                                    />
+
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="集合時間"
+                                        type="time"
+                                        className={classes.textField}
+                                        fullWidth={true}
+                                        onChange={(e) => setSyugoZ(e.target.value)}
+                                        defaultValue={messages.syugoZ}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="集合場所"
+                                        fullWidth={true}
+                                        onChange={(e) => setSyugoB(e.target.value)}
+                                        defaultValue={messages.syugoB}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="開催場所"
+                                        fullWidth={true}
+                                        onChange={(e) => setBasyo(e.target.value)}
+                                        defaultValue={messages.basyo}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="募集人数"
+                                        fullWidth={true}
+                                        onChange={(e) => setNinzuu(e.target.value)}
+                                        defaultValue={messages.ninzuu}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="施術内容"
+                                        fullWidth={true}
+                                        onChange={(e) => setMenu(e.target.value)}
+                                        defaultValue={messages.menu}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="料金"
+                                        fullWidth={true}
+                                        onChange={(e) => setOdai(e.target.value)}
+                                        defaultValue={messages.odai}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="交通費"
+                                        fullWidth={true}
+                                        onChange={(e) => setKoutuuhi(e.target.value)}
+                                        defaultValue={messages.koutuuhi}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="e-mail"
+                                        fullWidth={true}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        defaultValue={messages.email}
+                                    />
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="関連url"
+                                        fullWidth={true}
+                                        onChange={(e) => setInsta(e.target.value)}
+                                        defaultValue={messages.insta}
+                                    /> */}
+                                    <TextField
+                                        required
+                                        id="standard-required"
+                                        label="メッセージ"
+                                        fullWidth={true}
+                                        onChange={(e) => setEvent(e.target.value)}
+                                        defaultValue={messages.message}
+                                    />
+                                </Typography>
+
+                                <Card>
+                                    <CardContent>
+                                        <div {...getRootProps()}>
+                                            <input {...getInputProps()} />
+                                            {myFiles.length === 0 ? (
+                                                <FolderIcon />
+                                            ) : (
+                                                <div style={{ width: '180px', height: '180px' }}>
+                                                    {myFiles.map((file) => (
+                                                        <React.Fragment key={file.name}>
+                                                            {src && <img src={src} />}
+                                                        </React.Fragment>
+                                                    )
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <Button
+                                            disabled={!clickable}
+                                            type="submit"
+                                            variant="contained"
+                                            fullWidth
+                                            style={{ marginTop: "16px" }}
+                                            onClick={() => handleUpload(myFiles)}
+                                        >
+                                            UPLOAD
                         </Button>
-                        {event.length !== 0 && (
-                            <Toolbar >
-                                {/* <SendIcon onClick={handleCreate} /> */}
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    size="small"
-                                    className={classes.button}
-                                    endIcon={<SaveIcon />}
-                                    onClick={sitarId}
-                                >
-                                    下書き保存
+                                        {/* {event.length !== 0 && ( */}
+                                        <Toolbar >
+                                            {/* <SendIcon onClick={handleCreate} /> */}
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                size="small"
+                                                className={classes.button}
+                                                endIcon={<SaveIcon />}
+                                                onClick={sitarId}
+                                            >
+                                                下書き保存
       </Button>
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.button}
-                                    size="small"
-                                    endIcon={<SendIcon />}
-                                >
-                                    投稿
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                className={classes.button}
+                                                size="small"
+                                                endIcon={<SendIcon />}
+                                            >
+                                                投稿
       </Button>
-                            </Toolbar>
-                        )}
-                    </CardContent>
-                </Card>
-            </Accordion>
-        </div>
+                                        </Toolbar>
+                                        {/* )} */}
+                                    </CardContent>
+                                </Card>
+                            </div >
+                        )
+                    })
+            }
+        </div >
     )
 }
-
 export default MySitarHeader

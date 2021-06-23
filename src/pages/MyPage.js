@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import MyPro from './MyPro';
 import MyStar from './MyStar';
 import MySitar from './MySitar';
+import MySitarHeader from './MySitarHeader';
 import Avatar from '@material-ui/core/Avatar';
 import { Toolbar, Button } from '@material-ui/core';
 // import StarIcon from '@material-ui/icons/Star';
@@ -43,8 +44,8 @@ const MyPage = () => {
     var storage = firebase.app().storage("gs://my-custom-bucket");
     // const follower = firebase.firestore();
     const [likes, setLikes] = useState('');
-
     const { uid } = useParams();
+    const { sid } = useParams();
     const [users, setUsers] = useState([]);
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -94,7 +95,7 @@ const MyPage = () => {
             <Toolbar>
                 {`${users.avatar}`.length !== 1 && (
                     <img
-                        src={`${users.avatarG}`}
+                        src={`${users.avatar}`}
                         alt=""
                         style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                     />
@@ -135,6 +136,9 @@ const MyPage = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <MySitar />
+                </AccordionDetails>
+                <AccordionDetails>
+                    <MySitarHeader />
                 </AccordionDetails>
             </Accordion>
             <Accordion>
