@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Store } from '../store/index'
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -68,79 +69,31 @@ export default function SimplePaper({ followers }) {
     const doc = firebase.firestore();
     const messages = firebase.firestore();
     const [avatar, setAvatar] = useState('');
-    const [name, setName] = useState('');
-    // const deleteId = async () => {
-    //     console.log('messages:', doc.id)
-    //     await
-    //         db.collection("messages").doc(`${messages.id}`).delete()
-    // };
-    //現在ログインしているユーザーを取得する
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            const avatarG = (user?.photoURL)
-            if (`${avatarG}` === 'null') {
-                const email = (user?.email)
-                setAvatar(`${email}`.charAt(0))
-            }
-            else {
-                setAvatar(`${avatarG}`)
-            }
-            const nameG = (user?.displayName)
-            if (`${nameG}` !== 'null') {
-                setName(`${nameG}`)
-            } else {
-                const email = (user?.email)
-                setName(`${email}`)
-            }
-        }
-    })
-    // const [count, setCount] = useState(1)
-    // const [followers, setFollowers] = useState('');
-
-    // const starId = async () => {
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').add({
-    //             follower: `${avatar}`,
-    //             followerName: `${name}`
-    //         })
-    //             .then((docref) => {
-    //                 console.log("Document successfully written!:", docref.id);
-    //                 setFollowers(docref)
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
-
-
-
-    //     firebase
-    //         .firestore()
-    //         .collection("messages")
-    //         .doc(messages.id)
-    //         .collection('follower')
-    //         // .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const followers = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //                 // doc.data().timestamp.toDate()
-    //             });
-    //             setFollowers(followers);
-    //             console.log(followers)
-    //         })
-    // }
-
-    // const [anchorEl, setAnchorEl] = React.useState(null);
+    const [nName, setNName] = useState('');
+    const { uid } = useParams();
+    const [users, setUsers] = useState([]);
+    // 現在ログインしているユーザーを取得する
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("users").doc(`${uid}`).get().then((doc) => {
+                if (doc.exists) {
+                    // console.log("Document data:", doc.data())
+                    setUsers(doc.data())
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+    }, []
+    );
     const [anchorFl, setAnchorFl] = React.useState(null);
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
     const handleFollower = (event) => {
         setAnchorFl(event.currentTarget);
         console.log(followers.length)
         console.log(followers.follower)
-        console.log(followers.followerName)
+        console.log(followers.nName)
     };
     const handleClose = () => {
         // setAnchorEl(null);
@@ -177,8 +130,6 @@ export default function SimplePaper({ followers }) {
                 <MenuItem onClick={handleClose}>{`${followers.followerName}`}</MenuItem>
             </Menu>
         </div>
-
-
     )
 }
 

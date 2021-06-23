@@ -20,7 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
 import Icon from '@material-ui/core/Icon';
 
-const Header = () => {
+const MySitarHeader = () => {
     const db = firebase.firestore();
     const [users, setUsers] = useState([]);
     const [avatar, setAvatar] = useState('');
@@ -55,14 +55,11 @@ const Header = () => {
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        // await
         firebase
             .firestore()
             .collection("users").doc(`${uid}`).get().then((doc) => {
                 if (doc.exists) {
-                    console.log("Document data:", doc.data())
                     setUsers(doc.data())
-                    console.log(doc.id, " => ", users.nName)
                 } else {
                     console.log("No such document!");
                 }
@@ -71,102 +68,23 @@ const Header = () => {
             });
     }, []
     );
-    const signOut = () => {
-        firebase.auth().signOut().then(() => {
-            setNameG('')
-            setAvatar('')
-            // setAvatarG('')
-            history.push('/')
-        }).catch((error) => {
-            var errorMessage = error.message;
-        });
-    }
-    const myPage = () => {
-        history.push(`/MyPage/${uid}`)
-    }
-    const handleCreate = async () => {
-        await
-            db.collection('messages').add({
-                name: nameG,
-                message,
-                src: `${src}`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                avatar,
-                star: 0,
-                time: now,
-                insta: `${insta}`,
-                event: `${event}`,
-                email: `${email}`,
-                mochimono: `${mochimono}`,
-                basyo: `${basyo}`,
-                ninzuu: `${ninzuu}`,
-                nichizi: `${nichizi}`,
-                daihyou: `${daihyou}`,
-                syugoZ: `${syugoZ}`,
-                syugoB: `${syugoB}`,
-                odai: `${odai}`,
-                koutuuhi: `${koutuuhi}`,
-                menu: `${menu}`,
-                myPage: false,
-                sita: false,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("messages")
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const sitagaki = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                    // doc.data().timestamp.toDate()
+                });
+                setSitarMsg(sitagaki)
+                setMessages(sitagaki)
+                console.log(sitagaki)
             })
-                .then((docref) => {
-                    // console.log("Document successfully written!:", docref.id);
-                    setMessage("");
-                    setSrc("");
-                    setInsta("");
-                    setMyFiles([]);
-                    setClickable(false);
-                    db.collection("messages").doc(docref.id).set({
-                        id: docref.id,
-                    }, { merge: true }//←上書きされないおまじない
-                    )
-                })
-                .catch((error) => {
-                    console.error("Error writing document: ", error);
-                })
-    }
-    const sitarId = async () => {
-        await
-            db.collection(nameG).add({
-                name: nameG,
-                message,
-                src: `${src}`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                avatar,
-                star: 0,
-                // avatarG,
-                time: now,
-                insta: `${insta}`,
-                event: `${event}`,
-                email: `${email}`,
-                mochimono: `${mochimono}`,
-                basyo: `${basyo}`,
-                ninzuu: `${ninzuu}`,
-                nichizi: `${nichizi}`,
-                daihyou: `${daihyou}`,
-                syugoZ: `${syugoZ}`,
-                syugoB: `${syugoB}`,
-                menu: `${menu}`,
-                myPage: true,
-                sita: true,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            })
-                .then((docsita) => {
-                    console.log("Document successfully written!:", docsita.id);
-                    setMessage("");
-                    setSrc("");
-                    setInsta("");
-                    setMyFiles([]);
-                    setClickable(false);
-                    db.collection(nameG).doc(docsita.id).set({
-                        id: docsita.id,
-                    }, { merge: true }//←上書きされないおまじない
-                    )
-                })
-    }
-
+    }, []
+    );
     const [myFiles, setMyFiles] = useState([]);
     const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState("");
@@ -189,7 +107,6 @@ const Header = () => {
             const uploadTask = storage
                 .ref(`/images/${myFiles[0].name}`)
                 .put(myFiles[0]);
-            // uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, next, error);
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
         }
         catch (error) {
@@ -225,40 +142,11 @@ const Header = () => {
         selectEmpty: {
             marginTop: 'spacing(2)',
         },
-        heading: {
-            fontSize: 'typography.pxToRem(11)',
-            fontWeight: 'typography.fontWeightRegular',
-        },
-        green: {
-            color: '#fff',
-            backgroundColor: 'green',
-            margin: '5px 5px 5px 20px',
-        },
     });
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <Toolbar>
-                {`${users.avatar}`.length !== 1 && (
-                    <img
-                        src={`${users.avatarG}`}
-                        alt=""
-                        style={{ borderRadius: '50%', width: '40px', height: '40px' }}
-                    />
-                )}
-                {`${users.avatar}`.length === 1 && (
-                    <Avatar className={classes.green} >{users.avatar}</Avatar>
-                )}
-                <h5>{`${users.nName}さん！ようこそ！！`}</h5>
-                <br />
-                <Button variant="outlined" color="primary" onClick={myPage}>
-                    MyPage
-            </Button>
-                <Button variant="contained" onClick={signOut}>
-                    Logout
-            </Button>
-            </Toolbar>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -440,4 +328,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default MySitarHeader

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useParams } from 'react-router-dom'
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
@@ -22,14 +23,14 @@ import Follower from './Follower'
 const Main = () => {
     const { globalState, setGlobalState } = useContext(Store)
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState('');
-    const [name, setName] = useState('');
+    // const [name, setName] = useState('');
+    const { uid } = useParams();
     const [id, setId] = useState('');
     const [src, setSrc] = useState('');
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
-
+    const [messages, setMessages] = useState('');
     useEffect(() => {
         firebase
             .firestore()
@@ -42,22 +43,24 @@ const Main = () => {
                     // doc.data().timestamp.toDate()
                 });
                 setMessages(messages);
-                console.log(messages)
+                // console.log(messages)
             })
     }, []
     );
-    //現在ログインしているユーザーを取得する
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            const nameG = (user?.displayName)
-            if (`${nameG}` !== 'null') {
-                setName(`${nameG}`)
-            } else {
-                const email = (user?.email)
-                setName(`${email}`)
-            }
-        }
-    })
+    // //現在ログインしているユーザーを取得する
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //     if (user) {
+    // const nameG = (user?.displayName)
+    // if (`${nameG}` !== 'null') {
+    //     setName(`${nameG}`)
+    // } else {
+    //     const email = (user?.email)
+    //     setName(`${email}`)
+    // }
+    // const uid = (user?.uid)
+    // setName(`${uid}`)
+    //     }
+    // })
 
     const useStyles = makeStyles({
         root: {
@@ -150,7 +153,7 @@ const Main = () => {
             <div className={classes.root}>
                 {messages.length !== 0 &&
                     messages
-                        // .filter((messages) => messages.name === name)
+                        .filter((messages) => messages.myPage === false)
                         .map((messages, index) => {
                             return (
                                 <StarPaper messages={messages} key={`${messages.id} `} />

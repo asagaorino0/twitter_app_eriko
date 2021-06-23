@@ -40,52 +40,23 @@ const Login = () => {
         },
     }));
     const classes = useStyles();
-    const db = firebase.firestore();
     const [avatar, setAvatar] = useState('');
-    const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    // const [uid, setUid] = useState('');
+    const [uid, setUid] = useState('');
     const [nameG, setNameG] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const history = useHistory()
 
-    // const handleClick = () => {
-    //     firebase.auth().signInWithEmailAndPassword(email, password)
-    //         .then((userCredential) => {
-    //             console.log('success login', userCredential)
-    //             console.log('success login', userCredential.user?.email)
-    //             console.log('success login', userCredential.user?.uid)
-    //             const uid = userCredential.user?.uid
-    //             setuid(userCredential.user?.uid)
-    //             const name = (userCredential.user?.email)
-    //             setNameG(`${name}`)
-    //             history.push('/Main')
-    //         })
-    //         .catch((error) => {
-    //             var errorCode = error.code;
-    //             var errorMessage = error.message;
-    //             setError(errorMessage)
-    //             {
-    //                 `${email}`.length === 0 &&
-    //                     window.alert("メールアドレスを入力してください (｀・ω・´)")
-    //             };
-    //             {
-    //                 `${email}`.length !== 0 &&
-    //                     window.confirm("パスワードをお忘れですか。\n" + `${email}` + "へパスワード再設定のメールをお送りします。")
-    //                 var auth = firebase.auth();
-    //                 var emailAddress = `${email}`;
-    //                 auth.sendPasswordResetEmail(emailAddress).then(function () {
-    //                 }).catch(function (error) {
-    //                 })
-    //             };
-    //         });
-    // } 
     const handleClick = () => {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                console.log('success login')
+                console.log('success login', userCredential)
+                console.log('success login', userCredential.uid)
+                console.log('success login', userCredential.user?.uid)
+                const uid = userCredential.user?.uid
+                setuid(userCredential.user?.uid)
                 const name = (userCredential.user?.email)
                 setNameG(`${name}`)
                 history.push('/Main')
@@ -109,7 +80,6 @@ const Login = () => {
                 };
             });
     }
-
     const googleClick = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -122,35 +92,15 @@ const Login = () => {
                 setNameG(`${nameG}`)
                 const avatarG = (result.user?.photoURL)
                 setAvatar(`${avatarG}`)
+                history.push('/Main');
                 console.log(avatar)
-                setNName(nameG)
-                const uid = (result.user?.uid)
-                setName(`${uid}`)
-                console.log(`${uid}`)
-                // await
-                // db.collection('users').doc(`${name}`).set({
-                db.collection('users').doc(`${uid}`).set({
-                    name: result.user?.uid,
-                    nName: `${nameG}`,
-                    avatar: `${avatar}`,
-                    // avatarG: `${avatarG}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                })
-                    .then((docref) => {
-                        console.log("Document successfully written!:", `${name}`);
-                    })
-                    .catch((error) => {
-                        console.error("Error writing document: ");
-                    })
-                history.push(`/Main/${uid}`)
-                // }).catch((error) => {
-                //     var errorCode = error.code;
-                //     var errorMessage = error.message;
-                //     var email = error.email;
-                //     var credential = error.credential;
-                //     console.log(errorCode, errorMessage, email, credential)
+            }).catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                var email = error.email;
+                var credential = error.credential;
+                console.log(errorCode, errorMessage, email, credential)
             });
-        // await
     }
     const handleCreate = () => {
         setNameG("new!")
@@ -163,6 +113,7 @@ const Login = () => {
                 const name = (user?.email)
                 setError('');
                 setNameG(`${nameG}`)
+                history.push('/Main')
                 var credential = firebase.auth.EmailAuthProvider.credentialWithLink(
                     email, window.location.href);
                 firebase.auth().currentUser?.reauthenticateWithCredential(credential)
@@ -203,10 +154,10 @@ const Login = () => {
                 {nameG.length === 0 && (
                     <div>
                         <Typography>
-                            <TextField id="email" Width="auto" label="email" value={email} onChange={e => setEmail(e.target.value)} />
+                            <TextField id="email" Width="90%" label="email" value={email} onChange={e => setEmail(e.target.value)} />
                         </Typography>
                         <Typography>
-                            <TextField id="password" Width="auto" label="password" value={password} onChange={e => setPassword(e.target.value)} />
+                            <TextField id="password" Width="90%" label="password" value={password} onChange={e => setPassword(e.target.value)} />
                         </Typography>
                         <Typography>
                             <Button
