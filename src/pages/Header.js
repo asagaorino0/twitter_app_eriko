@@ -242,7 +242,7 @@ const Header = () => {
             <Toolbar>
                 {`${users.avatar}`.length !== 1 && (
                     <img
-                        src={`${users.avatarG}`}
+                        src={`${users.avatar}`}
                         alt=""
                         style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                     />

@@ -44,7 +44,6 @@ const Login = () => {
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    // const [uid, setUid] = useState('');
     const [nameG, setNameG] = useState('');
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
