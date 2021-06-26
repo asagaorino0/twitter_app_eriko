@@ -76,7 +76,7 @@ const MyPro = () => {
                 setAvatar(`${email}`.charAt(0))
             }
             else {
-                setAvatarG(`${avatarG}`)
+                setAvatar(`${avatarG}`)
             }
             const nameG = (user?.displayName)
             if (`${nameG}` !== 'null') {

@@ -141,7 +141,8 @@ const Login = () => {
                     .catch((error) => {
                         console.error("Error writing document: ");
                     })
-                history.push(`/Main/${uid}`)
+                // history.push(`/Main/${uid}`)
+                history.push('/Main')
                 // }).catch((error) => {
                 //     var errorCode = error.code;
                 //     var errorMessage = error.message;

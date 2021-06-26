@@ -68,26 +68,46 @@ export default function SimplePaper({ followers }) {
     const db = firebase.firestore();
     const doc = firebase.firestore();
     const messages = firebase.firestore();
-    const [avatar, setAvatar] = useState('');
-    const [nName, setNName] = useState('');
-    const { uid } = useParams();
+    // const { uid } = useParams();
     const [users, setUsers] = useState([]);
+    const [name, setName] = useState('');
+    const [nName, setNName] = useState('');
+    const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
+        // await
         firebase
-            .firestore()
-            .collection("users").doc(`${uid}`).get().then((doc) => {
-                if (doc.exists) {
-                    // console.log("Document data:", doc.data())
-                    setUsers(doc.data())
-                } else {
-                    console.log("No such document!");
+            .auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    if (`${user?.photoURL}` === 'null') {
+                        setAvatar(`${user?.email}`.charAt(0))
+                    }
+                    else {
+                        setAvatar(user?.photoURL)
+                    }
+                    if (`${user?.displayName}` !== 'null') {
+                        setNName(`${user?.displayName}`)
+                    } else {
+                        setNName(`${user?.email}`)
+                    }
+                    setName(`${user?.uid}`)
                 }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
+                firebase
+                    .firestore()
+                    .collection("users").doc(user?.uid).get().then((doc) => {
+                        if (doc.exists) {
+                            // console.log("Document data:", doc.data())
+                            setUsers(doc.data())
+                            // console.log(doc.id, " => ", users.nName)
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    })
+            })
     }, []
-    );
+    )
     const [anchorFl, setAnchorFl] = React.useState(null);
     const handleFollower = (event) => {
         setAnchorFl(event.currentTarget);

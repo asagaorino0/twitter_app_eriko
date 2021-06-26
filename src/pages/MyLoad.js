@@ -6,10 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import StarPaper from './StarPaper'
 
-const MySitar = () => {
+const MyLoad = () => {
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
+    const [loadMsg, setLoadMsg] = useState([]);
     const [followers, setFollowers] = useState('');
     const history = useHistory()
     const db = firebase.firestore();
@@ -43,7 +44,8 @@ const MySitar = () => {
                         if (doc.exists) {
                             // console.log("Document data:", doc.data())
                             setUser(doc.data())
-                            // console.log(doc.id, " => ", user.nName)
+                            setName(doc.id)
+                            console.log(doc.id, " => ", nName)
                         } else {
                             console.log("No such document!");
                         }
@@ -57,17 +59,17 @@ const MySitar = () => {
         firebase
             .firestore()
             .collection("users")
-            .doc(`${user?.name}`)
-            .collection("sitagaki")
+            .doc(`${doc.id}`)
+            .collection('loadsita')
             .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
-                const sitagaki = snapshot.docs.map((doc) => {
+                const loadsita = snapshot.docs.map((doc) => {
                     return doc.id &&
                         doc.data()
                 });
-                setSitarMsg(sitagaki)
-                setMessages(sitagaki)
-                console.log(`${user?.name}`, `${user.name}`)
+                setLoadMsg(loadsita)
+                setMessages(loadsita)
+                console.log(loadsita)
             })
     }, []
     );
@@ -82,6 +84,7 @@ const MySitar = () => {
         <div className={classes.root}>
             {messages.length !== 0 &&
                 messages
+                    // .filter((messages) => messages.name === `${user?.uid}` & messages.myPage === true)
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />
@@ -91,4 +94,4 @@ const MySitar = () => {
         </div>
     );
 };
-export default MySitar;
+export default MyLoad;

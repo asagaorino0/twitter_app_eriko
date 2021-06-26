@@ -18,16 +18,15 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
-import Icon from '@material-ui/core/Icon';
+import TelegramIcon from '@material-ui/icons/Telegram';
 
 const Header = () => {
     const db = firebase.firestore();
-    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
+    const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
-    // const [avatarG, setAvatarG] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    const { uid } = useParams();
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
@@ -53,66 +52,74 @@ const Header = () => {
     const m = ("00" + date.getMinutes()).slice(-2)
     const s = ("00" + date.getSeconds()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        // await
         firebase
-            .firestore()
-            .collection("users").doc(`${uid}`).get().then((doc) => {
-                if (doc.exists) {
-                    console.log("Document data:", doc.data())
-                    setUsers(doc.data())
-                    console.log(doc.id, " => ", users.nName)
-                } else {
-                    console.log("No such document!");
+            .auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    if (`${user?.photoURL}` === 'null') {
+                        setAvatar(`${user?.email}`.charAt(0))
+                    }
+                    else {
+                        setAvatar(user?.photoURL)
+                    }
+                    if (`${user?.displayName}` !== 'null') {
+                        setNName(`${user?.displayName}`)
+                    } else {
+                        setNName(`${user?.email}`)
+                    }
+                    setName(`${user?.uid}`)
                 }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
+                firebase
+                    .firestore()
+                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
+                        if (doc.exists) {
+                            console.log("Document data:", doc.data())
+                            setUser(doc.data())
+                            console.log(doc.id, " => ", nName)
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    })
+            })
     }, []
-    );
+    )
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')
             setAvatar('')
-            // setAvatarG('')
             history.push('/')
         }).catch((error) => {
             var errorMessage = error.message;
         });
     }
     const myPage = () => {
-        history.push(`/MyPage/${uid}`)
+        history.push('/MyPage')
     }
     const handleCreate = async () => {
         await
-            db.collection('messages').add({
-                name: nameG,
-                message,
-                src: `${src}`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                avatar,
-                star: 0,
-                time: now,
-                insta: `${insta}`,
+            db.collection("messages").add({
+                name: `${user?.uid}`,
+                avatar: `${avatar}`,
+                nName: `${nName}`,
                 event: `${event}`,
-                email: `${email}`,
-                mochimono: `${mochimono}`,
-                basyo: `${basyo}`,
-                ninzuu: `${ninzuu}`,
                 nichizi: `${nichizi}`,
-                daihyou: `${daihyou}`,
-                syugoZ: `${syugoZ}`,
-                syugoB: `${syugoB}`,
-                odai: `${odai}`,
-                koutuuhi: `${koutuuhi}`,
-                menu: `${menu}`,
+                message,
+                insta: `${insta}`,
+                src: `${src}`,
+                time: now,
+                star: 0,
                 myPage: false,
+                like: false,
                 sita: false,
+                load: true,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
                 .then((docref) => {
-                    // console.log("Document successfully written!:", docref.id);
+                    console.log("Document successfully written!:", docref.id);
                     setMessage("");
                     setSrc("");
                     setInsta("");
@@ -129,28 +136,21 @@ const Header = () => {
     }
     const sitarId = async () => {
         await
-            db.collection(nameG).add({
-                name: nameG,
-                message,
-                src: `${src}`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                avatar,
-                star: 0,
-                // avatarG,
-                time: now,
-                insta: `${insta}`,
+            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").add({
+                name: `${user?.uid}`,
+                avatar: `${avatar}`,
+                nName: `${nName}`,
                 event: `${event}`,
-                email: `${email}`,
-                mochimono: `${mochimono}`,
-                basyo: `${basyo}`,
-                ninzuu: `${ninzuu}`,
                 nichizi: `${nichizi}`,
-                daihyou: `${daihyou}`,
-                syugoZ: `${syugoZ}`,
-                syugoB: `${syugoB}`,
-                menu: `${menu}`,
+                message,
+                insta: `${insta}`,
+                src: `${src}`,
+                time: now,
+                star: 0,
                 myPage: true,
+                like: false,
                 sita: true,
+                load: false,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
                 .then((docsita) => {
@@ -160,7 +160,7 @@ const Header = () => {
                     setInsta("");
                     setMyFiles([]);
                     setClickable(false);
-                    db.collection(nameG).doc(docsita.id).set({
+                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(docsita.id).set({
                         id: docsita.id,
                     }, { merge: true }//←上書きされないおまじない
                     )
@@ -240,17 +240,17 @@ const Header = () => {
     return (
         <div className={classes.root}>
             <Toolbar>
-                {`${users.avatar}`.length !== 1 && (
+                {`${avatar}`.length !== 1 && (
                     <img
-                        src={`${users.avatar}`}
+                        src={`${avatar}`}
                         alt=""
                         style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                     />
                 )}
-                {`${users.avatar}`.length === 1 && (
-                    <Avatar className={classes.green} >{users.avatar}</Avatar>
+                {`${avatar}`.length === 1 && (
+                    <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
-                <h5>{`${users.nName}さん！ようこそ！！`}</h5>
+                <h5>{`${nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
@@ -266,35 +266,10 @@ const Header = () => {
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading} variant="button" >イベントの募集</Typography>
-                    {event.length !== 0 && (
-                        <Toolbar >
-                            {/* <SendIcon onClick={handleCreate} /> */}
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="small"
-                                className={classes.button}
-                                endIcon={<SaveIcon />}
-                                onClick={sitarId}
-                            >
-                                下書き保存
-  </Button>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}
-                                size="small"
-                                endIcon={<SendIcon />}
-                            >
-                                投稿
-  </Button>
-                        </Toolbar>
-                    )}
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-                        {/* <Toolbar > */}
-                        {/* <Grid item xs={10} > */}
+
                         <TextField
                             label="イベント名"
                             fullWidth={true}
@@ -303,82 +278,24 @@ const Header = () => {
 
                         />
                         <TextField
-                            label="代表者又はチーム名"
-                            fullWidth={true}
-                            onChange={(e) => setDaihyou(e.target.value)}
-                            value={daihyou}
-                        />
-                        <TextField
                             label="日時"
-                            type="datetime-local"
-                            defaultValue="2017-05-24T10:30"
+                            // type="datetime-local"
+                            defaultValue=""
                             fullWidth={true}
                             onChange={(e) => setNichizi(e.target.value)}
                             value={nichizi}
-                            autoFocus={true}
-                        />
-
-                        <TextField
-                            label="集合時間"
-                            type="time"
-                            className={classes.textField}
-                            fullWidth={true}
-                            onChange={(e) => setSyugoZ(e.target.value)}
-                            value={syugoZ}
-                        />
-                        <TextField
-                            label="集合場所"
-                            fullWidth={true}
-                            onChange={(e) => setSyugoB(e.target.value)}
-                            value={syugoB}
-                        />
-                        <TextField
-                            label="開催場所"
-                            fullWidth={true}
-                            onChange={(e) => setBasyo(e.target.value)}
-                            value={basyo}
-                        />
-                        <TextField
-                            label="募集人数"
-                            fullWidth={true}
-                            onChange={(e) => setNinzuu(e.target.value)}
-                            value={ninzuu}
-                        />
-                        <TextField
-                            label="施術内容"
-                            fullWidth={true}
-                            onChange={(e) => setMenu(e.target.value)}
-                            value={menu}
-                        />
-                        <TextField
-                            label="料金"
-                            fullWidth={true}
-                            onChange={(e) => setOdai(e.target.value)}
-                            value={odai}
-                        />
-                        <TextField
-                            label="交通費"
-                            fullWidth={true}
-                            onChange={(e) => setKoutuuhi(e.target.value)}
-                            value={koutuuhi}
-                        />
-                        <TextField
-                            label="e-mail"
-                            fullWidth={true}
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
-                        />
-                        <TextField
-                            label="関連url"
-                            fullWidth={true}
-                            onChange={(e) => setInsta(e.target.value)}
-                            value={insta}
                         />
                         <TextField
                             label="メッセージ"
                             fullWidth={true}
-                            onChange={(e) => setEvent(e.target.value)}
+                            onChange={(e) => setMessage(e.target.value)}
                             value={message}
+                        />
+                        <TextField required id="standard-required"
+                            label="関連url"
+                            defaultValue={messages.insta}
+                            value={insta}
+                            onChange={(e) => setInsta(e.target.value)}
                         />
                     </Typography>
                 </AccordionDetails>
@@ -399,7 +316,7 @@ const Header = () => {
                                 </div>
                             )}
                         </div>
-                        <Button
+                        {/* <Button
                             disabled={!clickable}
                             type="submit"
                             variant="contained"
@@ -408,7 +325,7 @@ const Header = () => {
                             onClick={() => handleUpload(myFiles)}
                         >
                             UPLOAD
-                        </Button>
+                        </Button> */}
                         {event.length !== 0 && (
                             <Toolbar >
                                 {/* <SendIcon onClick={handleCreate} /> */}
@@ -427,9 +344,10 @@ const Header = () => {
                                     color="primary"
                                     className={classes.button}
                                     size="small"
-                                    endIcon={<SendIcon />}
+                                    endIcon={<TelegramIcon />}
+                                    onClick={handleCreate}
                                 >
-                                    投稿
+                                    投稿する
       </Button>
                             </Toolbar>
                         )}

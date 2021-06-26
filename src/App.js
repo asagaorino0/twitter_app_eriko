@@ -22,8 +22,8 @@ const App = () => {
             {/* <Route exact path='/Main/:name' component={Main} /> */}
             <Route exact path="/" component={Login} />
             <Route exact path="/createUser/:new!" component={CreateUser} />
-            <Route exact path="/Main/:uid" component={Main} />
-            <Route exact path="/MyPage/:uid" component={MyPage} />
+            <Route exact path="/Main/" component={Main} />
+            <Route exact path="/MyPage/" component={MyPage} />
             {/* <Route exact path='/CreateUser/' component={CreateUser} /> */}
           </Switch>
         </Router>

@@ -33,7 +33,6 @@ const MySitarHeader = () => {
     const { uid } = useParams();
     // const { sid } = useParams();
     const [nameG, setNameG] = useState('');
-    const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
     const [email, setEmail] = useState('');
     const [mochimono, setMochimono] = useState('');
@@ -45,6 +44,7 @@ const MySitarHeader = () => {
     const [syugoB, setSyugoB] = useState('');
     const [menu, setMenu] = useState('');
     const [insta, setInsta] = useState('');
+    const [message, setMessage] = useState('');
     const [odai, setOdai] = useState('');
     const [koutuuhi, setKoutuuhi] = useState('');
     const ref = useRef < HTMLDivElement > (null);
@@ -87,7 +87,7 @@ const MySitarHeader = () => {
                     });
                 // setSitarMsg(sitagaki)
                 setMessages(sitagaki)
-                console.log(sitagaki)
+                console.log("hensyu", sitagaki)
             })
     }, []
     );
@@ -151,42 +151,41 @@ const MySitarHeader = () => {
     });
     const classes = useStyles();
     const sitarId = async () => {
+        console.log('messages:', messages.id)
         await
-            firebase
-                .firestore()
-                .collection("messages")
-                // .doc(`${messages.id}`)
-                .doc("g6gMzLNmkHLIkCYZKZHM")
+            db.collection("messages")
+                .doc(messages.id)
                 .set({
-                    hensyu: false,
-                    // myPage: true,
-                    // sita: true,
-                    message: `${message}`,
-                    // src: `${src}`,
-                    // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    // star: 0,
-                    // time: now,
-                    // insta: `${insta}`,
-                    // event: `${event}`,
-                    // email: `${email}`,
-                    // mochimono: `${mochimono}`,
-                    // basyo: `${basyo}`,
-                    // ninzuu: `${ninzuu}`,
-                    // nichizi: `${nichizi}`,
-                    // daihyou: `${daihyou}`,
-                    // syugoZ: `${syugoZ}`,
-                    // syugoB: `${syugoB}`,
-                    // menu: `${menu}`,
-                    // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    hensyu: true,
                 }, { merge: true }//←上書きされないおまじない
                 )
-                .then((docRef) => {
-                    console.log("Document written with ID: ");
-                })
-                .catch((error) => {
-                    console.error("Error writing document: ", error);
-                })
     }
+    // const sitarId = async () => {
+    //     console.log('messages:', messages.message)
+    //     await
+    //         firebase
+    //             .firestore()
+    //             .collection("messages")
+    //             .doc(`${messages.id}`)
+    //             // .doc("lyBbz7iMQIDwdyqcHLEP")
+    //             .set({
+    //                 hensyu: false,
+    //                 // myPage: true,
+    //                 // sita: true,
+    //                 message: `${message}`,
+    //                 // src: `${src}`,
+    //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //                 time: now,
+    //                 // insta: `${insta}`,
+    //             }, { merge: true }//←上書きされないおまじない
+    //             )
+    //             .then((docRef) => {
+    //                 console.log("Document written with ID: ");
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error writing document: ", error);
+    //             })
+    // }
 
     return (
         <div>
@@ -194,36 +193,25 @@ const MySitarHeader = () => {
                 messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.id === `${sid}` & messages.myPage === true)
-                    .filter((messages) => messages.hensyu == true)
+                    // .filter((messages) => messages.hensyu == true)
                     .map((messages, index) => {
                         return (
                             <div className={classes.root}>
-                                {/* <Toolbar >
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        size="small"
-                                        className={classes.button}
-                                        endIcon={<SaveIcon />}
-                                        onClick={sitarId}
-                                    >
-                                        下書き保存
-  </Button>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.button}
-                                        size="small"
-                                        endIcon={<SendIcon />}
-                                    >
-                                        投稿
-  </Button>
-                                </Toolbar> */}
-
                                 <Typography className={classes.heading} variant="button" >イベントの編集   </Typography>
 
 
                                 <Typography>
+                                    {/* <TextField
+                                        required
+                                        id="standard-required"
+                                        label="日時"
+                                        type="datetime-local"
+                                        defaultValue="2017-05-24T10:30"
+                                        fullWidth={true}
+                                        onChange={(e) => setNichizi(e.target.value)}
+                                        defaultValue={messages.nichizi}
+                                        autoFocus={true}
+                                    /> */}
                                     {/* 
                                     <TextField
                                         required
@@ -249,17 +237,7 @@ const MySitarHeader = () => {
                                         onChange={(e) => setDaihyou(e.target.value)}
                                         defaultValue={messages.daihyou}
                                     />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="日時"
-                                        type="datetime-local"
-                                        defaultValue="2017-05-24T10:30"
-                                        fullWidth={true}
-                                        onChange={(e) => setNichizi(e.target.value)}
-                                        defaultValue={messages.nichizi}
-                                        autoFocus={true}
-                                    />
+
 
                                     <TextField
                                         required
@@ -326,7 +304,7 @@ const MySitarHeader = () => {
                                         fullWidth={true}
                                         onChange={(e) => setEmail(e.target.value)}
                                         defaultValue={messages.email}
-                                    />
+                                    /> */}
                                     <TextField
                                         required
                                         id="standard-required"
@@ -334,13 +312,13 @@ const MySitarHeader = () => {
                                         fullWidth={true}
                                         onChange={(e) => setInsta(e.target.value)}
                                         defaultValue={messages.insta}
-                                    /> */}
+                                    />
                                     <TextField
                                         required
                                         id="standard-required"
                                         label="メッセージ"
                                         fullWidth={true}
-                                        onChange={(e) => setEvent(e.target.value)}
+                                        onChange={(e) => setMessage(e.target.value)}
                                         defaultValue={messages.message}
                                     />
                                 </Typography>
@@ -372,9 +350,9 @@ const MySitarHeader = () => {
                                         >
                                             UPLOAD
                         </Button>
-                                        {/* {event.length !== 0 && ( */}
+
+
                                         <Toolbar >
-                                            {/* <SendIcon onClick={handleCreate} /> */}
                                             <Button
                                                 variant="contained"
                                                 color="primary"
@@ -395,7 +373,7 @@ const MySitarHeader = () => {
                                                 投稿
       </Button>
                                         </Toolbar>
-                                        {/* )} */}
+
                                     </CardContent>
                                 </Card>
                             </div >

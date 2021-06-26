@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Store } from '../store/index'
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
@@ -11,16 +8,21 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from "firebase/app"
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import InstagramIcon from '@material-ui/icons/Instagram';
 import Follower from './Follower'
-import AvatarMenu from './AvatarMenu';
-// import Badge from '@material-ui/core/Badge';
-// import { USER_PRO } from '../actions/index'
-// import { useHistory } from 'react-router-dom';
+import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
-import { MessageSharp } from '@material-ui/icons';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import { Typography, Button } from "@material-ui/core";
+import { useDropzone } from "react-dropzone";
+import { storage } from "../config/firebase";
+import FolderIcon from '@material-ui/icons/Folder';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import QueueIcon from '@material-ui/icons/Queue';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,46 +66,176 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimplePaper({ messages }) {
     const classes = useStyles();
-    const { uid } = useParams();
     const history = useHistory()
     const db = firebase.firestore();
     const doc = firebase.firestore();
     const follower = firebase.firestore();
-    const [users, setUsers] = useState([]);
-    const [avatar, setAvatar] = useState('');
+    const date = new Date()
+    const Y = date.getFullYear()
+    const M = ("00" + (date.getMonth() + 1)).slice(-2)
+    const D = ("00" + date.getDate()).slice(-2)
+    const h = ("00" + date.getHours()).slice(-2)
+    const m = ("00" + date.getMinutes()).slice(-2)
+    const s = ("00" + date.getSeconds()).slice(-2)
+    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const [user, setUser] = useState([]);
     const [name, setName] = useState('');
-    // const [sid, setSid] = useState('');
-
-
+    const [nName, setNName] = useState('');
+    const [avatar, setAvatar] = useState('');
+    const [insta, setInsta] = useState(`${messages.insta}`);
+    const [event, setEvent] = useState(`${messages.event}`);
+    const [nichizi, setNichizi] = useState(`${messages.nichizi}`);
+    const [message, setMessage] = useState(`${messages.message}`);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
         firebase
-            .firestore()
-            .collection("users").doc(`${uid}`).get().then((doc) => {
-                if (doc.exists) {
-                    setUsers(doc.data())
-                } else {
-                    console.log("No such document!");
+            .auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    if (`${user?.photoURL}` === 'null') {
+                        setAvatar(`${user?.email}`.charAt(0))
+                    }
+                    else {
+                        setAvatar(user?.photoURL)
+                    }
+                    if (`${user?.displayName}` !== 'null') {
+                        setNName(`${user?.displayName}`)
+                    } else {
+                        setNName(`${user?.email}`)
+                    }
+                    setName(`${user?.uid}`)
                 }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
+                firebase
+                    .firestore()
+                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
+                        if (doc.exists) {
+                            // console.log("Document data:", doc.data())
+                            setUser(doc.data())
+                            // console.log(doc.id, " => ", users.nName)
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    })
+            })
     }, []
-    );
+    )
+    const likeSitarId = async () => {
+        console.log('messages:', messages.id)
+        await
+            db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
+                id: messages.id,
+                name: `${user?.uid}`,
+                nName: messages.nName,
+                avatar: messages.avatar,
+                event: `${event}`,
+                message: `${message}`,
+                nichizi: `${nichizi}`,
+                src: `${src}`,
+                insta: `${insta}`,
+                myPage: true,
+                like: messages.like,
+                sita: true,
+                load: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                time: now,
+            }, { merge: true }//←上書きされないおまじない
+            )
+                .then((docRef) => {
+                    setAnchorMl(null);
+                    setMyFiles([]);
+                    setClickable(false);
+                    console.log("Document written with ID: ");
+                })
+        db.collection("users").doc(`${user?.uid}`).collection("load").doc(`${messages.id}`).delete()
+    };
     const deleteId = async () => {
         console.log('messages:', messages.id)
         await
-            db.collection("users").doc(`${uid}`).collection("likes").doc(`${messages.id}`).delete()
+            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(`${messages.id}`).delete()
     };
-    const readId = async () => {
+    const deleteLike = async () => {
         console.log('messages:', messages.id)
-        // setSid(messages.id)
         await
-            db.collection("messages").doc(messages.id).set({
-                hensyu: true,
+            db.collection("users").doc(`${user?.uid}`).collection("likes").doc(`${messages.id}`).delete()
+    };
+    const copyId = async () => {
+        await
+            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").add({
+                name: `${user?.uid}`,
+                nName: messages.nName,
+                avatar: messages.avatar,
+                event: messages.event,
+                message: messages.message,
+                nichizi: messages.nichizi,
+                src: messages.src,
+                insta: messages.insta,
+                time: now,
+                myPage: true,
+                like: messages.like,
+                sita: true,
+                load: messages.load,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+                .then((docref) => {
+                    console.log("Document successfully written!:", docref.id);
+                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(docref.id).set({
+                        id: docref.id,
+                    }, { merge: true }//←上書きされないおまじない
+                    )
+                })
+                .catch((error) => {
+                    console.error("Error writing document: ", error);
+                })
+    }
+    const loadId = async () => {
+        // firebase.firestore().settings({
+        //     ignoreUndefinedProperties: true,
+        // })
+        await
+            db.collection("users").doc(`${user?.uid}`).collection("loadsita").doc(`${messages.id}`).set({
+                id: messages.id,
+                event: messages.event,
+                name: `${user?.uid}`,
+                nName: messages.nName,
+                message: messages.message,
+                nichizi: messages.nichizi,
+                src: messages.src,
+                avatar: messages.avatar,
+                time: now,
+                insta: messages.insta,
+                like: messages.like,
+                sita: false,
+                load: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                myPage: true,
             }, { merge: true }//←上書きされないおまじない
             )
+                .then((docRef) => {
+                    db.collection("messages").doc(messages.id).set({
+                        id: messages.id,
+                        event: messages.event,
+                        name: `${user?.uid}`,
+                        nName: messages.nName,
+                        message: messages.message,
+                        nichizi: messages.nichizi,
+                        src: messages.src,
+                        avatar: messages.avatar,
+                        time: now,
+                        insta: messages.insta,
+                        like: messages.like,
+                        sita: false,
+                        load: true,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        myPage: false,
+                    }, { merge: true }//←上書きされないおまじない
+                    )
+                    // console.log("Document written with ID: "`${messages.id}`);
+                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(`${messages.id}`).delete()
+
+                    history.push('/Main')
+                })
     }
 
 
@@ -122,52 +254,94 @@ export default function SimplePaper({ messages }) {
     //                 // await
     //                 db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
     //                     follower: `${avatar}`,
-    //                     followerName: `${name}`,
+    //                     followerName: `${user?.uid}`,
     //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     //                 }, { merge: true }//←上書きされないおまじない
     //                 )
     //             })
     // }
 
+    // db.settings({ ignoreUndefinedProperties: true }) // undifinedでエラーにならないための設定
+
+    //     var usersConverter = {
+    //     toFirestore: function (users) {
+    //         return {
+    //             first: users.first,
+    //             last: users.last,
+    //             born: users.born
+    //         };
+    //     },
+    //         fromFirestore: function (snapshot, options) {
+    //             const data = snapshot.data(options);
+    //             return new Users(data.first, data.last, data.born);
+    //         }
+    //     };
+    // }
+
+
     const starId = async () => {
-        //     await
-        //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "===", name)
-        //             .get()
-        //             .then((querySnapshot) => {
-        //                 console.log("消したよ ")
-        //                 querySnapshot.forEach((doc) => {
-        //                     console.log(querySnapshot)
-        //                     doc.ref.delete();
-        //                 })
-        //             })
-        //  .catch(() => {
         await
-            db.collection("messages").doc(messages.id).collection('follower').doc(`${uid}`).set({
-                follower: `${users.avatar}`,
-                followerName: `${users.nName}`,
-                uid: `${uid}`,
+            // db.settings({ ignoreUndefinedProperties: true })
+            db.collection("messages").doc(messages.id).collection('follower').doc(`${user?.uid}`).set({
+                follower: `${avatar}`,
+                followerName: `${nName}`,
+                uid: `${user?.uid}`,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             }, { merge: true }//←上書きされないおまじない
             )
-        // db.collection("users").doc(`${uid}`).set({
-        db.collection("users").doc(`${uid}`).collection("likes").doc(`${messages.id}`).set({
-            id: messages.id,
-            name: `${uid}`,
-            nName: messages.nName,
-            message: messages.message,
-            src: messages.src,
-            avatar: messages.avatar,
-            time: messages.time,
-            insta: messages.insta,
-            myPage: true,
-            like: true,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        })
+        db.collection("users").doc(`${user?.uid}`).collection("likes").doc(`${messages.id}`)
+            .set({
+                id: messages.id,
+                event: messages.event,
+                name: `${user?.uid}`,
+                nName: messages.nName,
+                message: messages.message,
+                nichizi: messages.nichizi,
+                src: messages.src,
+                avatar: messages.avatar,
+                time: now,
+                insta: messages.insta,
+                myPage: true,
+                sita: false,
+                like: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
             .then((docRef) => {
                 console.log("Document written with ID: ");
             })
     }
-
+    const sitarId = async () => {
+        try {
+            // アップロード処理
+            const uploadTask = storage
+                .ref(`/images/${myFiles[0].name}`)
+                .put(myFiles[0]);
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
+        }
+        catch (error) {
+        }
+        await
+            db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
+                id: messages.id,
+                event: `${event}`,
+                message: `${message}`,
+                nichizi: `${nichizi}`,
+                src: `${src}`,
+                insta: `${insta}`,
+                myPage: true,
+                like: messages.like,
+                // sita:true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                time: now,
+            }, { merge: true }//←上書きされないおまじない
+            )
+                .then((docRef) => {
+                    setAnchorMl(null);
+                    setMyFiles([]);
+                    setClickable(false);
+                    console.log("Document written with ID: ");
+                })
+    }
     useEffect(() => {
         firebase
             .firestore()
@@ -185,24 +359,6 @@ export default function SimplePaper({ messages }) {
             })
     }, []
     );
-    // const [messages, setmessages] = useState('');
-    // useEffect(() => {
-    //     firebase
-    //         .firestore()
-    //         .collection("messages")
-    //         .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const messages = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //                 // doc.data().timestamp.toDate()
-    //             });
-    //             setmessages(messages);
-    //             console.log(messages)
-    //         })
-    // }, []
-    // );
-
     const [followers, setFollowers] = useState('');
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorMl, setAnchorMl] = React.useState(null);
@@ -211,13 +367,42 @@ export default function SimplePaper({ messages }) {
     };
     const handleMessage = (event) => {
         setAnchorMl(event.currentTarget);
-        // console.log(messages.messages.length)
     };
     const handleClose = () => {
         setAnchorEl(null);
         setAnchorMl(null);
     };
 
+    const [myFiles, setMyFiles] = useState([]);
+    const [clickable, setClickable] = useState(false);
+    const [src, setSrc] = useState(`${messages.src}`);
+    const onDrop = useCallback(async (acceptedFiles) => {
+        if (!acceptedFiles[0]) return;
+        try {
+            setMyFiles([...acceptedFiles]);
+            setClickable(true);
+            handlePreview(acceptedFiles);
+        } catch (error) {
+            alert(error);
+        }
+    }, []);
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+    });
+    const handlePreview = (files) => {
+        if (files === null) {
+            return;
+        }
+        const file = files[0];
+        if (file === null) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setSrc(reader.result);
+        };
+    };
     return (
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
@@ -235,14 +420,19 @@ export default function SimplePaper({ messages }) {
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
                         {messages.event}
                     </Typography>
-                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
-                        {messages.nName}
-                    </Typography>
+                    {`${messages.nichizi}`.length !== 0 &&
+                        <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                            日時：{messages.nichizi}
+                        </Typography>
+                    }
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         {messages.message}
                     </Typography>
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         <img src={messages.src} alt="" style={{ width: '80px', height: 'auto' }} />
+                    </Typography>
+                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                        投稿者：{messages.nName}
                     </Typography>
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="caption" color="textSecondary">
                         {messages.time}更新
@@ -252,7 +442,6 @@ export default function SimplePaper({ messages }) {
                             <h6>関連url:{messages.insta}</h6>
                         </Link>
                     }
-
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {followers.length === 0 &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />}
@@ -270,10 +459,16 @@ export default function SimplePaper({ messages }) {
                     </Grid>
 
                 </Grid>
-                {messages.myPage === true &&
+                {messages.sita === true &&
                     <Grid item>
-                        <DeleteIcon color="disabled" onClick={deleteId} />
-                        <button onClick={readId} color="secondary">read</button>
+                        <DeleteIcon color="disabled" onClick={deleteId} title="del" />
+                        <QueueIcon color="disabled" onClick={copyId} title="copy" />
+                        <TelegramIcon color="disabled" onClick={loadId} title="upload" />
+                    </Grid>
+                }
+                {messages.like === true &&
+                    <Grid item>
+                        <DeleteIcon color="disabled" onClick={deleteLike} title="del" />
                     </Grid>
                 }
             </Grid>
@@ -287,122 +482,174 @@ export default function SimplePaper({ messages }) {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    {`${messages.avatar}`.length === "" &&
-                        <MenuItem onClick={handleClose} >
+                    {`${messages.avatar}`.length === 1 &&
+                        <MenuItem
+                            onClick={handleClose}
+                        >
                             <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
                         </MenuItem>
                     }
-                    {`${messages.avatar}`.length !== "" &&
-                        <MenuItem onClick={handleClose}>
-                            <img src={`${messages.avatarG}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
+                    {`${messages.avatar}`.length !== 1 &&
+                        <MenuItem
+                            onClick={handleClose}
+                        >
+                            <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
                         </MenuItem>
                     }
-                    <MenuItem onClick={handleClose}>{`${messages.nName}`}</MenuItem>
+                    <MenuItem
+                        onClick={handleClose}
+                    >{`${messages.nName}`}</MenuItem>
                 </Menu>
             </div>
-
-            <div>
-                <Menu
-                    // id="simple-menu"
-                    fullWidth={true}
-                    anchorMl={anchorMl}
-                    keepMounted
-                    open={Boolean(anchorMl)}
-                    onClose={handleClose}
-                >
-
-                    {/* < Paper className={classes.paper} > */}
-
-                    <MenuItem onClick={handleClose}>
-                        <Grid item xs>
-                            <Typography variant="h6" component="h6">イベント名:
-                                {messages.event}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >投稿者:
-                                {messages.nName}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary">
-                                <img src={messages.src} alt="" style={{ width: '80px', height: 'auto' }} />
-                            </Typography>
-                            {/* <Typography variant="caption" color="textSecondary">
-                            </Typography> */}
-                            <Typography className={classes.pos} color="textSecondary" >代表者又はチーム名:
-                                {messages.daihyou}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >日時:
-                                {messages.nichizi}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >集合時間:
-                                {messages.syugoZ}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >集合場所:
-                                {messages.syugoB}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >開催場所:
-                                {messages.basyo}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >募集人数:
-                                {messages.ninzuu}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >施術内容:
-                                {messages.menu}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >持ち物:
-                                {messages.mochimono}
-                            </Typography>
-                            <Typography className={classes.pos} color="textSecondary" >e-mail:
-                                {messages.email}
-                            </Typography>
-
-                        </Grid>
-                    </MenuItem>
-                    {`${messages.insta}`.length !== 0 &&
-                        <Link href={messages.insta} underline="none" target="_blank">
-                            <h6>関連url:{messages.insta}</h6>
-                        </Link>
-                    }
-                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.length === 0 &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />
-                        }
-                        {followers.length !== 0 &&
-                            <StarIcon className={classes.yellow} onClick={starId} />
-                        }
-                        {followers.length !== 0 &&
-                            followers.map((followers, index) => {
-                                return (
-                                    <div>
-                                        <Follower followers={followers} key={followers.id} />
-                                    </div>
-                                )
-                            })
-                        }
-                    </Grid>
-
-                    <div>
+            {messages.myPage === true &&
+                <div>
+                    {messages.like !== true &&
                         <Menu
                             id="simple-menu"
-                            anchorEl={anchorEl}
+                            direction="culm"
+                            fullWidth={true}
+                            anchorMl={anchorMl}
                             keepMounted
-                            open={Boolean(anchorEl)}
+                            open={Boolean(anchorMl)}
                             onClose={handleClose}
                         >
-                            {`${messages.avatar}`.length === 1 &&
-                                <MenuItem onClick={handleClose} >
-                                    <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
-                                </MenuItem>
-                            }
-                            {`${messages.avatar}`.length !== 1 &&
-                                <MenuItem onClick={handleClose}>
-                                    <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
-                                </MenuItem>
-                            }
-                            <MenuItem onClick={handleClose}>{`${messages.nName}`}</MenuItem>
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="event"
+                                    defaultValue={messages.event}
+                                    value={event}
+                                    onChange={(e) => setEvent(e.target.value)}
+                                />
+                            </MenuItem>
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="message"
+                                    defaultValue={messages.message}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                />
+                            </MenuItem>
+
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="日時"
+                                    // type="datetime-local"
+                                    defaultValue={messages.nichizi}
+                                    fullWidth={true}
+                                    onChange={(e) => setNichizi(e.target.value)}
+                                    value={nichizi}
+                                />
+                            </MenuItem>
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="関連url"
+                                    defaultValue={messages.insta}
+                                    value={insta}
+                                    onChange={(e) => setInsta(e.target.value)}
+                                />
+                            </MenuItem>
+                            <Card>
+                                <CardContent>
+                                    <div {...getRootProps()}>
+                                        <input {...getInputProps()}
+                                        />
+                                        {myFiles.length === 0 ? (
+                                            <FolderIcon />
+                                        ) : (
+                                            <div style={{ width: '180px', height: '180px' }}>
+                                                {myFiles.map((file) => (
+                                                    <React.Fragment key={file.name}>
+                                                        {src && <img src={src} />}
+                                                    </React.Fragment>
+                                                )
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                    {/* {
+                                    myFiles.length !== 0 &&
+                                    <Button
+                                        disabled={!clickable}
+                                        type="submit"
+                                        variant="contained"
+                                        fullWidth
+                                        style={{ marginTop: "16px" }}
+                                        onClick={() => handleUpload(myFiles)}
+                                    >
+                                        この画像をupする
+                                                </Button>
+                                } */}
+                                </CardContent>
+                            </Card>
+                            {/* </Grid> */}
+                            {/* </MenuItem> */}
+                            <MenuItem onClick={handleClose}>
+                                {/* <div onClick={handleClose} style={{ cursor: 'pointer' }} direction="row"> */}
+                                <Button
+                                    variant="contained"
+                                    // color="primary"
+                                    size="small"
+                                    className={classes.button}
+                                    startIcon={<NavigateBeforeIcon color="secondary" />}
+                                    onClick={handleClose}
+                                >
+                                    戻る
+      </Button>
+                                {messages.sita === true &&
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.button}
+                                        size="small"
+                                        startIcon={<RefreshIcon />}
+                                        onClick={sitarId}
+                                    >
+                                        更新する
+      </Button>}
+                                {messages.sita !== true &&
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.button}
+                                        size="small"
+                                        startIcon={<NavigateBeforeIcon />}
+                                        onClick={likeSitarId}
+                                    >
+                                        下書きに戻す
+      </Button>}
+                            </MenuItem>
                         </Menu>
-                    </div>
-                    {/* </Paper > */}
-                </Menu>
-            </div>
+                    }
+
+                </div>}
+
+            {messages.myPage !== true &&
+                <div>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorMl}
+                        keepMounted
+                        open={Boolean(anchorMl)}
+                        onClose={handleClose}
+                    >
+                        {`${messages.avatar}`.length === 1 &&
+                            <MenuItem onClick={handleClose} >
+                                <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
+                            </MenuItem>
+                        }
+                        {`${messages.avatar}`.length !== 1 &&
+                            <MenuItem onClick={handleClose}>
+                                <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
+                            </MenuItem>
+                        }
+                        <MenuItem onClick={handleClose}>
+                            <img src={messages.src} alt="" style={{ width: '180px', height: 'auto' }} />
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>{`${messages.nName}`}</MenuItem>
+                    </Menu>
+                </div>
+            }
+
         </Paper >
     );
 }

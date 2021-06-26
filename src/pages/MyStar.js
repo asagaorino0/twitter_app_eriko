@@ -4,7 +4,6 @@ import "firebase/firestore";
 import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 import StarPaper from './StarPaper'
 
 const MyStar = () => {
@@ -16,14 +15,49 @@ const MyStar = () => {
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
-    const [likes, setLikes] = useState('');
-    const { uid } = useParams();
-    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
+    const [name, setName] = useState('');
+    const [nName, setNName] = useState('');
+    const [avatar, setAvatar] = useState('');
+    // 現在ログインしているユーザーを取得する
+    useEffect(() => {
+        firebase
+            .auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    if (`${user?.photoURL}` === 'null') {
+                        setAvatar(`${user?.email}`.charAt(0))
+                    }
+                    else {
+                        setAvatar(user?.photoURL)
+                    }
+                    if (`${user?.displayName}` !== 'null') {
+                        setNName(`${user?.displayName}`)
+                    } else {
+                        setNName(`${user?.email}`)
+                    }
+                    setName(`${user?.uid}`)
+                }
+                firebase
+                    .firestore()
+                    .collection("users").doc(user?.uid).get().then((doc) => {
+                        if (doc.exists) {
+                            // console.log("Document data:", doc.data())
+                            setUser(doc.data())
+                            // console.log(doc.id, " => ", users.nName)
+                        } else {
+                            console.log("No such document!");
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                    })
+            })
+    }, []
+    )
     useEffect(() => {
         firebase
             .firestore()
             .collection("users")
-            .doc(`${uid}`)
+            .doc(`${user?.uid}`)
             .collection('likes')
             .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
@@ -48,7 +82,6 @@ const MyStar = () => {
         <div className={classes.root}>
             {messages.length !== 0 &&
                 messages
-                    // .filter((messages) => messages.followers.uid === `${uid}`)
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />
