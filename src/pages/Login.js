@@ -103,6 +103,33 @@ const Login = () => {
     function getLineData() {
         liff.getProfile()
             .then(profile => {
+
+                firebase.auth()
+                    .onAuthStateChanged(user => {
+                        if (user) {
+                            setCurrentUser(user);
+                        } else {
+                            // 作成したapiにidトークンをpost
+                            fetch('/api/verify', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    idToken: liff.getIDToken(),
+                                }),
+                            }).then(response => {
+                                response.text().then(data => {
+                                    // 返ってきたカスタムトークンでFirebase authにログイン
+                                    firebase.auth()
+                                        .signInWithCustomToken(data).then(response => {
+                                            const user = response.user;
+                                            setCurrentUser(user);
+                                        });
+                                });
+                            });
+                        }
+                    });
                 db.collection('users').doc(`${profile.userId}`).set({
                     name: profile.userId,
                     nName: profile.displayName,
