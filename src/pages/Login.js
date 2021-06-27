@@ -137,15 +137,21 @@ const Login = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
                 const nName = (profile.displayName)
+                const name = (profile.userId)
+                const avatar = (profile.pictureUrl)
                 history.push(`/Main/${nName}`)
                 // ...
                 setGlobalState({
                     type: USER_LINE,
                     nName,
+                    name,
+                    avatar
                 });
-                console.log("ログインしてるユーザーのid:" + profile.userId);
-                console.log("ログインしてるユーザーの名前:" + profile.displayName);
-                console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
+                console.log("ユーザーのid:" + globalState.userId);
+                console.log("ユーザーの名前:" + globalState.displayName);
+                console.log("ユーザーの画像URL:" + globalState.pictureUrl);
+                console.log(globalState.nName);
+
                 history.push(`/Main/${nName}`)
             })
     }
