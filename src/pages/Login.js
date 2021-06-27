@@ -122,12 +122,12 @@ const Login = () => {
                 {nameG.length === 0 && (
                     <div>
                         <Typography>
-                            {/* <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
-                                style={{ textDecoration: "none" }}> */}
                             <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
                                 style={{ textDecoration: "none" }}>
+                                {/* <a href=
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                style={{ textDecoration: "none" }}> */}
                                 <Button
                                     variant="contained"
                                     fullWidth
