@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Store } from '../store/index'
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import firebase from "firebase/app"
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Store } from '../store/index'
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import DeleteIcon from '@material-ui/icons/Delete';
-import firebase from "firebase/app"
 import StarIcon from '@material-ui/icons/Star';
 import InstagramIcon from '@material-ui/icons/Instagram';
+import DeleteIcon from '@material-ui/icons/Delete';
 // import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Badge from '@material-ui/core/Badge';
 // import { USER_PRO } from '../actions/index'
 // import { useHistory } from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+
 import Link from '@material-ui/core/Link';
-
-
-// const Follower = () => {
 
 const useStyles = makeStyles((theme) => ({
     root: {

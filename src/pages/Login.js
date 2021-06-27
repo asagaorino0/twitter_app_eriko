@@ -108,7 +108,9 @@ const Login = () => {
                 };
             });
     }
+    const LineClick = () => {
 
+    }
     const googleClick = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -202,14 +204,14 @@ const Login = () => {
                 </Typography>
                 {nameG.length === 0 && (
                     <div>
-                        <Typography>
+                        {/* <Typography>
                             <TextField id="email" Width="auto" label="email" value={email} onChange={e => setEmail(e.target.value)} />
                         </Typography>
                         <Typography>
                             <TextField id="password" Width="auto" label="password" value={password} onChange={e => setPassword(e.target.value)} />
-                        </Typography>
+                        </Typography> */}
                         <Typography>
-                            <Button
+                            {/* <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -218,7 +220,20 @@ const Login = () => {
                                 disabled={email === ''}
                                 onClick={handleClick}
                             >
-                                Login</Button>
+                                Login</Bu/tton> */}
+
+                            <a href=
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://line-login-twitter-app-eriko.herokuapp.com/auth&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                            >
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    // onClick={LineClick}
+                                    color="primary"
+                                >
+                                    lineでLogin
+                                </Button>
+                            </a>
                         </Typography>
                         <Typography>
                             <Button variant="outlined" fullWidth onClick={handleCreate} className={classes.submit}>新規登録</Button>
