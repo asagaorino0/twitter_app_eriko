@@ -147,9 +147,9 @@ const Login = () => {
                     name,
                     avatar
                 });
-                console.log("ユーザーのid:" + globalState.userId);
-                console.log("ユーザーの名前:" + globalState.displayName);
-                console.log("ユーザーの画像URL:" + globalState.pictureUrl);
+                console.log("ユーザーのid:" + globalState.name);
+                console.log("ユーザーの名前:" + globalState.nName);
+                console.log("ユーザーの画像URL:" + globalState.avatar);
                 console.log(globalState.nName);
 
                 history.push(`/Main/${nName}`)
