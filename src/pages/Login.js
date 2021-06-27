@@ -106,8 +106,10 @@ const Login = () => {
 
                 firebase.auth()
                     .onAuthStateChanged(user => {
+
                         if (user) {
                             setCurrentUser(user);
+                            console.log(user)
                         } else {
                             // 作成したapiにidトークンをpost
                             fetch('/api/verify', {
