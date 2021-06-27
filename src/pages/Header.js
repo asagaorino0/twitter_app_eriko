@@ -72,47 +72,47 @@ const Header = () => {
     //     // }
     // }, []);
 
-    useEffect(() => {
-        // if (!liff.isLoggedIn()) {
-        //     // LIFFログインしていなかったらリダイレクト
-        //     history.push('/');
-        //     return;
-        // }
-        window.onload = function (e) {
-            liff
-                .init({ liffId: myLiffId })
-                .then(() => {
-                    // 初期化完了
-                    // initializeApp();
-                })
-        };
-        firebase.auth()
-            .onAuthStateChanged(user => {
-                if (user) {
-                    setCurrentUser(user);
-                } else {
-                    // 作成したapiにidトークンをpost
-                    fetch('/api/verify', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            idToken: liff.getIDToken(),
-                        }),
-                    }).then(response => {
-                        response.text().then(data => {
-                            // 返ってきたカスタムトークンでFirebase authにログイン
-                            firebase.auth()
-                                .signInWithCustomToken(data).then(response => {
-                                    const user = response.user;
-                                    setCurrentUser(user);
-                                });
-                        });
-                    });
-                }
-            });
-    }, []);
+    // useEffect(() => {
+    //     // if (!liff.isLoggedIn()) {
+    //     //     // LIFFログインしていなかったらリダイレクト
+    //     //     history.push('/');
+    //     //     return;
+    //     // }
+    //     window.onload = function (e) {
+    //         liff
+    //             .init({ liffId: myLiffId })
+    //             .then(() => {
+    //                 // 初期化完了
+    //                 // initializeApp();
+    //             })
+    //     };
+    //     firebase.auth()
+    //         .onAuthStateChanged(user => {
+    //             if (user) {
+    //                 setCurrentUser(user);
+    //             } else {
+    //                 // 作成したapiにidトークンをpost
+    //                 fetch('/api/verify', {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                     },
+    //                     body: JSON.stringify({
+    //                         idToken: liff.getIDToken(),
+    //                     }),
+    //                 }).then(response => {
+    //                     response.text().then(data => {
+    //                         // 返ってきたカスタムトークンでFirebase authにログイン
+    //                         firebase.auth()
+    //                             .signInWithCustomToken(data).then(response => {
+    //                                 const user = response.user;
+    //                                 setCurrentUser(user);
+    //                             });
+    //                     });
+    //                 });
+    //             }
+    //         });
+    // }, []);
 
     // // 現在ログインしているユーザーを取得する
     // useEffect(() => {

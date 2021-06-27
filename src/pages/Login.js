@@ -96,12 +96,20 @@ const Login = () => {
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
                 liff.login();
+                history.push('/Main')
             }
         }
     }
     function getLineData() {
         liff.getProfile()
             .then(profile => {
+                db.collection('users').doc(`${profile.userId}`).set({
+                    name: profile.userId,
+                    nName: profile.displayName,
+                    avatar: profile.pictureUrl,
+                    // avatarG: `${avatarG}`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                })
                 console.log("ログインしてるユーザーのid:" + profile.userId);
                 console.log("ログインしてるユーザーの名前:" + profile.displayName);
                 console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
