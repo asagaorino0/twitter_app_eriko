@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { selectTodo, add_todo, all_delete, del_todo, DONE_LIST, check_list } from './todoSlice';
 // import Checkbox from '@material-ui/core/Checkbox';
@@ -11,7 +11,8 @@ import firebase from '../config/firebase'
 import { AppBar, Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
-
+import liff from '@line/liff';
+// import verify from '../api/verify'
 
 // export function Login() {
 const Login = () => {
@@ -51,6 +52,137 @@ const Login = () => {
     const [error, setError] = useState('')
     const history = useHistory()
     const [idToken, setIdToken] = useState('')
+    const [currentUser, setCurrentUser] = useState('');
+    const myLiffId = "1656149559-xXM4l4Gp"
+
+    // function initializeLiff(myLiffId) {
+    //     liff
+    //         .init({
+    //             liffId: myLiffId
+    //         })
+    //         .then(() => {
+    //             // start to use LIFF's api
+    //             initializeApp();
+    //         })
+    //         .catch((err) => {
+    //             document.getElementById("liffAppContent").classList.add('hidden');
+    //             document.getElementById("liffInitErrorMessage").classList.remove('hidden');
+    //         });
+    // };
+
+    //     // Promiseオブジェクトを使用する方法
+
+    // if (!liff.isLoggedIn()) {
+    //     // LIFFログインしていなかったらリダイレクト
+    //     history.push('/');
+    //     return;
+    // }
+    window.onload = function (e) {
+        liff
+            .init({ liffId: myLiffId })
+            .then(() => {
+                // 初期化完了
+                // initializeApp();
+            })
+    };
+    function initializeApp() {
+        // ログインチェック
+        if (liff.isLoggedIn()) {
+            //ログイン済
+            getLineData();
+            history.push('/Main')
+        } else {
+            // 未ログイン
+            let result = window.confirm("LINE Loginしますか？");
+            if (result) {
+                liff.login();
+            }
+        }
+    }
+    function getLineData() {
+        liff.getProfile()
+            .then(profile => {
+                console.log("ログインしてるユーザーのid:" + profile.userId);
+                console.log("ログインしてるユーザーの名前:" + profile.displayName);
+                console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
+            })
+    }
+
+
+
+
+
+
+
+    // useEffect(() => {
+    //     firebase.auth()
+    //         .onAuthStateChanged(user => {
+    //             if (user) {
+    //                 setCurrentUser(user);
+    //             } else {
+    //                 // 作成したapiにidトークンをpost
+    //                 fetch('/api/verify', {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                     },
+    //                     body: JSON.stringify({
+    //                         idToken: liff.getIDToken(),
+    //                     }),
+    //                 }).then(response => {
+    //                     response.text().then(data => {
+    //                         // 返ってきたカスタムトークンでFirebase authにログイン
+    //                         firebase.auth()
+    //                             .signInWithCustomToken(data).then(response => {
+    //                                 const user = response.user;
+    //                                 setCurrentUser(user);
+    //                             });
+    //                     });
+    //                 });
+    //             }
+    //         });
+    // }, []);
+    // // コールバックを使用する方法
+    // liff.init({ liffId: "1656149559-xXM4l4Gp" }, successCallback, errorCallback);
+
+
+
+
+    // useEffect(() => {
+    // if (!liff.isLoggedIn()) {
+    //     // LIFFログインしていなかったらリダイレクト
+    //     history.push('/');
+    //     return;
+    // }
+    //     firebase.auth()
+    //         .onAuthStateChanged(user => {
+    //             if (user) {
+    //                 setCurrentUser(user);
+    //             } else {
+    //                 // 作成したapiにidトークンをpost
+    //                 fetch('/api/verify', {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'Content-Type': 'application/json',
+    //                     },
+    //                     body: JSON.stringify({
+    //                         idToken: liff.getIDToken(),
+    //                     }),
+    //                 }).then(response => {
+    //                     response.text().then(data => {
+    //                         // 返ってきたカスタムトークンでFirebase authにログイン
+    //                         firebase.auth()
+    //                             .signInWithCustomToken(data).then(response => {
+    //                                 const user = response.user;
+    //                                 setCurrentUser(user);
+    //                             });
+    //                     });
+    //                 });
+    //             }
+    //         });
+    // }, []);
+
+
 
     // React.useEffect(() => {
     //     const fn = async () => {
@@ -123,20 +255,20 @@ const Login = () => {
                     <div>
                         <Typography>
                             {/* <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
                                 style={{ textDecoration: "none" }}> */}
-                            <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
-                                style={{ textDecoration: "none" }}>
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    // onClick={LineClick}
-                                    className={classes.green}
-                                >
-                                    lineでLogin
+                            {/* <a href=
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=11656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
+                                style={{ textDecoration: "none" }}> */}
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={initializeApp}
+                                className={classes.green}
+                            >
+                                lineでLogin
                                 </Button>
-                            </a>
+                            {/* </a> */}
                         </Typography>
                         <Typography>
                             <h3> </h3>

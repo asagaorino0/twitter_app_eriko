@@ -67,7 +67,7 @@ const MyStar = () => {
                 });
                 setStarMsg(likes)
                 setMessages(likes)
-                console.log(likes)
+                // console.log(likes)
             })
     }, []
     );

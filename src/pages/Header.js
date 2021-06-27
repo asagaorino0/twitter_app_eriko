@@ -19,6 +19,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
 import TelegramIcon from '@material-ui/icons/Telegram';
+import liff from '@line/liff';
 
 const Header = () => {
     const db = firebase.firestore();
@@ -52,41 +53,101 @@ const Header = () => {
     const m = ("00" + date.getMinutes()).slice(-2)
     const s = ("00" + date.getSeconds()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const [currentUser, setCurrentUser] = useState('');
+    const myLiffId = "1656149559-xXM4l4Gp"
 
-    // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     // const life = () => {
+    //     liff
+    //         .init({
+    //             liffId: "1656149559-xXM4l4Gp" // Use own liffId
+    //         })
+    //         .then(() => {
+    //             // Start to use liff's api
+    //         })
+    //         .catch((err) => {
+    //             // Error happens during initialization
+    //             console.log(err.code, err.message);
+    //         });
+    //     // }
+    // }, []);
+
     useEffect(() => {
-        firebase
-            .auth().onAuthStateChanged(function (user) {
+        // if (!liff.isLoggedIn()) {
+        //     // LIFFログインしていなかったらリダイレクト
+        //     history.push('/');
+        //     return;
+        // }
+        window.onload = function (e) {
+            liff
+                .init({ liffId: myLiffId })
+                .then(() => {
+                    // 初期化完了
+                    // initializeApp();
+                })
+        };
+        firebase.auth()
+            .onAuthStateChanged(user => {
                 if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
+                    setCurrentUser(user);
+                } else {
+                    // 作成したapiにidトークンをpost
+                    fetch('/api/verify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            idToken: liff.getIDToken(),
+                        }),
+                    }).then(response => {
+                        response.text().then(data => {
+                            // 返ってきたカスタムトークンでFirebase authにログイン
+                            firebase.auth()
+                                .signInWithCustomToken(data).then(response => {
+                                    const user = response.user;
+                                    setCurrentUser(user);
+                                });
+                        });
+                    });
                 }
-                firebase
-                    .firestore()
-                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data())
-                            setUser(doc.data())
-                            console.log(doc.id, " => ", nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
-                    })
-            })
-    }, []
-    )
+            });
+    }, []);
+
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     firebase
+    //         .auth().onAuthStateChanged(function (user) {
+    //             if (user) {
+    //                 if (`${user?.photoURL}` === 'null') {
+    //                     setAvatar(`${user?.email}`.charAt(0))
+    //                 }
+    //                 else {
+    //                     setAvatar(user?.photoURL)
+    //                 }
+    //                 if (`${user?.displayName}` !== 'null') {
+    //                     setNName(`${user?.displayName}`)
+    //                 } else {
+    //                     setNName(`${user?.email}`)
+    //                 }
+    //                 setName(`${user?.uid}`)
+    //             }
+    //             firebase
+    //                 .firestore()
+    //                 .collection("users").doc(`${user?.uid}`).get().then((doc) => {
+    //                     if (doc.exists) {
+    //                         console.log("Document data:", doc.data())
+    //                         setUser(doc.data())
+    //                         console.log(doc.id, " => ", nName)
+    //                     } else {
+    //                         console.log("No such document!");
+    //                     }
+    //                 }).catch((error) => {
+    //                     console.log("Error getting document:", error);
+    //                 })
+    //         })
+    // }, []
+    // )
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')
