@@ -11,7 +11,7 @@ import firebase from '../config/firebase'
 import { AppBar, Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
-import { setuid } from 'process';
+
 
 // export function Login() {
 const Login = () => {
@@ -36,7 +36,8 @@ const Login = () => {
             color: 'red',
         },
         green: {
-            color: 'green',
+            backgroundColor: '#00B900',
+            color: 'white'
         },
     }));
     const classes = useStyles();
@@ -49,68 +50,21 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const history = useHistory()
+    const [idToken, setIdToken] = useState('')
 
-    // const handleClick = () => {
-    //     firebase.auth().signInWithEmailAndPassword(email, password)
-    //         .then((userCredential) => {
-    //             console.log('success login', userCredential)
-    //             console.log('success login', userCredential.user?.email)
-    //             console.log('success login', userCredential.user?.uid)
-    //             const uid = userCredential.user?.uid
-    //             setuid(userCredential.user?.uid)
-    //             const name = (userCredential.user?.email)
-    //             setNameG(`${name}`)
-    //             history.push('/Main')
-    //         })
-    //         .catch((error) => {
-    //             var errorCode = error.code;
-    //             var errorMessage = error.message;
-    //             setError(errorMessage)
-    //             {
-    //                 `${email}`.length === 0 &&
-    //                     window.alert("メールアドレスを入力してください (｀・ω・´)")
-    //             };
-    //             {
-    //                 `${email}`.length !== 0 &&
-    //                     window.confirm("パスワードをお忘れですか。\n" + `${email}` + "へパスワード再設定のメールをお送りします。")
-    //                 var auth = firebase.auth();
-    //                 var emailAddress = `${email}`;
-    //                 auth.sendPasswordResetEmail(emailAddress).then(function () {
-    //                 }).catch(function (error) {
-    //                 })
-    //             };
-    //         });
-    // } 
-    const handleClick = () => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log('success login')
-                const name = (userCredential.user?.email)
-                setNameG(`${name}`)
-                history.push('/Main')
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                setError(errorMessage)
-                {
-                    `${email}`.length === 0 &&
-                        window.alert("メールアドレスを入力してください (｀・ω・´)")
-                };
-                {
-                    `${email}`.length !== 0 &&
-                        window.confirm("パスワードをお忘れですか。\n" + `${email}` + "へパスワード再設定のメールをお送りします。")
-                    var auth = firebase.auth();
-                    var emailAddress = `${email}`;
-                    auth.sendPasswordResetEmail(emailAddress).then(function () {
-                    }).catch(function (error) {
-                    })
-                };
-            });
-    }
-    const LineClick = () => {
-
-    }
+    // React.useEffect(() => {
+    //     const fn = async () => {
+    //         await liff.init({ liffId })
+    //         if (!liff.isLoggedIn()) {
+    //             liff.login()
+    //         }
+    //         const idToken = liff.getIDToken()
+    //         setIdToken(idToken)
+    //         console.log(idToken)
+    //         setSignInFinished(true)
+    //     }
+    //     fn()
+    // }, [])
     const googleClick = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -128,8 +82,6 @@ const Login = () => {
                 const uid = (result.user?.uid)
                 setName(`${uid}`)
                 console.log(`${uid}`)
-                // await
-                // db.collection('users').doc(`${name}`).set({
                 db.collection('users').doc(`${uid}`).set({
                     name: result.user?.uid,
                     nName: `${nameG}`,
@@ -143,42 +95,7 @@ const Login = () => {
                     .catch((error) => {
                         console.error("Error writing document: ");
                     })
-                // history.push(`/Main/${uid}`)
                 history.push('/Main')
-                // }).catch((error) => {
-                //     var errorCode = error.code;
-                //     var errorMessage = error.message;
-                //     var email = error.email;
-                //     var credential = error.credential;
-                //     console.log(errorCode, errorMessage, email, credential)
-            });
-        // await
-    }
-    const handleCreate = () => {
-        setNameG("new!")
-        console.log(nameG)
-        setError("メールアドレスを入力してください");
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                console.log('success login')
-                var user = userCredential.user;
-                const name = (user?.email)
-                setError('');
-                setNameG(`${nameG}`)
-                var credential = firebase.auth.EmailAuthProvider.credentialWithLink(
-                    email, window.location.href);
-                firebase.auth().currentUser?.reauthenticateWithCredential(credential)
-                    .then((usercred) => {
-                    })
-                    .catch((error) => {
-                    });
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(errorCode)
-                console.log(errorMessage)
-                setError(errorMessage)
             });
     }
     const signOut = () => {
@@ -204,39 +121,25 @@ const Login = () => {
                 </Typography>
                 {nameG.length === 0 && (
                     <div>
-                        {/* <Typography>
-                            <TextField id="email" Width="auto" label="email" value={email} onChange={e => setEmail(e.target.value)} />
-                        </Typography>
                         <Typography>
-                            <TextField id="password" Width="auto" label="password" value={password} onChange={e => setPassword(e.target.value)} />
-                        </Typography> */}
-                        <Typography>
-                            {/* <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                disabled={email === ''}
-                                onClick={handleClick}
-                            >
-                                Login</Bu/tton> */}
-
+                            {/* <a href=
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                style={{ textDecoration: "none" }}> */}
                             <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://line-login-twitter-app-eriko.herokuapp.com/auth&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
-                            >
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                style={{ textDecoration: "none" }}>
                                 <Button
                                     variant="contained"
                                     fullWidth
                                     // onClick={LineClick}
-                                    color="primary"
+                                    className={classes.green}
                                 >
                                     lineでLogin
                                 </Button>
                             </a>
                         </Typography>
                         <Typography>
-                            <Button variant="outlined" fullWidth onClick={handleCreate} className={classes.submit}>新規登録</Button>
+                            <h3> </h3>
                         </Typography>
                         <Typography>
                             <Button
@@ -263,18 +166,6 @@ const Login = () => {
                             </Typography>
                             <Typography>
                                 <TextField id="password" fullWidth label="password" value={password} onChange={e => setPassword(e.target.value)} />
-                            </Typography>
-                            <Typography>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                    disabled={password === ''}
-                                    onClick={handleClick}
-                                >
-                                    登録</Button>
                             </Typography>
                             <Button variant="contained" onClick={signOut}>
                                 戻る
