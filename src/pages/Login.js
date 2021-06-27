@@ -105,6 +105,7 @@ const Login = () => {
                 console.log("ログインしてるユーザーのid:" + profile.userId);
                 console.log("ログインしてるユーザーの名前:" + profile.displayName);
                 console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
+                history.push('/Main')
             })
     }
 
