@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useRef, useCallback } from 'react';
 import firebase from '../config/firebase'
 import { Toolbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
@@ -20,14 +20,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import liff from '@line/liff';
+import { Store } from '../store/index'
 
 const Header = () => {
-    const { nName } = useParams();
+    // const { nName } = useParams();
+    const { globalState, setGlobalState } = useContext(Store)
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
     const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
-    // const [nName, setNName] = useState('');
+    const [nName, setNName] = useState('');
     const [name, setName] = useState('');
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
@@ -78,20 +80,21 @@ const Header = () => {
         //         }
         firebase
             .firestore()
-            .collection("users").where("nName", "==", `${nName}`).get().then((doc) => {
-                if (doc.exists) {
-                    console.log("Document data:", doc.data())
-                    setUser(doc.data())
-                    console.log(doc.id, " => ", nName)
-                } else {
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
+            .collection("users")
+            .where("name", "==", `${globalState.name}`)
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const user = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setUser(user)
+                setUser(user)
+                console.log("?", `${user?.name}`, `${user.name}`)
             })
-        // })
     }, []
-    )
+    );
+
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')
