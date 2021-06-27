@@ -20,11 +20,11 @@ const App = () => {
         <Router>
           {/* <Login /> */}
           <Switch>
-            {/* <Route exact path='/Main/:name' component={Main} /> */}
+            <Route exact path='/Main/:nName' component={Main} />
             <Route exact path="/" component={Login} />
             {/* <Route exact path="/" component={LineLogin} /> */}
             <Route exact path="/createUser/:new!" component={CreateUser} />
-            <Route exact path="/Main/" component={Main} />
+            {/* <Route exact path="/Main/" component={Main} /> */}
             <Route exact path="/MyPage/" component={MyPage} />
             {/* <Route exact path='/CreateUser/' component={CreateUser} /> */}
           </Switch>

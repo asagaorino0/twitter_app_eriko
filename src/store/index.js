@@ -1,7 +1,7 @@
 import React, { useReducer, createContext } from 'react'
 import reducer from '../reducers/index'
 const initialState = {
-    name: "",
+    nName: "",
     message: "",
     count: 1,
     star: 0,

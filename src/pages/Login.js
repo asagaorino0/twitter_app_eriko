@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { selectTodo, add_todo, all_delete, del_todo, DONE_LIST, check_list } from './todoSlice';
-// import Checkbox from '@material-ui/core/Checkbox';
+import { USER_LINE } from '../actions/index'
 import styles from './Counter.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { AppBar, Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
 import liff from '@line/liff';
+import { Store } from '../store/index'
 // import verify from '../api/verify'
 
 // export function Login() {
@@ -54,6 +55,7 @@ const Login = () => {
     const [idToken, setIdToken] = useState('')
     const [currentUser, setCurrentUser] = useState('');
     const myLiffId = "1656149559-xXM4l4Gp"
+    const { globalState, setGlobalState } = useContext(Store)
 
     // function initializeLiff(myLiffId) {
     //     liff
@@ -96,7 +98,6 @@ const Login = () => {
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
                 liff.login();
-                history.push('/Main')
             }
         }
     }
@@ -106,10 +107,8 @@ const Login = () => {
 
                 firebase.auth()
                     .onAuthStateChanged(user => {
-
                         if (user) {
                             setCurrentUser(user);
-                            console.log(user)
                         } else {
                             // 作成したapiにidトークンをpost
                             fetch('/api/verify', {
@@ -122,11 +121,10 @@ const Login = () => {
                                 }),
                             }).then(response => {
                                 response.text().then(data => {
-                                    // 返ってきたカスタムトークンでFirebase authにログイン
                                     firebase.auth()
-                                        .signInWithCustomToken(data).then(response => {
-                                            const user = response.user;
-                                            setCurrentUser(user);
+                                        .signInWithCustomToken(data).then(profile => {
+                                            const user = profile.userId;
+                                            console.log(user);
                                         });
                                 });
                             });
@@ -136,13 +134,19 @@ const Login = () => {
                     name: profile.userId,
                     nName: profile.displayName,
                     avatar: profile.pictureUrl,
-                    // avatarG: `${avatarG}`,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
+                const nName = (profile.displayName)
+                history.push(`/Main/${nName}`)
+                // ...
+                setGlobalState({
+                    type: USER_LINE,
+                    nName,
+                });
                 console.log("ログインしてるユーザーのid:" + profile.userId);
                 console.log("ログインしてるユーザーの名前:" + profile.displayName);
                 console.log("ログインしてるユーザーの画像URL:" + profile.pictureUrl);
-                history.push('/Main')
+                history.push(`/Main/${nName}`)
             })
     }
 

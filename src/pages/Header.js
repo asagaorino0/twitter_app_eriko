@@ -22,11 +22,12 @@ import TelegramIcon from '@material-ui/icons/Telegram';
 import liff from '@line/liff';
 
 const Header = () => {
+    const { nName } = useParams();
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
     const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
-    const [nName, setNName] = useState('');
+    // const [nName, setNName] = useState('');
     const [name, setName] = useState('');
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
@@ -56,98 +57,41 @@ const Header = () => {
     const [currentUser, setCurrentUser] = useState('');
     const myLiffId = "1656149559-xXM4l4Gp"
 
-    // useEffect(() => {
-    //     // const life = () => {
-    //     liff
-    //         .init({
-    //             liffId: "1656149559-xXM4l4Gp" // Use own liffId
-    //         })
-    //         .then(() => {
-    //             // Start to use liff's api
-    //         })
-    //         .catch((err) => {
-    //             // Error happens during initialization
-    //             console.log(err.code, err.message);
-    //         });
-    //     // }
-    // }, []);
-
-    // useEffect(() => {
-    //     // if (!liff.isLoggedIn()) {
-    //     //     // LIFFログインしていなかったらリダイレクト
-    //     //     history.push('/');
-    //     //     return;
-    //     // }
-    //     window.onload = function (e) {
-    //         liff
-    //             .init({ liffId: myLiffId })
-    //             .then(() => {
-    //                 // 初期化完了
-    //                 // initializeApp();
-    //             })
-    //     };
-    //     firebase.auth()
-    //         .onAuthStateChanged(user => {
-    //             if (user) {
-    //                 setCurrentUser(user);
-    //             } else {
-    //                 // 作成したapiにidトークンをpost
-    //                 fetch('/api/verify', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                     body: JSON.stringify({
-    //                         idToken: liff.getIDToken(),
-    //                     }),
-    //                 }).then(response => {
-    //                     response.text().then(data => {
-    //                         // 返ってきたカスタムトークンでFirebase authにログイン
-    //                         firebase.auth()
-    //                             .signInWithCustomToken(data).then(response => {
-    //                                 const user = response.user;
-    //                                 setCurrentUser(user);
-    //                             });
-    //                     });
-    //                 });
-    //             }
-    //         });
-    // }, []);
 
     // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     firebase
-    //         .auth().onAuthStateChanged(function (user) {
-    //             if (user) {
-    //                 if (`${user?.photoURL}` === 'null') {
-    //                     setAvatar(`${user?.email}`.charAt(0))
-    //                 }
-    //                 else {
-    //                     setAvatar(user?.photoURL)
-    //                 }
-    //                 if (`${user?.displayName}` !== 'null') {
-    //                     setNName(`${user?.displayName}`)
-    //                 } else {
-    //                     setNName(`${user?.email}`)
-    //                 }
-    //                 setName(`${user?.uid}`)
-    //             }
-    //             firebase
-    //                 .firestore()
-    //                 .collection("users").doc(`${user?.uid}`).get().then((doc) => {
-    //                     if (doc.exists) {
-    //                         console.log("Document data:", doc.data())
-    //                         setUser(doc.data())
-    //                         console.log(doc.id, " => ", nName)
-    //                     } else {
-    //                         console.log("No such document!");
-    //                     }
-    //                 }).catch((error) => {
-    //                     console.log("Error getting document:", error);
-    //                 })
-    //         })
-    // }, []
-    // )
+    useEffect(() => {
+        // firebase
+        //     .auth().onAuthStateChanged(function (user) {
+        //         if (user) {
+        //             if (`${user?.photoURL}` === 'null') {
+        //                 setAvatar(`${user?.email}`.charAt(0))
+        //             }
+        //             else {
+        //                 setAvatar(user?.photoURL)
+        //             }
+        //             if (`${user?.displayName}` !== 'null') {
+        //                 setNName(`${user?.displayName}`)
+        //             } else {
+        //                 setNName(`${user?.email}`)
+        //             }
+        //             setName(`${user?.uid}`)
+        //         }
+        firebase
+            .firestore()
+            .collection("users").where("nName", "==", `${nName}`).get().then((doc) => {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data())
+                    setUser(doc.data())
+                    console.log(doc.id, " => ", nName)
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            })
+        // })
+    }, []
+    )
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')

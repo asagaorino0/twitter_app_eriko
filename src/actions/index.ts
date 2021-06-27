@@ -1,3 +1,1 @@
-export const NAME_GOOGLE = 'NAME_GOOGLE'
-export const RESET_GOOGLE = 'RESET_GOOGLE'
-export const USER_PRO = 'USER_PRO'
+export const USER_LINE = 'USER_LINE'
