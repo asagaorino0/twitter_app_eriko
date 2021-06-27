@@ -61,39 +61,79 @@ const Header = () => {
 
 
     // // 現在ログインしているユーザーを取得する
-    useEffect(() => {
-        // firebase
-        //     .auth().onAuthStateChanged(function (user) {
-        //         if (user) {
-        //             if (`${user?.photoURL}` === 'null') {
-        //                 setAvatar(`${user?.email}`.charAt(0))
-        //             }
-        //             else {
-        //                 setAvatar(user?.photoURL)
-        //             }
-        //             if (`${user?.displayName}` !== 'null') {
-        //                 setNName(`${user?.displayName}`)
-        //             } else {
-        //                 setNName(`${user?.email}`)
-        //             }
-        //             setName(`${user?.uid}`)
-        //         }
-        firebase
-            .firestore()
-            .collection("users")
-            .where("nName", "==", `${globalState.nName}`)
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const user = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setUser(user)
-                setUser(user)
-                console.log("?", `${user?.name}`, `${user.name}`)
+    // useEffect(() => {
+    //     // firebase
+    //     //     .auth().onAuthStateChanged(function (user) {
+    //     //         if (user) {
+    //     //             if (`${user?.photoURL}` === 'null') {
+    //     //                 setAvatar(`${user?.email}`.charAt(0))
+    //     //             }
+    //     //             else {
+    //     //                 setAvatar(user?.photoURL)
+    //     //             }
+    //     //             if (`${user?.displayName}` !== 'null') {
+    //     //                 setNName(`${user?.displayName}`)
+    //     //             } else {
+    //     //                 setNName(`${user?.email}`)
+    //     //             }
+    //     //             setName(`${user?.uid}`)
+    //     //         }
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .where("nName", "==", `${globalState.nName}`)
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const user = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setUser(user)
+    //             setUser(user)
+    //             console.log("?", `${user?.name}`, `${user.name}`)
+    //         })
+    // }, []
+    // );
+
+    window.onload = function (e) {
+        liff
+            .init({ liffId: myLiffId })
+            .then(() => {
+                // 初期化完了
+                // initializeApp();
             })
-    }, []
-    );
+    };
+    function initializeApp() {
+        // ログインチェック
+        if (liff.isLoggedIn()) {
+            //ログイン済
+            getLineData();
+            history.push('/Main')
+        } else {
+            // 未ログイン
+            let result = window.confirm("LINE Loginしますか？");
+            if (result) {
+                liff.login();
+            }
+        }
+    };
+    function getLineData() {
+        liff.getProfile()
+            .then(profile => {
+
+                const nName = (profile.displayName)
+                const name = (profile.userId)
+                const avatar = (profile.pictureUrl)
+                history.push(`/Main/${nName}`)
+                // ...
+                console.log("ユーザーのid:" + nName + profile.displayName);
+                console.log("ユーザーの名前:" + nName + profile.userId);
+                console.log("ユーザーの画像URL:" + avatar + profile.pictureUrl);
+                console.log(globalState.nName);
+
+                // history.push(`/Main/${nName}`)
+            })
+    }
 
     const signOut = () => {
         firebase.auth().signOut().then(() => {

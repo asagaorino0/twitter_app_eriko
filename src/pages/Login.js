@@ -84,7 +84,7 @@ const Login = () => {
             .init({ liffId: myLiffId })
             .then(() => {
                 // 初期化完了
-                // initializeApp();
+                initializeApp();
             })
     };
     function initializeApp() {
@@ -104,32 +104,31 @@ const Login = () => {
     function getLineData() {
         liff.getProfile()
             .then(profile => {
-
-                firebase.auth()
-                    .onAuthStateChanged(user => {
-                        if (user) {
-                            setCurrentUser(user);
-                        } else {
-                            // 作成したapiにidトークンをpost
-                            fetch('/api/verify', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    idToken: liff.getIDToken(),
-                                }),
-                            }).then(response => {
-                                response.text().then(data => {
-                                    firebase.auth()
-                                        .signInWithCustomToken(data).then(profile => {
-                                            const user = profile.userId;
-                                            console.log(user);
-                                        });
-                                });
-                            });
-                        }
-                    });
+                // firebase.auth()
+                //     .onAuthStateChanged(user => {
+                //         if (user) {
+                //             setCurrentUser(user);
+                //         } else {
+                //             // 作成したapiにidトークンをpost
+                //             fetch('/api/verify', {
+                //                 method: 'POST',
+                //                 headers: {
+                //                     'Content-Type': 'application/json',
+                //                 },
+                //                 body: JSON.stringify({
+                //                     idToken: liff.getIDToken(),
+                //                 }),
+                //             }).then(response => {
+                //                 response.text().then(data => {
+                //                     firebase.auth()
+                //                         .signInWithCustomToken(data).then(profile => {
+                //                             const user = profile.userId;
+                //                             console.log(user);
+                //                         });
+                //                 });
+                //             });
+                //         }
+                //     });
                 db.collection('users').doc(`${profile.userId}`).set({
                     name: profile.userId,
                     nName: profile.displayName,
