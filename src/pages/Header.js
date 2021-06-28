@@ -142,7 +142,7 @@ const Header = () => {
                         });
                         setUser(user)
                         console.log(user)
-                        console.log("?", `${user?.name}`, `${user.name}`)
+                        console.log("?", user.name, `${user.name}`)
                     })
             })
         // }
