@@ -125,11 +125,12 @@ const Header = () => {
                 const name = (profile.userId)
                 const avatar = (profile.pictureUrl)
                 // ...
+                console.log("profile:" + profile());
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 console.log("gs.nName", `${nName}`);
-                console.log("gs.id", `${avatar}`);
+                console.log("gs.avatar", `${avatar}`);
                 console.log("gs.id", `${name}`);
             })
         // }
@@ -300,6 +301,7 @@ const Header = () => {
                     <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
                 <h5>{`${profile.displayName}さん！ようこそ！！`}</h5>
+                <h5>{`${nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
