@@ -124,10 +124,12 @@ const Header = () => {
                 const name = (profile.userId)
                 const avatar = (profile.pictureUrl)
                 // ...
-                console.log("ユーザーのid:" + nName + profile.displayName);
-                console.log("ユーザーの名前:" + nName + profile.userId);
-                console.log("ユーザーの画像URL:" + avatar + profile.pictureUrl);
-                console.log(globalState.nName);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("gs.nName", globalState.nName);
+                console.log("gs.id", globalState.name);
+                console.log("gs.id", `${name}`);
             })
         // }
     }, []
