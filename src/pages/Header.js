@@ -129,23 +129,22 @@ const Header = () => {
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .where("nName", "==", `${nName}`)
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
+                        console.log("?", `${user?.name}`, `${user.name}`)
+                    })
             })
-        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-        firebase
-            .firestore()
-            .collection("users")
-            .where("nName", "==", `${nName}`)
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const user = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setUser(user)
-                console.log(user)
-                console.log("?", `${user?.name}`, `${user.name}`)
-            })
-
         // }
     }, []
     );
