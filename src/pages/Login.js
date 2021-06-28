@@ -84,7 +84,7 @@ const Login = () => {
             .init({ liffId: myLiffId })
             .then(() => {
                 // 初期化完了
-                initializeApp();
+                // initializeApp();
             })
     };
     function initializeApp() {
@@ -135,22 +135,22 @@ const Login = () => {
                     avatar: profile.pictureUrl,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
-                const nName = (profile.displayName)
-                const name = (profile.userId)
-                const avatar = (profile.pictureUrl)
-                history.push(`/Main`)
+                // const nName = (profile.displayName)
+                // const name = (profile.userId)
+                // const avatar = (profile.pictureUrl)
+                // history.push(`/Main`)
                 // ...
                 setGlobalState({
                     type: USER_LINE,
-                    nName: globalState.nName,
-                    name: globalState.name,
-                    avatar: globalState.avatar,
+                    nName: profile.displayName,
+                    name: profile.userId,
+                    avatar: profile.pictureUrl,
                 });
                 console.log("ユーザーのid:" + globalState.name);
                 console.log("ユーザーの名前:" + globalState.nName);
                 console.log("ユーザーの画像URL:" + globalState.avatar);
                 console.log("gs", globalState.nName);
-                history.push(`/Main/`)
+                history.push(`/Main`)
             })
     }
 
