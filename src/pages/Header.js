@@ -27,7 +27,7 @@ const Header = () => {
     const { globalState, setGlobalState } = useContext(Store)
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
-    const [profile, setProfile] = useState([]);
+    // const [profile, setProfile] = useState([]);
     const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
@@ -125,13 +125,14 @@ const Header = () => {
                 const name = (profile.userId)
                 const avatar = (profile.pictureUrl)
                 // ...
-                console.log("profile:" + profile());
+                // console.log("profile:" + profile());
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("gs.nName", `${nName}`);
-                console.log("gs.avatar", `${avatar}`);
-                console.log("gs.id", `${name}`);
+                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("gs.nName", globalState.nName);
+                console.log("gs.avatar", globalState.avatar);
+                console.log("gs.id", globalState.name);
             })
         // }
     }, []
@@ -154,7 +155,7 @@ const Header = () => {
             db.collection("messages").add({
                 name: `${name}`,
                 avatar: `${avatar}`,
-                nName: `${profile.displayName}`,
+                nName: `${nName}`,
                 event: `${event}`,
                 nichizi: `${nichizi}`,
                 message,
@@ -189,7 +190,7 @@ const Header = () => {
             db.collection("users").doc(`${name}`).collection("sitagaki").add({
                 name: `${name}`,
                 avatar: `${avatar}`,
-                nName: `${profile.displayName}`,
+                nName: `${nName}`,
                 event: `${event}`,
                 nichizi: `${nichizi}`,
                 message,
@@ -300,8 +301,8 @@ const Header = () => {
                 {`${avatar}`.length === 1 && (
                     <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
-                <h5>{`${profile.displayName}さん！ようこそ！！`}</h5>
                 <h5>{`${nName}さん！ようこそ！！`}</h5>
+                <h5>{`${globalState.nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
