@@ -303,11 +303,17 @@ const Header = () => {
         <div className={classes.root}>
             <Toolbar>
                 <img
-                    src={`${user.avatar}`}
+                    src={`${avatar}`}
+                    alt=""
+                    style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+                />
+                <img
+                    src={avatar}
                     alt=""
                     style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                 />
                 <h5>{`${user.nName}さん！ようこそ！！`}</h5>
+                <h5>{`${nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
