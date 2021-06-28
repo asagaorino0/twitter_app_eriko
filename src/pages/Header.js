@@ -27,6 +27,7 @@ const Header = () => {
     const { globalState, setGlobalState } = useContext(Store)
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
+    const [profile, setProfile] = useState([]);
     const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
@@ -152,7 +153,7 @@ const Header = () => {
             db.collection("messages").add({
                 name: `${name}`,
                 avatar: `${avatar}`,
-                nName: `${nName}`,
+                nName: `${profile.displayName}`,
                 event: `${event}`,
                 nichizi: `${nichizi}`,
                 message,
@@ -187,7 +188,7 @@ const Header = () => {
             db.collection("users").doc(`${name}`).collection("sitagaki").add({
                 name: `${name}`,
                 avatar: `${avatar}`,
-                nName: `${nName}`,
+                nName: `${profile.displayName}`,
                 event: `${event}`,
                 nichizi: `${nichizi}`,
                 message,
@@ -298,7 +299,7 @@ const Header = () => {
                 {`${avatar}`.length === 1 && (
                     <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
-                <h5>{`${nName}さん！ようこそ！！`}</h5>
+                <h5>{`${profile.displayName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
