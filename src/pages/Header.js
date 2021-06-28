@@ -127,8 +127,8 @@ const Header = () => {
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("gs.nName", globalState.nName);
-                console.log("gs.id", globalState.name);
+                console.log("gs.nName", `${nName}`);
+                console.log("gs.id", `${avatar}`);
                 console.log("gs.id", `${name}`);
             })
         // }
@@ -150,7 +150,7 @@ const Header = () => {
     const handleCreate = async () => {
         await
             db.collection("messages").add({
-                name: `${user?.uid}`,
+                name: `${name}`,
                 avatar: `${avatar}`,
                 nName: `${nName}`,
                 event: `${event}`,
@@ -184,8 +184,8 @@ const Header = () => {
     }
     const sitarId = async () => {
         await
-            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").add({
-                name: `${user?.uid}`,
+            db.collection("users").doc(`${name}`).collection("sitagaki").add({
+                name: `${name}`,
                 avatar: `${avatar}`,
                 nName: `${nName}`,
                 event: `${event}`,
@@ -208,7 +208,7 @@ const Header = () => {
                     setInsta("");
                     setMyFiles([]);
                     setClickable(false);
-                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(docsita.id).set({
+                    db.collection("users").doc(`${name}`).collection("sitagaki").doc(docsita.id).set({
                         id: docsita.id,
                     }, { merge: true }//←上書きされないおまじない
                     )
