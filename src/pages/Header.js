@@ -129,11 +129,23 @@ const Header = () => {
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                console.log("gs.nName", globalState.nName);
-                console.log("gs.avatar", globalState.avatar);
-                console.log("gs.id", globalState.name);
             })
+        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+        firebase
+            .firestore()
+            .collection("users")
+            .where("nName", "==", `${nName}`)
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const user = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setUser(user)
+                console.log(user)
+                console.log("?", `${user?.name}`, `${user.name}`)
+            })
+
         // }
     }, []
     );
@@ -301,8 +313,8 @@ const Header = () => {
                 {`${avatar}`.length === 1 && (
                     <Avatar className={classes.green} >{avatar}</Avatar>
                 )}
-                <h5>{`${nName}さん！ようこそ！！`}</h5>
-                <h5>{`${globalState.nName}さん！ようこそ！！`}</h5>
+                <h5>{`${user.name}さん！ようこそ！！`}</h5>
+                <h5>{`${user?.name}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
