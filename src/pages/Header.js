@@ -96,42 +96,37 @@ const Header = () => {
     // );
 
     window.onload = function (e) {
-        liff
-            .init({ liffId: myLiffId })
-            .then(() => {
-                // 初期化完了
-                // initializeApp();
-            })
-    };
-    function initializeApp() {
-        // ログインチェック
-        if (liff.isLoggedIn()) {
-            //ログイン済
-            getLineData();
-            history.push('/Main')
-        } else {
-            // 未ログイン
-            let result = window.confirm("LINE Loginしますか？");
-            if (result) {
-                liff.login();
-            }
-        }
-    };
-    function getLineData() {
+        //     liff
+        //         .init({ liffId: myLiffId })
+        //         .then(() => {
+        //             // 初期化完了
+        //             // initializeApp();
+        //         })
+        // };
+        // function initializeApp() {
+        //     // ログインチェック
+        //     if (liff.isLoggedIn()) {
+        //         //ログイン済
+        //         getLineData();
+        //     } else {
+        //         // 未ログイン
+        //         let result = window.confirm("LINE Loginしますか？");
+        //         if (result) {
+        //             liff.login();
+        //         }
+        //     }
+        // };
+        // function getLineData() {
         liff.getProfile()
             .then(profile => {
-
                 const nName = (profile.displayName)
                 const name = (profile.userId)
                 const avatar = (profile.pictureUrl)
-                history.push(`/Main/${nName}`)
                 // ...
                 console.log("ユーザーのid:" + nName + profile.displayName);
                 console.log("ユーザーの名前:" + nName + profile.userId);
                 console.log("ユーザーの画像URL:" + avatar + profile.pictureUrl);
                 console.log(globalState.nName);
-
-                // history.push(`/Main/${nName}`)
             })
     }
 
