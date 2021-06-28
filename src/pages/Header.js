@@ -95,27 +95,28 @@ const Header = () => {
     // }, []
     // );
 
-    window.onload = function (e) {
-        //     liff
-        //         .init({ liffId: myLiffId })
-        //         .then(() => {
-        //             // 初期化完了
-        //             // initializeApp();
-        //         })
-        // };
-        // function initializeApp() {
-        //     // ログインチェック
-        //     if (liff.isLoggedIn()) {
-        //         //ログイン済
-        //         getLineData();
-        //     } else {
-        //         // 未ログイン
-        //         let result = window.confirm("LINE Loginしますか？");
-        //         if (result) {
-        //             liff.login();
-        //         }
-        //     }
-        // };
+    // window.onload = function (e) {
+    //     liff
+    //         .init({ liffId: myLiffId })
+    //         .then(() => {
+    //             // 初期化完了
+    //             // initializeApp();
+    //         })
+    // };
+    // function initializeApp() {
+    //     // ログインチェック
+    //     if (liff.isLoggedIn()) {
+    //         //ログイン済
+    //         getLineData();
+    //     } else {
+    //         // 未ログイン
+    //         let result = window.confirm("LINE Loginしますか？");
+    //         if (result) {
+    //             liff.login();
+    //         }
+    //     }
+    // };
+    useEffect(() => {
         // function getLineData() {
         liff.getProfile()
             .then(profile => {
@@ -128,7 +129,9 @@ const Header = () => {
                 console.log("ユーザーの画像URL:" + avatar + profile.pictureUrl);
                 console.log(globalState.nName);
             })
-    }
+        // }
+    }, []
+    );
 
     const signOut = () => {
         firebase.auth().signOut().then(() => {

@@ -138,20 +138,19 @@ const Login = () => {
                 const nName = (profile.displayName)
                 const name = (profile.userId)
                 const avatar = (profile.pictureUrl)
-                history.push(`/Main/${nName}`)
+                history.push(`/Main`)
                 // ...
                 setGlobalState({
                     type: USER_LINE,
-                    nName,
-                    name,
-                    avatar
+                    nName: globalState.nName,
+                    name: globalState.name,
+                    avatar: globalState.avatar,
                 });
                 console.log("ユーザーのid:" + globalState.name);
                 console.log("ユーザーの名前:" + globalState.nName);
                 console.log("ユーザーの画像URL:" + globalState.avatar);
-                console.log(globalState.nName);
-
-                history.push(`/Main/${nName}`)
+                console.log("gs", globalState.nName);
+                history.push(`/Main/`)
             })
     }
 
