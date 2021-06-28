@@ -302,18 +302,12 @@ const Header = () => {
     return (
         <div className={classes.root}>
             <Toolbar>
-                {`${avatar}`.length !== 1 && (
-                    <img
-                        src={`${avatar}`}
-                        alt=""
-                        style={{ borderRadius: '50%', width: '40px', height: '40px' }}
-                    />
-                )}
-                {`${avatar}`.length === 1 && (
-                    <Avatar className={classes.green} >{avatar}</Avatar>
-                )}
-                <h5>{`${user.name}さん！ようこそ！！`}</h5>
-                <h5>{`${user?.name}さん！ようこそ！！`}</h5>
+                <img
+                    src={`${user.avatar}`}
+                    alt=""
+                    style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+                />
+                <h5>{`${user.nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
