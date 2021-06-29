@@ -49,6 +49,10 @@ const MyPage = () => {
                         });
                         setUser(user)
                         console.log(user)
+                        console.log("ユーザーのid:" + profile.displayName);
+                        console.log("ユーザーの名前:" + profile.userId);
+                        console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                     })
             })
 
