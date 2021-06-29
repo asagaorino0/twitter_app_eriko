@@ -80,7 +80,7 @@ const Login = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                history.push(`/Main`)
+                // history.push(`/Main`)
                 db.collection('users').doc(`${profile.userId}`).set({
                     name,
                     nName,
@@ -88,12 +88,10 @@ const Login = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
                 // ...
-                setGlobalState({
-                    type: USER_LINE,
-                    nName: profile.displayName,
-                    name: profile.userId,
-                    avatar: profile.pictureUrl,
-                });
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                 history.push(`/Main`)
             })
     }
