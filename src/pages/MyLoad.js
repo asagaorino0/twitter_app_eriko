@@ -5,8 +5,10 @@ import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import StarPaper from './StarPaper'
+import liff from '@line/liff';
 
 const MyLoad = () => {
+    const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
@@ -22,39 +24,27 @@ const MyLoad = () => {
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        firebase
-            .auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
-                }
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
-                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
-                        if (doc.exists) {
-                            // console.log("Document data:", doc.data())
-                            setUser(doc.data())
-                            setName(doc.id)
-                            console.log(doc.id, " => ", nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
                     })
             })
+
     }, []
-    )
+    );
     useEffect(() => {
         firebase
             .firestore()
@@ -84,7 +74,7 @@ const MyLoad = () => {
         <div className={classes.root}>
             {messages.length !== 0 &&
                 messages
-                    // .filter((messages) => messages.name === `${user?.uid}` & messages.myPage === true)
+                    // .filter((messages) => messages.name === `${name}` & messages.myPage === true)
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />

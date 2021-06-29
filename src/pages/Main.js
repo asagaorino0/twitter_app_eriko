@@ -1,30 +1,13 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState, useContext } from 'react';
 import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Paper from './Paper';
 import StarPaper from './StarPaper'
-// import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { MessageListType } from '../types/MessageListType';
-// import DeleteIcon from '@material-ui/icons/Delete';
-// import Link from '@material-ui/core/Link';
-import { Store } from '../store/index'
-import Follower from './Follower'
 
 const Main = () => {
-    const { globalState, setGlobalState } = useContext(Store)
-    const [message, setMessage] = useState('');
-    // const [name, setName] = useState('');
-    const { uid } = useParams();
+    const myLiffId = "1656149559-xXM4l4Gp"
     const [id, setId] = useState('');
     const [src, setSrc] = useState('');
     const db = firebase.firestore();
@@ -99,38 +82,6 @@ const Main = () => {
                 })
     };
 
-
-    // const deleteId = async () => {
-    //     console.log(`${messages.id}`)
-    //     // // const messages: MessageListType[] = [];
-    //     // await
-    //     //     db.collection("messages")
-    //     //         .doc(`${messages.id}`)
-    //     //         .delete()
-    // };
-    // const deleteId = async () => {
-    //     await
-    //         db.collection("messages").doc(`${messages.id}`).delete()
-    // };
-
-
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
-
-    // var windowObjectReference;
-    // var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
-    // const handleWindow = () => {
-    //     windowObjectReference = window
-    //         .open(`${messages.src}`,
-    //             "",
-    //             windowFeatures);
-    // }
-
     return (
         <div>
             <Header />
@@ -145,7 +96,9 @@ const Main = () => {
                         })
                 }
             </div>
-            {/* <button onClick={readData} color="secondary">readData</button> */}
+            {/* <button onClick={
+                
+            } color="secondary">readData</button> */}
             {/* <button onClick={handleWindow} color="secondary">open</button> */}
         </div>
     );

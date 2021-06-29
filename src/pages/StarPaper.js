@@ -23,6 +23,7 @@ import RefreshIcon from '@material-ui/icons/Refresh';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import QueueIcon from '@material-ui/icons/Queue';
+import liff from '@line/liff';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimplePaper({ messages }) {
+    const myLiffId = "1656149559-xXM4l4Gp"
     const classes = useStyles();
     const history = useHistory()
     const db = firebase.firestore();
@@ -89,44 +91,33 @@ export default function SimplePaper({ messages }) {
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        firebase
-            .auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
-                }
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
-                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
-                        if (doc.exists) {
-                            // console.log("Document data:", doc.data())
-                            setUser(doc.data())
-                            // console.log(doc.id, " => ", users.nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
                     })
             })
+
     }, []
-    )
+    );
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
             db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
                 id: messages.id,
-                name: `${user?.uid}`,
+                name: `${name}`,
                 nName: messages.nName,
                 avatar: messages.avatar,
                 event: `${event}`,
@@ -148,22 +139,22 @@ export default function SimplePaper({ messages }) {
                     setClickable(false);
                     console.log("Document written with ID: ");
                 })
-        db.collection("users").doc(`${user?.uid}`).collection("load").doc(`${messages.id}`).delete()
+        db.collection("users").doc(`${name}`).collection("load").doc(`${messages.id}`).delete()
     };
     const deleteId = async () => {
         console.log('messages:', messages.id)
         await
-            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(`${messages.id}`).delete()
+            db.collection("users").doc(`${name}`).collection("sitagaki").doc(`${messages.id}`).delete()
     };
     const deleteLike = async () => {
         console.log('messages:', messages.id)
         await
-            db.collection("users").doc(`${user?.uid}`).collection("likes").doc(`${messages.id}`).delete()
+            db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`).delete()
     };
     const copyId = async () => {
         await
-            db.collection("users").doc(`${user?.uid}`).collection("sitagaki").add({
-                name: `${user?.uid}`,
+            db.collection("users").doc(`${name}`).collection("sitagaki").add({
+                name: `${name}`,
                 nName: messages.nName,
                 avatar: messages.avatar,
                 event: messages.event,
@@ -180,7 +171,7 @@ export default function SimplePaper({ messages }) {
             })
                 .then((docref) => {
                     console.log("Document successfully written!:", docref.id);
-                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(docref.id).set({
+                    db.collection("users").doc(`${name}`).collection("sitagaki").doc(docref.id).set({
                         id: docref.id,
                     }, { merge: true }//←上書きされないおまじない
                     )
@@ -194,10 +185,10 @@ export default function SimplePaper({ messages }) {
         //     ignoreUndefinedProperties: true,
         // })
         await
-            db.collection("users").doc(`${user?.uid}`).collection("loadsita").doc(`${messages.id}`).set({
+            db.collection("users").doc(`${name}`).collection("loadsita").doc(`${messages.id}`).set({
                 id: messages.id,
                 event: messages.event,
-                name: `${user?.uid}`,
+                name: `${name}`,
                 nName: messages.nName,
                 message: messages.message,
                 nichizi: messages.nichizi,
@@ -216,7 +207,7 @@ export default function SimplePaper({ messages }) {
                     db.collection("messages").doc(messages.id).set({
                         id: messages.id,
                         event: messages.event,
-                        name: `${user?.uid}`,
+                        name: `${name}`,
                         nName: messages.nName,
                         message: messages.message,
                         nichizi: messages.nichizi,
@@ -232,7 +223,7 @@ export default function SimplePaper({ messages }) {
                     }, { merge: true }//←上書きされないおまじない
                     )
                     // console.log("Document written with ID: "`${messages.id}`);
-                    db.collection("users").doc(`${user?.uid}`).collection("sitagaki").doc(`${messages.id}`).delete()
+                    db.collection("users").doc(`${name}`).collection("sitagaki").doc(`${messages.id}`).delete()
 
                     history.push('/Main')
                 })
@@ -254,7 +245,7 @@ export default function SimplePaper({ messages }) {
     //                 // await
     //                 db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
     //                     follower: `${avatar}`,
-    //                     followerName: `${user?.uid}`,
+    //                     followerName: `${name}`,
     //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     //                 }, { merge: true }//←上書きされないおまじない
     //                 )
@@ -282,18 +273,18 @@ export default function SimplePaper({ messages }) {
     const starId = async () => {
         await
             // db.settings({ ignoreUndefinedProperties: true })
-            db.collection("messages").doc(messages.id).collection('follower').doc(`${user?.uid}`).set({
+            db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
                 follower: `${avatar}`,
                 followerName: `${nName}`,
-                uid: `${user?.uid}`,
+                uid: `${name}`,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             }, { merge: true }//←上書きされないおまじない
             )
-        db.collection("users").doc(`${user?.uid}`).collection("likes").doc(`${messages.id}`)
+        db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
             .set({
                 id: messages.id,
                 event: messages.event,
-                name: `${user?.uid}`,
+                name: `${name}`,
                 nName: messages.nName,
                 message: messages.message,
                 nichizi: messages.nichizi,

@@ -5,13 +5,14 @@ import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import StarPaper from './StarPaper'
+import liff from '@line/liff';
 
 const MyStar = () => {
+    const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
     const [followers, setFollowers] = useState('');
-    const history = useHistory()
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
@@ -21,43 +22,32 @@ const MyStar = () => {
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        firebase
-            .auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
-                }
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
-                    .collection("users").doc(user?.uid).get().then((doc) => {
-                        if (doc.exists) {
-                            // console.log("Document data:", doc.data())
-                            setUser(doc.data())
-                            // console.log(doc.id, " => ", users.nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
                     })
             })
+
     }, []
-    )
+    );
     useEffect(() => {
         firebase
             .firestore()
             .collection("users")
-            .doc(`${user?.uid}`)
+            .doc(`${name}`)
             .collection('likes')
             .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {

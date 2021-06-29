@@ -2,10 +2,7 @@ import React, { useContext, useEffect, useState, useRef, useCallback } from 'rea
 import firebase from '../config/firebase'
 import { Toolbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom'
-import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
-import SendIcon from '@material-ui/icons/Send';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography, Button } from "@material-ui/core";
@@ -23,11 +20,10 @@ import liff from '@line/liff';
 import { Store } from '../store/index'
 
 const Header = () => {
-    // const { nName } = useParams();
+    const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
-    // const [profile, setProfile] = useState([]);
     const [messages, setMessages] = useState('');
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
@@ -35,18 +31,8 @@ const Header = () => {
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
-    const [email, setEmail] = useState('');
-    const [mochimono, setMochimono] = useState('');
-    const [basyo, setBasyo] = useState('');
-    const [ninzuu, setNinzuu] = useState('');
     const [nichizi, setNichizi] = useState('');
-    const [daihyou, setDaihyou] = useState('');
-    const [syugoZ, setSyugoZ] = useState('');
-    const [syugoB, setSyugoB] = useState('');
-    const [menu, setMenu] = useState('');
     const [insta, setInsta] = useState('');
-    const [odai, setOdai] = useState('');
-    const [koutuuhi, setKoutuuhi] = useState('');
     const ref = useRef < HTMLDivElement > (null);
     const history = useHistory()
     const date = new Date()
@@ -57,79 +43,14 @@ const Header = () => {
     const m = ("00" + date.getMinutes()).slice(-2)
     const s = ("00" + date.getSeconds()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
-    const [currentUser, setCurrentUser] = useState('');
-    const myLiffId = "1656149559-xXM4l4Gp"
 
-
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     // firebase
-    //     //     .auth().onAuthStateChanged(function (user) {
-    //     //         if (user) {
-    //     //             if (`${user?.photoURL}` === 'null') {
-    //     //                 setAvatar(`${user?.email}`.charAt(0))
-    //     //             }
-    //     //             else {
-    //     //                 setAvatar(user?.photoURL)
-    //     //             }
-    //     //             if (`${user?.displayName}` !== 'null') {
-    //     //                 setNName(`${user?.displayName}`)
-    //     //             } else {
-    //     //                 setNName(`${user?.email}`)
-    //     //             }
-    //     //             setName(`${user?.uid}`)
-    //     //         }
-    //     firebase
-    //         .firestore()
-    //         .collection("users")
-    //         .where("nName", "==", `${globalState.nName}`)
-    //         .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const user = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //             });
-    //             setUser(user)
-    //             setUser(user)
-    //             console.log("?", `${user?.name}`, `${user.name}`)
-    //         })
-    // }, []
-    // );
-
-    // window.onload = function (e) {
-    //     liff
-    //         .init({ liffId: myLiffId })
-    //         .then(() => {
-    //             // 初期化完了
-    //             // initializeApp();
-    //         })
-    // };
-    // function initializeApp() {
-    //     // ログインチェック
-    //     if (liff.isLoggedIn()) {
-    //         //ログイン済
-    //         getLineData();
-    //     } else {
-    //         // 未ログイン
-    //         let result = window.confirm("LINE Loginしますか？");
-    //         if (result) {
-    //             liff.login();
-    //         }
-    //     }
-    // };
+    // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        // function getLineData() {
         liff.getProfile()
             .then(profile => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // ...
-                // console.log("profile:" + profile());
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                 firebase
                     .firestore()
                     .collection("users")
@@ -141,17 +62,11 @@ const Header = () => {
                         });
                         setUser(user)
                         console.log(user)
-                        console.log("?", nName, `${nName}`, user.nName, `${user.nName}`)
                     })
             })
-        // }
+
     }, []
     );
-    const dousite = () => {
-        console.log(user)
-        console.log("?", nName, `${nName}`, user.nName, `${user.nName}`)
-        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-    }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')
@@ -310,19 +225,9 @@ const Header = () => {
                     alt=""
                     style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                 />
-                <img
-                    src={avatar}
-                    alt=""
-                    style={{ borderRadius: '50%', width: '40px', height: '40px' }}
-                />
-                <h5>{`${user.nName}さん！ようこそ！！`}</h5>
                 <h5>{`${nName}さん！ようこそ！！`}</h5>
-                <h5>{nName}</h5>
-                <h5>{user.nName}</h5>
-
                 <br />
-                {/* <Button variant="outlined" color="primary" onClick={myPage}> */}
-                <Button variant="outlined" color="primary" onClick={dousite}>
+                <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
             </Button>
                 <Button variant="contained" onClick={signOut}>

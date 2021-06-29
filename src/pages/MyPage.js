@@ -4,8 +4,6 @@ import "firebase/firestore";
 import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import MyPro from './MyPro';
 import MyStar from './MyStar';
 import MySitar from './MySitar';
 import MyLoad from './MyLoad';
@@ -16,15 +14,10 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import StarIcon from '@material-ui/icons/Star';
-// import StarPaper from './StarPaper'
-// import Paper from './Paper';
-// import { Store } from '../store/index'
-// import Follower from './Follower'
-// import Grid from '@material-ui/core/Grid';
-
+import liff from '@line/liff';
 
 const MyPage = () => {
+    const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
@@ -37,52 +30,30 @@ const MyPage = () => {
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
-    // const { globalState, setGlobalState } = useContext(Store)
-    // const [message, setMessage] = useState('');
-    // const [nameG, setNameG] = useState('');
-    // const [id, setId] = useState('');
-    // const [src, setSrc] = useState('');
-    // const [pro, setPro] = useState(false);
-    // const follower = firebase.firestore();
-    const [likes, setLikes] = useState('');
-    const { uid } = useParams();
-    // const { sid } = useParams();
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        firebase
-            .auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
-                }
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
-                    .collection("users").doc(`${user?.uid}`).get().then((doc) => {
-                        if (doc.exists) {
-                            console.log("Document data:", doc.data())
-                            setUser(doc.data())
-                            setName(doc.id)
-                            console.log(doc.id, " => ", nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
                     })
             })
+
     }, []
-    )
+    );
     const sitarList = async () => {
     }
     const starList = async () => {
@@ -130,7 +101,7 @@ const MyPage = () => {
             </Button>
                 </Typography>
             </Toolbar>
-            <Accordion>
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -143,7 +114,7 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyPro />
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

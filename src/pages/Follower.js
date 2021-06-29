@@ -1,23 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import firebase from "firebase/app"
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Store } from '../store/index'
-import { useParams } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import StarIcon from '@material-ui/icons/Star';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import DeleteIcon from '@material-ui/icons/Delete';
-// import StarBorderIcon from '@material-ui/icons/StarBorder';
-import Badge from '@material-ui/core/Badge';
-// import { USER_PRO } from '../actions/index'
-// import { useHistory } from 'react-router-dom';
-
-import Link from '@material-ui/core/Link';
+import liff from '@line/liff';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,52 +48,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimplePaper({ followers }) {
-    // const { globalState, setGlobalState } = useContext(Store)
-    // const history = useHistory()
+    const myLiffId = "1656149559-xXM4l4Gp"
     const classes = useStyles();
     const db = firebase.firestore();
     const doc = firebase.firestore();
     const messages = firebase.firestore();
-    // const { uid } = useParams();
-    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        // await
-        firebase
-            .auth().onAuthStateChanged(function (user) {
-                if (user) {
-                    if (`${user?.photoURL}` === 'null') {
-                        setAvatar(`${user?.email}`.charAt(0))
-                    }
-                    else {
-                        setAvatar(user?.photoURL)
-                    }
-                    if (`${user?.displayName}` !== 'null') {
-                        setNName(`${user?.displayName}`)
-                    } else {
-                        setNName(`${user?.email}`)
-                    }
-                    setName(`${user?.uid}`)
-                }
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
-                    .collection("users").doc(user?.uid).get().then((doc) => {
-                        if (doc.exists) {
-                            // console.log("Document data:", doc.data())
-                            setUsers(doc.data())
-                            // console.log(doc.id, " => ", users.nName)
-                        } else {
-                            console.log("No such document!");
-                        }
-                    }).catch((error) => {
-                        console.log("Error getting document:", error);
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
                     })
             })
+
     }, []
-    )
+    );
     const [anchorFl, setAnchorFl] = React.useState(null);
     const handleFollower = (event) => {
         setAnchorFl(event.currentTarget);

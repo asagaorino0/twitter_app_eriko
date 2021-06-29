@@ -7,7 +7,6 @@ import {
   Switch,
 } from 'react-router-dom';
 import Login from './pages/Login';
-import LineLogin from './pages/LineLogin';
 import Main from './pages/Main';
 import MyPage from './pages/MyPage';
 import CreateUser from './pages/CreateUser';
