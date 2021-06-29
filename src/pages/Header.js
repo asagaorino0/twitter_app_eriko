@@ -314,6 +314,9 @@ const Header = () => {
                 />
                 <h5>{`${user.nName}さん！ようこそ！！`}</h5>
                 <h5>{`${nName}さん！ようこそ！！`}</h5>
+                <h5>{nName}</h5>
+                <h5>{user.nName}</h5>
+
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
