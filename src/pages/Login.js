@@ -79,8 +79,8 @@ const Login = () => {
     //     history.push('/');
     //     return;
     // }
-    window.onload = function (e) {
-        // const onload = function (e) {
+    // window.onload = function (e) {
+    const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
