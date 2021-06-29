@@ -38,26 +38,50 @@ const MyPage = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .where("name", "==", `${name}`)
-                    .onSnapshot((snapshot) => {
-                        const user = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setUser(user)
-                        console.log(user)
-                        console.log("ユーザーのid:" + profile.displayName);
-                        console.log("ユーザーの名前:" + profile.userId);
-                        console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                // firebase
+                //     .firestore()
+                //     .collection("users")
+                //     .where("name", "==", `${name}`)//readnihenkousitemiru
+                //     .onSnapshot((snapshot) => {
+                //         const user = snapshot.docs.map((doc) => {
+                //             return doc.id &&
+                //                 doc.data()
+                //         });
+                //         setUser(user)
+                //         console.log(user)
+                db.collection("users").where("name", "==", `${name}`)
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            console.log(doc.id, " => ", doc.data())
+                        })
                     })
+                    .catch((error) => {
+                        console.log("Error getting documents: ", error);
+                    })
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
             })
+        // })
 
     }, []
     );
+
+    const handleChoice = async () => {
+        await db.collection("users").where("name", "==", `${name}`)
+            // await db.collection("users").where("born", "==", 1815)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.id, " => ", doc.data())
+                })
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            })
+    }
     const sitarList = async () => {
     }
     const starList = async () => {
