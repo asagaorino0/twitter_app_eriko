@@ -215,19 +215,19 @@ const Login = () => {
                             {/* <a href=
                                 'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/main&state=1656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
                                 style={{ textDecoration: "none" }}> */}
-                            <a href=
+                            {/* <a href=
                                 'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=11656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
-                                style={{ textDecoration: "none" }}>
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    // onClick={onload}
-                                    onClick={initializeApp}
-                                    className={classes.green}
-                                >
-                                    lineでLogin
+                                style={{ textDecoration: "none" }}> */}
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                // onClick={onload}
+                                onClick={initializeApp}
+                                className={classes.green}
+                            >
+                                lineでLogin
                                 </Button>
-                            </a>
+                            {/* </a> */}
                         </Typography>
                         <Typography>
                             <h3> </h3>
