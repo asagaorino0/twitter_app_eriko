@@ -105,7 +105,7 @@ const MyPage = () => {
             </Button>
                 </Typography>
             </Toolbar>
-            {/* <Accordion>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -116,9 +116,9 @@ const MyPage = () => {
                 </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <MyPro />
+                    {/* <MyPro /> */}
                 </AccordionDetails>
-            </Accordion> */}
+            </Accordion>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
