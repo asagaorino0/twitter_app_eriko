@@ -61,7 +61,7 @@ const Header = () => {
                                 doc.data()
                         });
                         setUser(user)
-                        console.log(user)
+                        // console.log(user)
                     })
             })
 

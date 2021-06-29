@@ -106,7 +106,7 @@ export default function SimplePaper({ messages }) {
                                 doc.data()
                         });
                         setUser(user)
-                        console.log(user)
+                        // console.log(user)
                     })
             })
 
