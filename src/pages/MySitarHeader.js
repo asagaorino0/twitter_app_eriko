@@ -18,20 +18,18 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
-import Icon from '@material-ui/core/Icon';
+import liff from '@line/liff';
 
 const MySitarHeader = () => {
-    // const MySitarHeader = () => {
+    const myLiffId = "1656149559-xXM4l4Gp"
     const db = firebase.firestore();
     const [users, setUsers] = useState([]);
     const [avatar, setAvatar] = useState('');
-    // const [avatarG, setAvatarG] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
     const [messages, setMessages] = useState('');
     const [sitarMsg, setSitarMsg] = useState([]);
     const { uid } = useParams();
-    // const { sid } = useParams();
     const [nameG, setNameG] = useState('');
     const [event, setEvent] = useState('');
     const [email, setEmail] = useState('');
@@ -59,36 +57,25 @@ const MySitarHeader = () => {
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        firebase
-            .firestore()
-            .collection("users").doc(`${uid}`).get().then((doc) => {
-                if (doc.exists) {
-                    setUsers(doc.data())
-                } else {
-                    console.log("No such document!");
-                }
-            }).catch((error) => {
-                console.log("Error getting document:", error);
-            });
-    }, []
-    );
-    useEffect(() => {
-        firebase
-            .firestore()
-            .collection("messages")
-            .where("hensyu", "==", true)
-            // .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const sitagaki = snapshot.docs
-                    .map((doc) => {
-                        return doc.id &&
-                            doc.data()
-                        // doc.data().timestamp.toDate()
-                    });
-                // setSitarMsg(sitagaki)
-                setMessages(sitagaki)
-                console.log("hensyu", sitagaki)
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .where("name", "==", `${name}`)
+                    .onSnapshot((snapshot) => {
+                        const user = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUser(user)
+                        console.log(user)
+                    })
             })
+
     }, []
     );
     const [myFiles, setMyFiles] = useState([]);
@@ -132,7 +119,6 @@ const MySitarHeader = () => {
             setSrc(reader.result);
         };
     };
-
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
@@ -160,151 +146,17 @@ const MySitarHeader = () => {
                 }, { merge: true }//←上書きされないおまじない
                 )
     }
-    // const sitarId = async () => {
-    //     console.log('messages:', messages.message)
-    //     await
-    //         firebase
-    //             .firestore()
-    //             .collection("messages")
-    //             .doc(`${messages.id}`)
-    //             // .doc("lyBbz7iMQIDwdyqcHLEP")
-    //             .set({
-    //                 hensyu: false,
-    //                 // myPage: true,
-    //                 // sita: true,
-    //                 message: `${message}`,
-    //                 // src: `${src}`,
-    //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //                 time: now,
-    //                 // insta: `${insta}`,
-    //             }, { merge: true }//←上書きされないおまじない
-    //             )
-    //             .then((docRef) => {
-    //                 console.log("Document written with ID: ");
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error writing document: ", error);
-    //             })
-    // }
 
     return (
         <div>
             {
                 messages.length !== 0 &&
                 messages
-                    // .filter((messages) => messages.id === `${sid}` & messages.myPage === true)
-                    // .filter((messages) => messages.hensyu == true)
                     .map((messages, index) => {
                         return (
                             <div className={classes.root}>
                                 <Typography className={classes.heading} variant="button" >イベントの編集   </Typography>
-
-
                                 <Typography>
-                                    {/* <TextField
-                                        required
-                                        id="standard-required"
-                                        label="日時"
-                                        type="datetime-local"
-                                        defaultValue="2017-05-24T10:30"
-                                        fullWidth={true}
-                                        onChange={(e) => setNichizi(e.target.value)}
-                                        defaultValue={messages.nichizi}
-                                        autoFocus={true}
-                                    /> */}
-                                    {/* 
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="イベント名"
-                                        fullWidth={true}
-                                        onChange={(e) => setEvent(e.target.value)}
-                                        defaultValue={messages.hensyu}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="イベント名"
-                                        fullWidth={true}
-                                        onChange={(e) => setEvent(e.target.value)}
-                                        defaultValue={messages.event}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="代表者又はチーム名"
-                                        fullWidth={true}
-                                        onChange={(e) => setDaihyou(e.target.value)}
-                                        defaultValue={messages.daihyou}
-                                    />
-
-
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="集合時間"
-                                        type="time"
-                                        className={classes.textField}
-                                        fullWidth={true}
-                                        onChange={(e) => setSyugoZ(e.target.value)}
-                                        defaultValue={messages.syugoZ}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="集合場所"
-                                        fullWidth={true}
-                                        onChange={(e) => setSyugoB(e.target.value)}
-                                        defaultValue={messages.syugoB}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="開催場所"
-                                        fullWidth={true}
-                                        onChange={(e) => setBasyo(e.target.value)}
-                                        defaultValue={messages.basyo}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="募集人数"
-                                        fullWidth={true}
-                                        onChange={(e) => setNinzuu(e.target.value)}
-                                        defaultValue={messages.ninzuu}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="施術内容"
-                                        fullWidth={true}
-                                        onChange={(e) => setMenu(e.target.value)}
-                                        defaultValue={messages.menu}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="料金"
-                                        fullWidth={true}
-                                        onChange={(e) => setOdai(e.target.value)}
-                                        defaultValue={messages.odai}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="交通費"
-                                        fullWidth={true}
-                                        onChange={(e) => setKoutuuhi(e.target.value)}
-                                        defaultValue={messages.koutuuhi}
-                                    />
-                                    <TextField
-                                        required
-                                        id="standard-required"
-                                        label="e-mail"
-                                        fullWidth={true}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        defaultValue={messages.email}
-                                    /> */}
                                     <TextField
                                         required
                                         id="standard-required"
@@ -350,8 +202,6 @@ const MySitarHeader = () => {
                                         >
                                             UPLOAD
                         </Button>
-
-
                                         <Toolbar >
                                             <Button
                                                 variant="contained"
