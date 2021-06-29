@@ -121,9 +121,9 @@ const Header = () => {
         // function getLineData() {
         liff.getProfile()
             .then(profile => {
-                const nName = (profile.displayName)
-                const name = (profile.userId)
-                const avatar = (profile.pictureUrl)
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 // ...
                 // console.log("profile:" + profile());
                 console.log("ユーザーのid:" + profile.displayName);
@@ -134,7 +134,6 @@ const Header = () => {
                     .firestore()
                     .collection("users")
                     .where("name", "==", `${name}`)
-                    .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
                         const user = snapshot.docs.map((doc) => {
                             return doc.id &&
