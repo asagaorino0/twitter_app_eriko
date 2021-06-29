@@ -86,7 +86,7 @@ const Login = () => {
             .then(() => {
                 // .ready.then(() => {
                 // 初期化完了
-                // initializeApp();
+                initializeApp();
             })
     };
     function initializeApp() {
@@ -222,7 +222,7 @@ const Login = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                // onClick={onload}
+                                onClick={onload}
                                 // onClick={initializeApp}
                                 className={classes.green}
                             >
