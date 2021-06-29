@@ -51,20 +51,7 @@ const Header = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // firebase
-                //     .firestore()
-                //     .collection("users")
-                //     .where("name", "==", `${name}`)
-                //     .onSnapshot((snapshot) => {
-                //         const user = snapshot.docs.map((doc) => {
-                //             return doc.id &&
-                //                 doc.data()
-                //         });
-                //         setUser(user)
-                //         console.log(user)
-                //     })
-                console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
-
+                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
             })
 
     }, []
