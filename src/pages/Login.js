@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { selectTodo, add_todo, all_delete, del_todo, DONE_LIST, check_list } from './todoSlice';
 import { USER_LINE } from '../actions/index'
 import styles from './Counter.module.css';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,9 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
 import liff from '@line/liff';
 import { Store } from '../store/index'
-// import verify from '../api/verify'
 
-// export function Login() {
 const Login = () => {
     const useStyles = makeStyles((theme) => ({
         paper: {
@@ -52,34 +48,9 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const history = useHistory()
-    const [idToken, setIdToken] = useState('')
-    const [currentUser, setCurrentUser] = useState('');
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    // function initializeLiff(myLiffId) {
-    //     liff
-    //         .init({
-    //             liffId: myLiffId
-    //         })
-    //         .then(() => {
-    //             // start to use LIFF's api
-    //             initializeApp();
-    //         })
-    //         .catch((err) => {
-    //             document.getElementById("liffAppContent").classList.add('hidden');
-    //             document.getElementById("liffInitErrorMessage").classList.remove('hidden');
-    //         });
-    // };
-
-    //     // Promiseオブジェクトを使用する方法
-
-    // if (!liff.isLoggedIn()) {
-    //     // LIFFログインしていなかったらリダイレクト
-    //     history.push('/');
-    //     return;
-    // }
-    // window.onload = function (e) {
     const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
@@ -97,43 +68,18 @@ const Login = () => {
             history.push('/Main')
         } else {
             // 未ログイン
-            let result = window.confirm("LINE Loginしますか？");
-            if (result) {
-                liff.login();
-            }
+            // let result = window.confirm("LINE Loginしますか？");
+            // if (result) {
+            liff.login();
         }
     }
+    // }
     function getLineData() {
         liff.getProfile()
             .then(profile => {
-                // firebase.auth()
-                //     .onAuthStateChanged(user => {
-                //         if (user) {
-                //             setCurrentUser(user);
-                //         } else {
-                //             // 作成したapiにidトークンをpost
-                //             fetch('/api/verify', {
-                //                 method: 'POST',
-                //                 headers: {
-                //                     'Content-Type': 'application/json',
-                //                 },
-                //                 body: JSON.stringify({
-                //                     idToken: liff.getIDToken(),
-                //                 }),
-                //             }).then(response => {
-                //                 response.text().then(data => {
-                //                     firebase.auth()
-                //                         .signInWithCustomToken(data).then(profile => {
-                //                             const user = profile.userId;
-                //                             console.log(user);
-                //                         });
-                //                 });
-                //             });
-                //         }
-                //     });
-                const nName = (profile.displayName)
-                const name = (profile.userId)
-                const avatar = (profile.pictureUrl)
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
                 history.push(`/Main`)
                 db.collection('users').doc(`${profile.userId}`).set({
                     name,
@@ -148,10 +94,6 @@ const Login = () => {
                     name: profile.userId,
                     avatar: profile.pictureUrl,
                 });
-                console.log("ユーザーのid:" + globalState.name);
-                console.log("ユーザーの名前:" + globalState.nName);
-                console.log("ユーザーの画像URL:" + globalState.avatar);
-                console.log("gs", globalState.nName);
                 history.push(`/Main`)
             })
     }
