@@ -63,26 +63,13 @@ const MyPage = () => {
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
             })
         // })
 
     }, []
     );
 
-    const handleChoice = async () => {
-        await db.collection("users").where("name", "==", `${name}`)
-            // await db.collection("users").where("born", "==", 1815)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(doc.id, " => ", doc.data())
-                })
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
-    }
     const sitarList = async () => {
     }
     const starList = async () => {
@@ -113,16 +100,11 @@ const MyPage = () => {
     return (
         <div>
             <Toolbar>
-                {`${avatar}`.length !== 1 && (
-                    <img
-                        src={`${avatar}`}
-                        alt=""
-                        style={{ borderRadius: '50%', width: '40px', height: '40px' }}
-                    />
-                )}
-                {`${avatar}`.length === 1 && (
-                    <Avatar className={classes.green} >{avatar}</Avatar>
-                )}
+                <img
+                    src={`${avatar}`}
+                    alt=""
+                    style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+                />
                 <h5>{`${nName}さんのページ`}</h5>
                 <Typography>
                     <Button variant="outlined" onClick={back}>

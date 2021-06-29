@@ -63,6 +63,8 @@ const Header = () => {
                 //         setUser(user)
                 //         console.log(user)
                 //     })
+                console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+
             })
 
     }, []
