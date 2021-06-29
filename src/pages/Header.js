@@ -133,7 +133,7 @@ const Header = () => {
                 firebase
                     .firestore()
                     .collection("users")
-                    .where("nName", "==", `${nName}`)
+                    .where("name", "==", `${name}`)
                     .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
                         const user = snapshot.docs.map((doc) => {
