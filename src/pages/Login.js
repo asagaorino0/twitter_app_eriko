@@ -83,7 +83,7 @@ const Login = () => {
     const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
-            .then(() => {
+            .ready.then(() => {
                 // 初期化完了
                 initializeApp();
             })
@@ -96,12 +96,12 @@ const Login = () => {
             history.push('/Main')
         } else {
             // 未ログイン
-            let result = window.confirm("LINE Loginしますか？");
-            if (result) {
-                liff.login();
-            }
+            // let result = window.confirm("LINE Loginしますか？");
+            // if (result) {
+            liff.login();
         }
     }
+    // }
     function getLineData() {
         liff.getProfile()
             .then(profile => {
@@ -130,16 +130,16 @@ const Login = () => {
                 //             });
                 //         }
                 //     });
+                const nName = (profile.displayName)
+                const name = (profile.userId)
+                const avatar = (profile.pictureUrl)
+                history.push(`/Main`)
                 db.collection('users').doc(`${profile.userId}`).set({
-                    name: profile.userId,
-                    nName: profile.displayName,
-                    avatar: profile.pictureUrl,
+                    name,
+                    nName,
+                    avatar,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
-                // const nName = (profile.displayName)
-                // const name = (profile.userId)
-                // const avatar = (profile.pictureUrl)
-                // history.push(`/Main`)
                 // ...
                 setGlobalState({
                     type: USER_LINE,
@@ -155,95 +155,6 @@ const Login = () => {
             })
     }
 
-
-
-
-
-
-
-    // useEffect(() => {
-    //     firebase.auth()
-    //         .onAuthStateChanged(user => {
-    //             if (user) {
-    //                 setCurrentUser(user);
-    //             } else {
-    //                 // 作成したapiにidトークンをpost
-    //                 fetch('/api/verify', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                     body: JSON.stringify({
-    //                         idToken: liff.getIDToken(),
-    //                     }),
-    //                 }).then(response => {
-    //                     response.text().then(data => {
-    //                         // 返ってきたカスタムトークンでFirebase authにログイン
-    //                         firebase.auth()
-    //                             .signInWithCustomToken(data).then(response => {
-    //                                 const user = response.user;
-    //                                 setCurrentUser(user);
-    //                             });
-    //                     });
-    //                 });
-    //             }
-    //         });
-    // }, []);
-    // // コールバックを使用する方法
-    // liff.init({ liffId: "1656149559-xXM4l4Gp" }, successCallback, errorCallback);
-
-
-
-
-    // useEffect(() => {
-    // if (!liff.isLoggedIn()) {
-    //     // LIFFログインしていなかったらリダイレクト
-    //     history.push('/');
-    //     return;
-    // }
-    //     firebase.auth()
-    //         .onAuthStateChanged(user => {
-    //             if (user) {
-    //                 setCurrentUser(user);
-    //             } else {
-    //                 // 作成したapiにidトークンをpost
-    //                 fetch('/api/verify', {
-    //                     method: 'POST',
-    //                     headers: {
-    //                         'Content-Type': 'application/json',
-    //                     },
-    //                     body: JSON.stringify({
-    //                         idToken: liff.getIDToken(),
-    //                     }),
-    //                 }).then(response => {
-    //                     response.text().then(data => {
-    //                         // 返ってきたカスタムトークンでFirebase authにログイン
-    //                         firebase.auth()
-    //                             .signInWithCustomToken(data).then(response => {
-    //                                 const user = response.user;
-    //                                 setCurrentUser(user);
-    //                             });
-    //                     });
-    //                 });
-    //             }
-    //         });
-    // }, []);
-
-
-
-    // React.useEffect(() => {
-    //     const fn = async () => {
-    //         await liff.init({ liffId })
-    //         if (!liff.isLoggedIn()) {
-    //             liff.login()
-    //         }
-    //         const idToken = liff.getIDToken()
-    //         setIdToken(idToken)
-    //         console.log(idToken)
-    //         setSignInFinished(true)
-    //     }
-    //     fn()
-    // }, [])
     const googleClick = () => {
         var provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -302,7 +213,7 @@ const Login = () => {
                     <div>
                         <Typography>
                             {/* <a href=
-                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/main&state=12345abcde&scope=profile%20openid&nonce=09876xyz'
+                                'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/main&state=1656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
                                 style={{ textDecoration: "none" }}> */}
                             {/* <a href=
                                 'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=http://localhost:3000/main&state=11656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
@@ -310,7 +221,8 @@ const Login = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                onClick={onload}
+                                // onClick={onload}
+                                onClick={initializeApp}
                                 className={classes.green}
                             >
                                 lineでLogin

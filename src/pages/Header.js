@@ -117,35 +117,49 @@ const Header = () => {
     //         }
     //     }
     // };
+    // // window.onload = function (e) {
+    //     const onload = function (e) {
+    //         liff
+    //             .init({ liffId: myLiffId })
+    //             .ready.then(() => {
+    //                 // 初期化完了
+    //                 initializeApp();
+    //             })
+    //     };
     useEffect(() => {
-        // function getLineData() {
-        liff.getProfile()
-            .then(profile => {
-                const nName = (profile.displayName)
-                const name = (profile.userId)
-                const avatar = (profile.pictureUrl)
-                // ...
-                // console.log("profile:" + profile());
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .where("nName", "==", `${nName}`)
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const user = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setUser(user)
-                        console.log(user)
-                        console.log("?", nName, `${nName}`, user.nName, `${user.nName}`)
-                    })
-            })
-        // }
+        liff
+            .init({ liffId: myLiffId })
+        liff.ready.then(() => {
+
+            // function getLineData() {
+            liff
+                .getProfile()
+                .then(profile => {
+                    const nName = (profile.displayName)
+                    const name = (profile.userId)
+                    const avatar = (profile.pictureUrl)
+                    // ...
+                    // console.log("profile:" + profile());
+                    console.log("ユーザーのid:" + profile.displayName);
+                    console.log("ユーザーの名前:" + profile.userId);
+                    console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                    console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                    firebase
+                        .firestore()
+                        .collection("users")
+                        .where("nName", "==", `${nName}`)
+                        .orderBy("timestamp", "desc")
+                        .onSnapshot((snapshot) => {
+                            const user = snapshot.docs.map((doc) => {
+                                return doc.id &&
+                                    doc.data()
+                            });
+                            setUser(user)
+                            console.log(user)
+                            console.log("?", nName, `${nName}`, user.nName, `${user.nName}`)
+                        })
+                })
+        })
     }, []
     );
 
