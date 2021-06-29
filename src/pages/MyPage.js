@@ -49,16 +49,17 @@ const MyPage = () => {
                 //         });
                 //         setUser(user)
                 //         console.log(user)
-                db.collection("users").where("name", "==", `${name}`)
-                    .get()
-                    .then((querySnapshot) => {
-                        querySnapshot.forEach((doc) => {
-                            console.log(doc.id, " => ", doc.data())
-                        })
-                    })
-                    .catch((error) => {
-                        console.log("Error getting documents: ", error);
-                    })
+
+                // db.collection("users").where("name", "==", `${name}`)
+                //     .get()
+                //     .then((querySnapshot) => {
+                //         querySnapshot.forEach((doc) => {
+                //             console.log(doc.id, " => ", doc.data())
+                //         })
+                //     })
+                //     .catch((error) => {
+                //         console.log("Error getting documents: ", error);
+                //     })
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
