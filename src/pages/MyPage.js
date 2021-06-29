@@ -99,6 +99,7 @@ const MyPage = () => {
 
     return (
         <div>
+            mypage
             <Toolbar>
                 <img
                     src={`${avatar}`}
@@ -125,7 +126,7 @@ const MyPage = () => {
                 <AccordionDetails>
                 </AccordionDetails>
             </Accordion> */}
-            <Accordion>
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -138,8 +139,8 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MySitar />
                 </AccordionDetails>
-            </Accordion>
-            <Accordion>
+            </Accordion> */}
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -152,8 +153,8 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyStar />
                 </AccordionDetails>
-            </Accordion>
-            <Accordion>
+            </Accordion> */}
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -166,7 +167,7 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyLoad />
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
         </div>
     );
 };
