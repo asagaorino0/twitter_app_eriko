@@ -88,20 +88,8 @@ const MyPage = () => {
             </Button>
                 </Typography>
             </Toolbar>
+
             {/* <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography className={classes.heading} variant="button">
-                        アカウントの設定
-                </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                </AccordionDetails>
-            </Accordion> */}
-            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -114,8 +102,9 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MySitar />
                 </AccordionDetails>
-            </Accordion>
-            <Accordion>
+            </Accordion> */}
+
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -128,8 +117,9 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyStar />
                 </AccordionDetails>
-            </Accordion>
-            <Accordion>
+            </Accordion> */}
+
+            {/* <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -142,7 +132,7 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyLoad />
                 </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
         </div>
     );
 };
