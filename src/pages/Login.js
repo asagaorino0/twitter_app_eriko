@@ -82,16 +82,16 @@ const Login = () => {
                 setAvatar(profile.pictureUrl)
                 // history.push(`/Main`)
                 db.collection('users').doc(`${profile.userId}`).set({
-                    name,
-                    nName,
-                    avatar,
+                    name: `${profile.userId}`,
+                    nName: `${profile.displayName}`,
+                    avatar: `${profile.pictureUrl}`,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
                 // ...
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                // console.log("ユーザーのid:" + profile.displayName);
+                // console.log("ユーザーの名前:" + profile.userId);
+                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                // console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                 history.push(`/Main`)
             })
     }
