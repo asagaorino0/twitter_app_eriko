@@ -139,7 +139,7 @@ const Header = () => {
                     const name = (profile.userId)
                     const avatar = (profile.pictureUrl)
                     // ...
-                    // console.log("profile:" + profile());
+                    console.log("profile:" + profile());
                     console.log("ユーザーのid:" + profile.displayName);
                     console.log("ユーザーの名前:" + profile.userId);
                     console.log("ユーザーの画像URL:" + profile.pictureUrl);
@@ -147,7 +147,7 @@ const Header = () => {
                     firebase
                         .firestore()
                         .collection("users")
-                        .where("nName", "==", `${nName}`)
+                        .where("name", "==", `${name}`)
                         .orderBy("timestamp", "desc")
                         .onSnapshot((snapshot) => {
                             const user = snapshot.docs.map((doc) => {
