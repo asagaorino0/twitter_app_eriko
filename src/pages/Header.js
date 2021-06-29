@@ -148,7 +148,11 @@ const Header = () => {
         // }
     }, []
     );
-
+    const dousite = () => {
+        console.log(user)
+        console.log("?", nName, `${nName}`, user.nName, `${user.nName}`)
+        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+    }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNameG('')
@@ -318,7 +322,8 @@ const Header = () => {
                 <h5>{user.nName}</h5>
 
                 <br />
-                <Button variant="outlined" color="primary" onClick={myPage}>
+                {/* <Button variant="outlined" color="primary" onClick={myPage}> */}
+                <Button variant="outlined" color="primary" onClick={dousite}>
                     MyPage
             </Button>
                 <Button variant="contained" onClick={signOut}>
