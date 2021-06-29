@@ -38,35 +38,11 @@ const MyPage = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // firebase
-                //     .firestore()
-                //     .collection("users")
-                //     .where("name", "==", `${name}`)//readnihenkousitemiru
-                //     .onSnapshot((snapshot) => {
-                //         const user = snapshot.docs.map((doc) => {
-                //             return doc.id &&
-                //                 doc.data()
-                //         });
-                //         setUser(user)
-                //         console.log(user)
-
-                // db.collection("users").where("name", "==", `${name}`)
-                //     .get()
-                //     .then((querySnapshot) => {
-                //         querySnapshot.forEach((doc) => {
-                //             console.log(doc.id, " => ", doc.data())
-                //         })
-                //     })
-                //     .catch((error) => {
-                //         console.log("Error getting documents: ", error);
-                //     })
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                // console.log("ユーザーのid:" + profile.displayName);
+                // console.log("ユーザーの名前:" + profile.userId);
+                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
             })
-        // })
-
     }, []
     );
 
@@ -99,7 +75,6 @@ const MyPage = () => {
 
     return (
         <div>
-            mypage
             <Toolbar>
                 <img
                     src={`${avatar}`}
@@ -126,7 +101,7 @@ const MyPage = () => {
                 <AccordionDetails>
                 </AccordionDetails>
             </Accordion> */}
-            {/* <Accordion>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -139,8 +114,8 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MySitar />
                 </AccordionDetails>
-            </Accordion> */}
-            {/* <Accordion>
+            </Accordion>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -153,8 +128,8 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyStar />
                 </AccordionDetails>
-            </Accordion> */}
-            {/* <Accordion>
+            </Accordion>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -167,7 +142,7 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyLoad />
                 </AccordionDetails>
-            </Accordion> */}
+            </Accordion>
         </div>
     );
 };
