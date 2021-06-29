@@ -83,7 +83,8 @@ const Login = () => {
     const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
-            .ready.then(() => {
+            .then(() => {
+                // .ready.then(() => {
                 // 初期化完了
                 initializeApp();
             })
@@ -221,8 +222,8 @@ const Login = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                // onClick={onload}
-                                onClick={initializeApp}
+                                onClick={onload}
+                                // onClick={initializeApp}
                                 className={classes.green}
                             >
                                 lineでLogin
