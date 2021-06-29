@@ -153,6 +153,8 @@ const Login = () => {
                 {nameG.length === 0 && (
                     <div>
                         <Typography>
+                            <h3> </h3>
+                        </Typography>                        <Typography>
                             {/* <a href=
                                 'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1656149559&redirect_uri=https://twitter-app-eriko.web.app/main&state=1656149559-xXM4l4Gp&scope=profile%20openid&nonce=09876xyz'
                                 style={{ textDecoration: "none" }}> */}
@@ -170,10 +172,8 @@ const Login = () => {
                                 </Button>
                             {/* </a> */}
                         </Typography>
-                        <Typography>
-                            <h3> </h3>
-                        </Typography>
-                        <Typography>
+
+                        {/* <Typography>
                             <Button
                                 variant="contained"
                                 fullWidth
@@ -182,7 +182,7 @@ const Login = () => {
                             >
                                 googleでLogin
                          </Button>
-                        </Typography>
+                        </Typography> */}
                         {`${error}`.length !== 0 && (
                             <h6 className={classes.red}>{`${error}`}</h6>
                         )}
