@@ -98,6 +98,10 @@ const Header = () => {
                         id: docref.id,
                     }, { merge: true }//←上書きされないおまじない
                     )
+                    db.collection("users").doc(`${name}`).collection('loadsita').doc(docref.id).set({
+                        id: docref.id,
+                    }, { merge: true }//←上書きされないおまじない
+                    )
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
