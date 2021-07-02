@@ -115,7 +115,7 @@ const MyPage = () => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <MyStar />
+                    {/* <MyStar /> */}
                 </AccordionDetails>
             </Accordion>
 

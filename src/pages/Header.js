@@ -67,6 +67,9 @@ const Header = () => {
     const myPage = () => {
         history.push('/MyPage')
     }
+    const myStar = () => {
+        history.push('/MyStar')
+    }
     const myLoad = () => {
         history.push('/MyLoad')
     }
@@ -239,6 +242,9 @@ const Header = () => {
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
+            </Button>
+                <Button variant="outlined" color="primary" onClick={myStar}>
+                    MyStar
             </Button>
                 <Button variant="outlined" color="primary" onClick={myLoad}>
                     MyLoad
