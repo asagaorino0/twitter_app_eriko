@@ -25,11 +25,14 @@ const MyStar = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
             })
-
     }, []
     );
+
     useEffect(() => {
         firebase
             .firestore()
@@ -57,14 +60,15 @@ const MyStar = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            {messages.length !== 0 &&
+            {/* {messages.length !== 0 &&
                 messages
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />
                         )
                     })
-            }
+            } */}
+            star
         </div>
     );
 };
