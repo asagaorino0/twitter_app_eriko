@@ -29,7 +29,7 @@ const MyLoad = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("{myLoad}", `${profile.displayName}`, `${profile.userId}`, `${profile.userId}`);
             })
 
     }, []
@@ -40,7 +40,7 @@ const MyLoad = () => {
             .collection("users")
             .doc(`${name}`)
             .collection('loadsita')
-            .orderBy("timestamp", "desc")
+            // .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 const loadsita = snapshot.docs.map((doc) => {
                     return doc.id &&
