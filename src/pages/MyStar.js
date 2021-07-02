@@ -18,20 +18,20 @@ const MyStar = () => {
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             console.log("ユーザーのid:" + profile.displayName);
-    //             console.log("ユーザーの名前:" + profile.userId);
-    //             console.log("ユーザーの画像URL:" + profile.pictureUrl);
-    //             console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
-    //         })
-    // }, []
-    // );
+    // 現在ログインしているユーザーを取得する
+    useEffect(() => {
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
+            })
+    }, []
+    );
 
     // useEffect(() => {
     //     firebase
