@@ -72,7 +72,7 @@ const MyLoad = () => {
                         )
                     })
             } */}
-            miLoad
+            myLoad
         </div>
     );
 };

@@ -104,7 +104,7 @@ const MyPage = () => {
                 </AccordionDetails>
             </Accordion> */}
 
-            {/* <Accordion>
+            <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -117,7 +117,7 @@ const MyPage = () => {
                 <AccordionDetails>
                     <MyStar />
                 </AccordionDetails>
-            </Accordion> */}
+            </Accordion>
 
             <Accordion>
                 <AccordionSummary

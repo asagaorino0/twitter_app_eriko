@@ -3,7 +3,6 @@ import firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
 import StarPaper from './StarPaper'
 import liff from '@line/liff';
 
@@ -16,7 +15,6 @@ const MyStar = () => {
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
-    const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -46,7 +44,7 @@ const MyStar = () => {
                 });
                 setStarMsg(likes)
                 setMessages(likes)
-                // console.log(likes)
+                console.log(likes)
             })
     }, []
     );
