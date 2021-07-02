@@ -100,6 +100,21 @@ const Header = () => {
                     )
                     db.collection("users").doc(`${name}`).collection('loadsita').doc(docref.id).set({
                         id: docref.id,
+                        name: `${name}`,
+                        avatar: `${avatar}`,
+                        nName: `${nName}`,
+                        event: `${event}`,
+                        nichizi: `${nichizi}`,
+                        message,
+                        insta: `${insta}`,
+                        src: `${src}`,
+                        time: now,
+                        star: 0,
+                        myPage: true,
+                        like: false,
+                        sita: false,
+                        load: true,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
                 })
