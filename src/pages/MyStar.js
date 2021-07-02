@@ -33,24 +33,24 @@ const MyStar = () => {
     }, []
     );
 
-    useEffect(() => {
-        firebase
-            .firestore()
-            .collection("users")
-            .doc(`${name}`)
-            .collection('likes')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const likes = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setStarMsg(likes)
-                setMessages(likes)
-                console.log(likes)
-            })
-    }, []
-    );
+    // useEffect(() => {
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .doc(`${name}`)
+    //         .collection('likes')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const likes = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setStarMsg(likes)
+    //             setMessages(likes)
+    //             console.log(likes)
+    //         })
+    // }, []
+    // );
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
