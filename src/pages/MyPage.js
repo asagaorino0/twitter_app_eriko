@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import firebase from "firebase";
+import firebase from 'firebase/app'
 import "firebase/firestore";
-import "firebase/auth";
+// import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import MyStar from './MyStar';
@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import liff from '@line/liff';
 
 const MyPage = () => {
-    const myLiffId = "1656149559-xXM4l4Gp"
+    // const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
@@ -42,6 +42,25 @@ const MyPage = () => {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+            })
+    }, []
+    );
+    useEffect(() => {
+        firebase
+            .firestore()
+            .collection("users")
+            // .doc(`${name}`)
+            .doc("Ue990787da85bbd95eae9595867add9ba")
+            .collection('likes')
+            // .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const likes = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setStarMsg(likes)
+                setMessages(likes)
+                console.log(likes)
             })
     }, []
     );
