@@ -29,12 +29,13 @@ const MyLoad = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                console.log("{myLoad}", `${profile.displayName}`, `${profile.userId}`, `${profile.userId}`);
+                console.log("{myLoad}", `${profile.displayName}`, `${profile.userId}`, `${profile.pictureUrl}`);
             })
 
     }, []
     );
     useEffect(() => {
+        console.log("id", `${name}`)
         firebase
             .firestore()
             .collection("users")
@@ -49,6 +50,7 @@ const MyLoad = () => {
                 setLoadMsg(loadsita)
                 setMessages(loadsita)
                 console.log(loadsita)
+                console.log(doc.id, doc.data)
             })
     }, []
     );

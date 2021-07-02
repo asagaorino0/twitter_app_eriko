@@ -53,7 +53,6 @@ const Header = () => {
                 setAvatar(profile.pictureUrl)
                 // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
             })
-
     }, []
     );
     const signOut = () => {
