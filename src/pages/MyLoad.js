@@ -39,7 +39,8 @@ const MyLoad = () => {
         firebase
             .firestore()
             .collection("users")
-            .doc(`${name}`)
+            // .doc(`${name}`)
+            .doc("Ue990787da85bbd95eae9595867add9ba")
             .collection('loadsita')
             // .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
