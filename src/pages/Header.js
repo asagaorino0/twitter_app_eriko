@@ -68,6 +68,9 @@ const Header = () => {
     const myPage = () => {
         history.push('/MyPage')
     }
+    const myLoad = () => {
+        history.push('/MyLoad')
+    }
     const handleCreate = async () => {
         await
             db.collection("messages").add({
@@ -237,6 +240,9 @@ const Header = () => {
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
+            </Button>
+                <Button variant="outlined" color="primary" onClick={myLoad}>
+                    MyLoad
             </Button>
                 <Button variant="contained" onClick={signOut}>
                     Logout

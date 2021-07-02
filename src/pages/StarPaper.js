@@ -241,23 +241,6 @@ export default function SimplePaper({ messages }) {
     //             })
     // }
 
-    // db.settings({ ignoreUndefinedProperties: true }) // undifinedでエラーにならないための設定
-
-    //     var usersConverter = {
-    //     toFirestore: function (users) {
-    //         return {
-    //             first: users.first,
-    //             last: users.last,
-    //             born: users.born
-    //         };
-    //     },
-    //         fromFirestore: function (snapshot, options) {
-    //             const data = snapshot.data(options);
-    //             return new Users(data.first, data.last, data.born);
-    //         }
-    //     };
-    // }
-
 
     const starId = async () => {
         await
@@ -546,25 +529,9 @@ export default function SimplePaper({ messages }) {
                                             </div>
                                         )}
                                     </div>
-                                    {/* {
-                                    myFiles.length !== 0 &&
-                                    <Button
-                                        disabled={!clickable}
-                                        type="submit"
-                                        variant="contained"
-                                        fullWidth
-                                        style={{ marginTop: "16px" }}
-                                        onClick={() => handleUpload(myFiles)}
-                                    >
-                                        この画像をupする
-                                                </Button>
-                                } */}
                                 </CardContent>
                             </Card>
-                            {/* </Grid> */}
-                            {/* </MenuItem> */}
                             <MenuItem onClick={handleClose}>
-                                {/* <div onClick={handleClose} style={{ cursor: 'pointer' }} direction="row"> */}
                                 <Button
                                     variant="contained"
                                     // color="primary"
