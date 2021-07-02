@@ -130,7 +130,7 @@ const MyPage = () => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <MyLoad />
+                    {/* <MyLoad /> */}
                 </AccordionDetails>
             </Accordion>
         </div>
