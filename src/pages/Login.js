@@ -62,17 +62,31 @@ const Login = () => {
     };
     function initializeApp() {
         // ログインチェック
-        if (liff.isLoggedIn()) {
-            //ログイン済
-            getLineData();
-            history.push('/Main')
-        } else {
-            // 未ログイン
-            // let result = window.confirm("LINE Loginしますか？");
-            // if (result) {
-            liff.login();
-        }
+        liff.login();
+        // if (liff.isLoggedIn()) {
+        //ログイン済
+        getLineData();
+        history.push('/Main')
+        // } else {
+        // 未ログイン
+        // let result = window.confirm("LINE Loginしますか？");
+        // if (result) {
+
     }
+
+    // function initializeApp() {
+    //     // ログインチェック
+    //     if (liff.isLoggedIn()) {
+    //         //ログイン済
+    //         getLineData();
+    //         history.push('/Main')
+    //     } else {
+    //         // 未ログイン
+    //         // let result = window.confirm("LINE Loginしますか？");
+    //         // if (result) {
+    //         liff.login();
+    //     }
+    // }
     // }
     function getLineData() {
         liff.getProfile()
@@ -96,39 +110,39 @@ const Login = () => {
             })
     }
 
-    const googleClick = () => {
-        var provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        firebase.auth().languageCode = 'jp';
-        firebase.auth()
-            .signInWithPopup(provider)
-            .then((result) => {
-                /** @type {firebase.auth.OAuthCredential} */
-                const nameG = (result.user?.displayName)
-                setNameG(`${nameG}`)
-                const avatarG = (result.user?.photoURL)
-                setAvatar(`${avatarG}`)
-                console.log(avatar)
-                setNName(nameG)
-                const uid = (result.user?.uid)
-                setName(`${uid}`)
-                console.log(`${uid}`)
-                db.collection('users').doc(`${uid}`).set({
-                    name: result.user?.uid,
-                    nName: `${nameG}`,
-                    avatar: `${avatar}`,
-                    // avatarG: `${avatarG}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                })
-                    .then((docref) => {
-                        console.log("Document successfully written!:", `${name}`);
-                    })
-                    .catch((error) => {
-                        console.error("Error writing document: ");
-                    })
-                history.push('/Main')
-            });
-    }
+    // const googleClick = () => {
+    //     var provider = new firebase.auth.GoogleAuthProvider();
+    //     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+    //     firebase.auth().languageCode = 'jp';
+    //     firebase.auth()
+    //         .signInWithPopup(provider)
+    //         .then((result) => {
+    //             /** @type {firebase.auth.OAuthCredential} */
+    //             const nameG = (result.user?.displayName)
+    //             setNameG(`${nameG}`)
+    //             const avatarG = (result.user?.photoURL)
+    //             setAvatar(`${avatarG}`)
+    //             console.log(avatar)
+    //             setNName(nameG)
+    //             const uid = (result.user?.uid)
+    //             setName(`${uid}`)
+    //             console.log(`${uid}`)
+    //             db.collection('users').doc(`${uid}`).set({
+    //                 name: result.user?.uid,
+    //                 nName: `${nameG}`,
+    //                 avatar: `${avatar}`,
+    //                 // avatarG: `${avatarG}`,
+    //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //             })
+    //                 .then((docref) => {
+    //                     console.log("Document successfully written!:", `${name}`);
+    //                 })
+    //                 .catch((error) => {
+    //                     console.error("Error writing document: ");
+    //                 })
+    //             history.push('/Main')
+    //         });
+    // }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setName('')
