@@ -23,7 +23,8 @@ const MyLoad = () => {
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
-    useEffect(() => {
+    // useEffect(() => {
+    window.onload = function (e) {
         liff.getProfile()
             .then(profile => {
                 setNName(profile.displayName)
@@ -35,8 +36,9 @@ const MyLoad = () => {
                 console.log("{myLoad}", `${nName}`, `${avatar}`, `${name}`);
                 upload()
             })
-    }, []
-    );
+    }
+    // }, []
+    // );
     const upload = () => {
         console.log("id", `${name}`)
         firebase
