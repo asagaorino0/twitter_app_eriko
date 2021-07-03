@@ -42,10 +42,12 @@ const MyPage = () => {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                likesload()
             })
     }, []
     );
-    useEffect(() => {
+    // useEffect(() => {
+    const likesload = () => {
         firebase
             .firestore()
             .collection("users")
@@ -62,8 +64,9 @@ const MyPage = () => {
                 setMessages(likes)
                 console.log(likes)
             })
-    }, []
-    );
+    }
+    // }, []
+    // );
 
     const sitarList = async () => {
     }

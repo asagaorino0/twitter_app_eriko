@@ -106,7 +106,7 @@ const Login = () => {
     const onload = function (e) {
         if (liff.isLoggedIn()) {
             //         //ログイン済
-
+            setNName("hello")
             // useEffect(() => {
             liff.getProfile()
                 .then(profile => {
@@ -145,30 +145,30 @@ const Login = () => {
 
                     </Typography>
                     <Typography>
-                        {/* {name.length !== 0 && ( */}
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={onload}
-                            // onClick={initializeApp}
-                            className={classes.green}
-                        >
-                            Hello! {nName}
-                        </Button>
-                        {/* )} */}
+                        {nName.length !== 0 && (
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={onload}
+                                // onClick={initializeApp}
+                                className={classes.green}
+                            >
+                                Hello! {nName}
+                            </Button>
+                        )}
                     </Typography>
 
                     <Typography>
-                        {/* {name.length === 0 && ( */}
-                        <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={lineClick}
-                            className={classes.green}
-                        >
-                            lineでLogin
+                        {nName.length === 0 && (
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                onClick={lineClick}
+                                className={classes.green}
+                            >
+                                lineでLogin
                             </Button>
-                        {/* )} */}
+                        )}
                     </Typography>
                 </div>
             </div>
