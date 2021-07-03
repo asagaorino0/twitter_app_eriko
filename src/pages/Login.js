@@ -51,14 +51,14 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
+    window.onload = function (e) {
 
-    const lineClick = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
                 // .ready.then(() => {
                 // 初期化完了
-                liff.login();
+
             })
     };
     // onload();
@@ -99,7 +99,11 @@ const Login = () => {
     // }
     // }
     // function getLineData() {
-    window.onload = function (e) {
+    const lineClick = function (e) {
+        liff.login();
+    }
+    // }, []
+    const onload = function (e) {
         if (liff.isLoggedIn()) {
             //         //ログイン済
 
@@ -111,11 +115,7 @@ const Login = () => {
                     setAvatar(profile.pictureUrl)
                     // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
                 })
-        }
-    }
-    // }, []
-    const onload = function (e) {
-        // );
+        }        // );
         history.push(`/Main`)
     }
 
