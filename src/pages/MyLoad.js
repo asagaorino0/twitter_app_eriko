@@ -66,7 +66,7 @@ const MyLoad = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            {/* {messages.length !== 0 &&
+            {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.name === `${name}` & messages.myPage === true)
                     .map((messages, index) => {
@@ -74,8 +74,8 @@ const MyLoad = () => {
                             <StarPaper messages={messages} key={`${messages.id} `} />
                         )
                     })
-            } */}
-            myLoad
+            }
+            {/* myLoad */}
         </div>
     );
 };
