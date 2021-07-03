@@ -99,19 +99,22 @@ const Login = () => {
     // }
     // }
     // function getLineData() {
-    // window.onload = function (e) {
+    window.onload = function (e) {
+        if (liff.isLoggedIn()) {
+            //         //ログイン済
 
-    // 現在ログインしているユーザーを取得する
+            // useEffect(() => {
+            liff.getProfile()
+                .then(profile => {
+                    setNName(profile.displayName)
+                    setName(profile.userId)
+                    setAvatar(profile.pictureUrl)
+                    // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                })
+        }
+    }
+    // }, []
     const onload = function (e) {
-        // useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
-            })
-        // }, []
         // );
         history.push(`/Main`)
     }
