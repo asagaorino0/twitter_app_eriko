@@ -65,7 +65,7 @@ const Login = () => {
         liff.login();
         // if (liff.isLoggedIn()) {
         //ログイン済
-        getLineData();
+        // getLineData();
         history.push('/Main')
         // } else {
         // 未ログイン
