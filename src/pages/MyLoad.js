@@ -29,10 +29,10 @@ const MyLoad = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("ユーザーのid:" + profile.displayName);
-                // console.log("ユーザーの名前:" + profile.userId);
-                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
                 upload()
             })
     }, []

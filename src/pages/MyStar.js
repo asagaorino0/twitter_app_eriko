@@ -24,10 +24,10 @@ const MyStar = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("ユーザーのid:" + profile.displayName);
-                // console.log("ユーザーの名前:" + profile.userId);
-                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
                 likesload()
             })
     }, []
@@ -38,7 +38,7 @@ const MyStar = () => {
             .collection("users")
             .doc(`${name}`)
             .collection('likes')
-            .orderBy("timestamp", "desc")
+            // .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 const likes = snapshot.docs.map((doc) => {
                     return doc.id &&

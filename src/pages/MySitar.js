@@ -39,7 +39,7 @@ const MySitar = () => {
             .collection("users")
             .doc(`${name}`)
             .collection("sitagaki")
-            .orderBy("timestamp", "desc")
+            // .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 const sitagaki = snapshot.docs.map((doc) => {
                     return doc.id &&
