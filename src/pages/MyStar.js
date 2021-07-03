@@ -1,20 +1,26 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app'
 import "firebase/firestore";
-// import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
-import StarPaper from './StarPaper'
+import { useHistory } from 'react-router-dom';
+import { Toolbar, Button } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import liff from '@line/liff';
 
 const MyStar = () => {
-    // const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
     const [followers, setFollowers] = useState('');
+    const history = useHistory()
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
+    const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -51,6 +57,13 @@ const MyStar = () => {
                 console.log(likes)
             })
     }
+
+    const sitarList = async () => {
+    }
+    const starList = async () => {
+    }
+    const loadList = async () => {
+    }
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
@@ -58,17 +71,70 @@ const MyStar = () => {
         },
     });
     const classes = useStyles();
+    const back = () => {
+        history.push('/Main')
+    }
+
     return (
-        <div className={classes.root}>
-            {/* {messages.length !== 0 &&
-                messages
-                    .map((messages, index) => {
-                        return (
-                            <StarPaper messages={messages} key={`${messages.id} `} />
-                        )
-                    })
-            } */}
-            star
+        <div>
+            <Toolbar>
+                <img
+                    src={`${avatar}`}
+                    alt=""
+                    style={{ borderRadius: '50%', width: '40px', height: '40px' }}
+                />
+                <h5>{`${nName}さんのページ`}</h5>
+                <Typography>
+                    <Button variant="outlined" onClick={back}>
+                        back
+            </Button>
+                </Typography>
+            </Toolbar>
+
+            {/* <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" onClick={sitarList}>
+                        下書き保存したイベント
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <MySitar />
+                </AccordionDetails>
+            </Accordion> */}
+
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" onClick={starList}>
+                        ☆を付けたイベント
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    {/* <MyStar /> */}
+                </AccordionDetails>
+            </Accordion>
+
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" onClick={loadList}>
+                        投稿したイベント
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    {/* <MyLoad /> */}
+                </AccordionDetails>
+            </Accordion>
         </div>
     );
 };
