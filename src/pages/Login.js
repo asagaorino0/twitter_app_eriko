@@ -51,8 +51,8 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    window.onload = function (e) {
-        // const onload = function (e) {
+    // window.onload = function (e) {
+    const lineClick = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
@@ -192,29 +192,31 @@ const Login = () => {
                         <Typography>
 
                         </Typography>                        <Typography>
-
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                onClick={onload}
-                                // onClick={initializeApp}
-                                className={classes.green}
-                            >
-                                Hello!`${nName}`
+                            {name.length !== 0 && (
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    onClick={onload}
+                                    // onClick={initializeApp}
+                                    className={classes.green}
+                                >
+                                    Hello! {nName}
                                 </Button>
-                            {/* </a> */}
+                            )}
                         </Typography>
 
-                        {/* <Typography>
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                onClick={googleClick}
-                                color="primary"
-                            >
-                                googleでLogin
-                         </Button>
-                        </Typography> */}
+                        <Typography>
+                            {name.length === 0 && (
+                                <Button
+                                    variant="contained"
+                                    fullWidth
+                                    onClick={lineClick}
+                                    className={classes.green}
+                                >
+                                    lineでLogin
+                                </Button>
+                            )}
+                        </Typography>
                         {`${error}`.length !== 0 && (
                             <h6 className={classes.red}>{`${error}`}</h6>
                         )}
