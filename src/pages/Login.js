@@ -115,7 +115,7 @@ const Login = () => {
                         console.log("ユーザーの画像URL:" + profile.pictureUrl);
                         console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                         // history.push(`/Main`)
-                        if (profile.userId !== "") {
+                        if (profile.userId != "") {
                             //ログイン済
                             history.push('/Main')
                         } else {
