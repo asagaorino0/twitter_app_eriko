@@ -51,8 +51,8 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    // window.onload = function (e) {
-    const onload = function (e) {
+    window.onload = function (e) {
+        // const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
@@ -115,21 +115,23 @@ const Login = () => {
                         console.log("ユーザーの画像URL:" + profile.pictureUrl);
                         console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                         // history.push(`/Main`)
-                        if (profile.userId != "") {
-                            //ログイン済
-                            history.push('/Main')
-                        } else {
-                            // 未ログイン
-                            let result = window.confirm("LINE Loginしますか？");
-                            if (result) {
-                                // liff.login();
-                                // getLineData();
-                            }
-                        }
+                        // if (profile.userId !== "") {
+                        //     //ログイン済
+                        //     history.push('/Main')
+                        // } else {
+                        //     // 未ログイン
+                        //     // let result = window.confirm("LINE Loginしますか？");
+                        //     // if (result) {
+                        //     //     // liff.login();
+                        //     //     // getLineData();
+                        //     // }
+                        // }
                     })
             })
     }
-
+    const onload = function (e) {
+        history.push(`/Main`)
+    }
 
     // const googleClick = () => {
     //     var provider = new firebase.auth.GoogleAuthProvider();
@@ -198,7 +200,7 @@ const Login = () => {
                                 // onClick={initializeApp}
                                 className={classes.green}
                             >
-                                Hello!
+                                Hello!`${nName}`
                                 </Button>
                             {/* </a> */}
                         </Typography>
