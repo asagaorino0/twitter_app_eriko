@@ -137,61 +137,37 @@ const Login = () => {
                 <Typography component="h6" variant="h6">
                     介護✕美容のつながるアプリ
                 </Typography>
-                {nameG.length === 0 && (
-                    <div>
-                        <Typography>
+                <div>
+                    <Typography>
 
-                        </Typography>                        <Typography>
-                            {name.length !== 0 && (
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    onClick={onload}
-                                    // onClick={initializeApp}
-                                    className={classes.green}
-                                >
-                                    Hello! {nName}
-                                </Button>
-                            )}
-                        </Typography>
+                    </Typography>
+                    <Typography>
+                        {/* {name.length !== 0 && ( */}
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={onload}
+                            // onClick={initializeApp}
+                            className={classes.green}
+                        >
+                            Hello! {nName}
+                        </Button>
+                        {/* )} */}
+                    </Typography>
 
-                        <Typography>
-                            {name.length === 0 && (
-                                <Button
-                                    variant="contained"
-                                    fullWidth
-                                    onClick={lineClick}
-                                    className={classes.green}
-                                >
-                                    lineでLogin
-                                </Button>
-                            )}
-                        </Typography>
-                        {`${error}`.length !== 0 && (
-                            <h6 className={classes.red}>{`${error}`}</h6>
-                        )}
-                    </div>
-                )
-                }
-                {
-                    nameG === "new!" && (
-                        <div>
-                            <Typography component="h6" variant="h6" color="primary">ユーザー登録</Typography>
-                            <Typography>
-                                <TextField id="email" fullWidth label="email" value={email} onChange={e => setEmail(e.target.value)} />
-                            </Typography>
-                            <Typography>
-                                <TextField id="password" fullWidth label="password" value={password} onChange={e => setPassword(e.target.value)} />
-                            </Typography>
-                            <Button variant="contained" onClick={signOut}>
-                                戻る
-            </Button>
-                            {`${error}`.length !== 0 && (
-                                <h6 className={classes.red}>{`${error}`}</h6>
-                            )}
-                        </div>
-                    )
-                }
+                    <Typography>
+                        {/* {name.length === 0 && ( */}
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={lineClick}
+                            className={classes.green}
+                        >
+                            lineでLogin
+                            </Button>
+                        {/* )} */}
+                    </Typography>
+                </div>
             </div>
         </div >
     );
