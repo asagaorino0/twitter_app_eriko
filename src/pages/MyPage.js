@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase/app'
+// import firebase from 'firebase/app'
 import "firebase/firestore";
-// import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import MyStar from './MyStar';
 import MySitar from './MySitar';
 import MyLoad from './MyLoad';
-import Avatar from '@material-ui/core/Avatar';
 import { Toolbar, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Accordion from '@material-ui/core/Accordion';
@@ -17,16 +15,15 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import liff from '@line/liff';
 
 const MyPage = () => {
-    // const myLiffId = "1656149559-xXM4l4Gp"
-    const [messages, setMessages] = useState('');
-    const [starMsg, setStarMsg] = useState([]);
-    const [sitarMsg, setSitarMsg] = useState([]);
-    const [followers, setFollowers] = useState('');
+    // const [messages, setMessages] = useState('');
+    // const [starMsg, setStarMsg] = useState([]);
+    // const [sitarMsg, setSitarMsg] = useState([]);
+    // const [followers, setFollowers] = useState('');
+    // const [user, setUser] = useState([]);
+    // const db = firebase.firestore();
+    // const doc = firebase.firestore();
+    // var storage = firebase.app().storage("gs://my-custom-bucket");
     const history = useHistory()
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    var storage = firebase.app().storage("gs://my-custom-bucket");
-    const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -42,27 +39,9 @@ const MyPage = () => {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
-                // likesload()
             })
     }, []
     );
-    // const likesload = () => {
-    //     firebase
-    //         .firestore()
-    //         .collection("users")
-    //         .doc(`${name}`)
-    //         .collection('likes')
-    //         .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const likes = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //             });
-    //             setStarMsg(likes)
-    //             setMessages(likes)
-    //             console.log(likes)
-    //         })
-    // }
 
     const sitarList = async () => {
     }
@@ -106,9 +85,6 @@ const MyPage = () => {
                 <Typography>
                     <Button variant="outlined" onClick={back}>
                         back
-            </Button>
-                    <Button variant="outlined" color="primary" onClick={myStar}>
-                        MyStar
             </Button>
                 </Typography>
             </Toolbar>

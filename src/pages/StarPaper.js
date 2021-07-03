@@ -170,9 +170,6 @@ export default function SimplePaper({ messages }) {
                 })
     }
     const loadId = async () => {
-        // firebase.firestore().settings({
-        //     ignoreUndefinedProperties: true,
-        // })
         await
             db.collection("users").doc(`${name}`).collection("loadsita").doc(`${messages.id}`).set({
                 id: messages.id,

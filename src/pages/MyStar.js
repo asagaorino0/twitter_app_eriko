@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase/app'
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,8 +8,8 @@ import liff from '@line/liff';
 const MyStar = () => {
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
-    const [sitarMsg, setSitarMsg] = useState([]);
-    const [followers, setFollowers] = useState('');
+    // const [sitarMsg, setSitarMsg] = useState([]);
+    // const [followers, setFollowers] = useState('');
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
@@ -46,23 +46,6 @@ const MyStar = () => {
             })
     }, []
     );
-    // const likesload = () => {
-    //     firebase
-    //         .firestore()
-    //         .collection("users")
-    //         .doc(`${name}`)
-    //         .collection('likes')
-    //         // .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const likes = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //             });
-    //             setStarMsg(likes)
-    //             setMessages(likes)
-    //             console.log(likes)
-    //         })
-    // }
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
@@ -70,6 +53,7 @@ const MyStar = () => {
         },
     });
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
             {messages.length !== 0 &&

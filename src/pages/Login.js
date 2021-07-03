@@ -1,16 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { USER_LINE } from '../actions/index'
+import React, { useEffect, useState } from 'react';
 import styles from './Counter.module.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import firebase from '../config/firebase'
-import { AppBar, Toolbar } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
 import liff from '@line/liff';
-import { Store } from '../store/index'
 
 const Login = () => {
     const useStyles = makeStyles((theme) => ({
@@ -49,15 +46,11 @@ const Login = () => {
     const [error, setError] = useState('')
     const history = useHistory()
     const myLiffId = "1656149559-xXM4l4Gp"
-    const { globalState, setGlobalState } = useContext(Store)
 
     window.onload = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
-                // setNName("hello")
-                // console.log(nName)
-                // .ready.then(() => {
                 // 初期化完了
                 initializeApp();
             })
@@ -68,42 +61,20 @@ const Login = () => {
         if (liff.isLoggedIn()) {
             //ログイン済
             onload()
-            // history.push('/Main')
         } else {
             //     // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
                 liff.login();
-                // getLineData();
             }
         }
     }
-
-    // function initializeApp() {
-    //     // ログインチェック
-    //     if (liff.isLoggedIn()) {
-    //         //ログイン済
-    //         getLineData();
-    //         history.push('/Main')
-    //     } else {
-    //         // 未ログイン
-    //         // let result = window.confirm("LINE Loginしますか？");
-    //         // if (result) {
-    //         liff.login();
-    //     }
-    // }
-    // }
-    // function getLineData() {
     const lineClick = function (e) {
-        // let result = window.confirm("LINE Loginしますか？");
-        // if (result) {
         liff.login();
     }
-    // }, []
+
     const onload = function (e) {
         if (liff.isLoggedIn()) {
-            //         //ログイン済
-            // useEffect(() => {
             liff.getProfile()
                 .then(profile => {
                     setNName(profile.displayName)
@@ -111,23 +82,10 @@ const Login = () => {
                     setAvatar(profile.pictureUrl)
                     // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
                 })
-        }        // );
+        }
         history.push(`/Main`)
     }
 
-    const signOut = () => {
-        firebase.auth().signOut().then(() => {
-            setName('')
-            setNameG('')
-            setAvatar('')
-            setEmail('')
-            setPassword('')
-            setError('')
-            history.push('/')
-        }).catch((error) => {
-            var errorMessage = error.message;
-        });
-    }
     return (
         <div className={classes.paper}>
             <img src={logo} style={{ borderRadius: '50%', width: '60px', height: '60px' }} alt="logo" />
@@ -138,24 +96,6 @@ const Login = () => {
                 </Typography>
                 <div>
                     <Typography>
-
-                    </Typography>
-                    <Typography>
-                        {/* {nName.length !== 0 && ( */}
-                        {/* <Button
-                            variant="contained"
-                            fullWidth
-                            onClick={onload}
-                            // onClick={initializeApp}
-                            className={classes.green}
-                        >
-                            Hello! {nName}
-                        </Button> */}
-                        {/* )} */}
-                    </Typography>
-
-                    <Typography>
-                        {/* {nName.length !== 0 && ( */}
                         <Button
                             variant="contained"
                             fullWidth
@@ -164,7 +104,6 @@ const Login = () => {
                         >
                             lineでLogin
                             </Button>
-                        {/* )} */}
                     </Typography>
                 </div>
             </div>
