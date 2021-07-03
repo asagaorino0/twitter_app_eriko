@@ -121,7 +121,7 @@ const Login = () => {
                             // 未ログイン
                             let result = window.confirm("LINE Loginしますか？");
                             if (result) {
-                                liff.login();
+                                // liff.login();
                                 // getLineData();
                             }
                         }
