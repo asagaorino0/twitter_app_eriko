@@ -215,30 +215,6 @@ export default function SimplePaper({ messages }) {
                 })
     }
 
-
-    // const starId = async () => {
-    //     // console.log(name, followers.followerName)
-    //     await
-    //         db.collection("messages").doc(messages.id).collection('follower').where("followerName", "==", name)
-    //             .get()
-    //             .then((querySnapshot) => {
-    //                 querySnapshot.forEach((doc) => {
-    //                     doc.ref.delete();
-    //                 })
-    //             })
-    //             .catch((error) => {
-    //                 console.error("keshitenaiyo ", error)
-    //                 // await
-    //                 db.collection("messages").doc(messages.id).collection('follower').doc(name).set({
-    //                     follower: `${avatar}`,
-    //                     followerName: `${name}`,
-    //                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //                 }, { merge: true }//←上書きされないおまじない
-    //                 )
-    //             })
-    // }
-
-
     const starId = async () => {
         await
             // db.settings({ ignoreUndefinedProperties: true })

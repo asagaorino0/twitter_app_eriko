@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import firebase from 'firebase/app'
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -15,14 +14,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import liff from '@line/liff';
 
 const MyPage = () => {
-    // const [messages, setMessages] = useState('');
-    // const [starMsg, setStarMsg] = useState([]);
-    // const [sitarMsg, setSitarMsg] = useState([]);
-    // const [followers, setFollowers] = useState('');
-    // const [user, setUser] = useState([]);
-    // const db = firebase.firestore();
-    // const doc = firebase.firestore();
-    // var storage = firebase.app().storage("gs://my-custom-bucket");
     const history = useHistory()
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
@@ -88,22 +79,6 @@ const MyPage = () => {
             </Button>
                 </Typography>
             </Toolbar>
-
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
-                    <Typography className={classes.heading} variant="button" onClick={sitarList}>
-                        下書き保存したイベント
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <MySitar />
-                </AccordionDetails>
-            </Accordion>
-
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -118,7 +93,20 @@ const MyPage = () => {
                     <MyStar />
                 </AccordionDetails>
             </Accordion>
-
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" onClick={sitarList}>
+                        下書き保存したイベント
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <MySitar />
+                </AccordionDetails>
+            </Accordion>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
