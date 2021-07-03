@@ -142,7 +142,7 @@ const Login = () => {
                     </Typography>
                     <Typography>
                         {/* {nName.length !== 0 && ( */}
-                        <Button
+                        {/* <Button
                             variant="contained"
                             fullWidth
                             onClick={onload}
@@ -150,7 +150,7 @@ const Login = () => {
                             className={classes.green}
                         >
                             Hello! {nName}
-                        </Button>
+                        </Button> */}
                         {/* )} */}
                     </Typography>
 

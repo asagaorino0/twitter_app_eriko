@@ -42,31 +42,27 @@ const MyPage = () => {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
-                likesload()
+                // likesload()
             })
     }, []
     );
-    // useEffect(() => {
-    const likesload = () => {
-        firebase
-            .firestore()
-            .collection("users")
-            .doc(`${name}`)
-            // .doc("Ue990787da85bbd95eae9595867add9ba")
-            .collection('likes')
-            // .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const likes = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setStarMsg(likes)
-                setMessages(likes)
-                console.log(likes)
-            })
-    }
-    // }, []
-    // );
+    // const likesload = () => {
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .doc(`${name}`)
+    //         .collection('likes')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const likes = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setStarMsg(likes)
+    //             setMessages(likes)
+    //             console.log(likes)
+    //         })
+    // }
 
     const sitarList = async () => {
     }
