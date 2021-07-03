@@ -90,6 +90,9 @@ const MyPage = () => {
     const back = () => {
         history.push('/Main')
     }
+    const myStar = () => {
+        history.push('/MyStar')
+    }
 
     return (
         <div>
@@ -103,6 +106,9 @@ const MyPage = () => {
                 <Typography>
                     <Button variant="outlined" onClick={back}>
                         back
+            </Button>
+                    <Button variant="outlined" color="primary" onClick={myStar}>
+                        MyStar
             </Button>
                 </Typography>
             </Toolbar>
