@@ -51,7 +51,7 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    // window.onload = function (e) {
+
     const lineClick = function (e) {
         liff
             .init({ liffId: myLiffId })
@@ -59,113 +59,63 @@ const Login = () => {
                 // .ready.then(() => {
                 // 初期化完了
                 liff.login();
-                // onload();
-                // initializeApp();
-                //         })
-                // };
-                // const onload = function (e) {
-                // function initializeApp() {
-                // ログインチェック
-                // getLineData();
-                // if (liff.isLoggedIn()) {
-                // console.log("ユーザーの名前:" + profile.userId);
-                // if (profile.userId !== "") {
-                //     //ログイン済
-                //     history.push('/Main')
-                // } else {
-                //     // 未ログイン
-                //     let result = window.confirm("LINE Loginしますか？");
-                //     if (result) {
-                //         liff.login();
-                //         // getLineData();
-                //     }
-                // }
-                // }
-
-                // function initializeApp() {
-                //     // ログインチェック
-                //     if (liff.isLoggedIn()) {
-                //         //ログイン済
-                //         getLineData();
-                //         history.push('/Main')
-                //     } else {
-                //         // 未ログイン
-                //         // let result = window.confirm("LINE Loginしますか？");
-                //         // if (result) {
-                //         liff.login();
-                //     }
-                // }
-                // }
-                // function getLineData() {
-                liff.getProfile()
-                    .then(profile => {
-                        setNName(profile.displayName)
-                        setName(profile.userId)
-                        setAvatar(profile.pictureUrl)
-                        // history.push(`/Main`)
-                        db.collection('users').doc(`${profile.userId}`).set({
-                            name: `${profile.userId}`,
-                            nName: `${profile.displayName}`,
-                            avatar: `${profile.pictureUrl}`,
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        })
-                        // ...
-                        console.log("ユーザーのid:" + profile.displayName);
-                        console.log("ユーザーの名前:" + profile.userId);
-                        console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                        console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                        // history.push(`/Main`)
-                        // if (profile.userId !== "") {
-                        //     //ログイン済
-                        //     history.push('/Main')
-                        // } else {
-                        //     // 未ログイン
-                        //     // let result = window.confirm("LINE Loginしますか？");
-                        //     // if (result) {
-                        //     //     // liff.login();
-                        //     //     // getLineData();
-                        //     // }
-                        // }
-                    })
             })
-    }
+    };
+    // onload();
+    // initializeApp();
+    //         })
+    // };
+    // const onload = function (e) {
+    // function initializeApp() {
+    // ログインチェック
+    // getLineData();
+    // if (liff.isLoggedIn()) {
+    // console.log("ユーザーの名前:" + profile.userId);
+    // if (profile.userId !== "") {
+    //     //ログイン済
+    //     history.push('/Main')
+    // } else {
+    //     // 未ログイン
+    //     let result = window.confirm("LINE Loginしますか？");
+    //     if (result) {
+    //         liff.login();
+    //         // getLineData();
+    //     }
+    // }
+    // }
+
+    // function initializeApp() {
+    //     // ログインチェック
+    //     if (liff.isLoggedIn()) {
+    //         //ログイン済
+    //         getLineData();
+    //         history.push('/Main')
+    //     } else {
+    //         // 未ログイン
+    //         // let result = window.confirm("LINE Loginしますか？");
+    //         // if (result) {
+    //         liff.login();
+    //     }
+    // }
+    // }
+    // function getLineData() {
+    // window.onload = function (e) {
+
+    // 現在ログインしているユーザーを取得する
     const onload = function (e) {
+        // useEffect(() => {
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+            })
+        // }, []
+        // );
         history.push(`/Main`)
     }
 
-    // const googleClick = () => {
-    //     var provider = new firebase.auth.GoogleAuthProvider();
-    //     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    //     firebase.auth().languageCode = 'jp';
-    //     firebase.auth()
-    //         .signInWithPopup(provider)
-    //         .then((result) => {
-    //             /** @type {firebase.auth.OAuthCredential} */
-    //             const nameG = (result.user?.displayName)
-    //             setNameG(`${nameG}`)
-    //             const avatarG = (result.user?.photoURL)
-    //             setAvatar(`${avatarG}`)
-    //             console.log(avatar)
-    //             setNName(nameG)
-    //             const uid = (result.user?.uid)
-    //             setName(`${uid}`)
-    //             console.log(`${uid}`)
-    //             db.collection('users').doc(`${uid}`).set({
-    //                 name: result.user?.uid,
-    //                 nName: `${nameG}`,
-    //                 avatar: `${avatar}`,
-    //                 // avatarG: `${avatarG}`,
-    //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //             })
-    //                 .then((docref) => {
-    //                     console.log("Document successfully written!:", `${name}`);
-    //                 })
-    //                 .catch((error) => {
-    //                     console.error("Error writing document: ");
-    //                 })
-    //             history.push('/Main')
-    //         });
-    // }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setName('')
