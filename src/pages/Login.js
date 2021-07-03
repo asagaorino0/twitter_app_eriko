@@ -51,22 +51,24 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    const onload = function (e) {
+    window.onload = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
                 // .ready.then(() => {
                 // 初期化完了
                 liff.login();
-                initializeApp();
+                getLineData();
+                // initializeApp();
             })
     };
-    function initializeApp() {
+    const onload = function (e) {
+        // function initializeApp() {
         // ログインチェック
 
         if (liff.isLoggedIn()) {
             //ログイン済
-            getLineData();
+
             history.push('/Main')
             // } else {
             // 未ログイン
@@ -104,10 +106,10 @@ const Login = () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 })
                 // ...
-                // console.log("ユーザーのid:" + profile.displayName);
-                // console.log("ユーザーの名前:" + profile.userId);
-                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                // console.log("{}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{}", `${nName}`, `${avatar}`, `${name}`);
                 // history.push(`/Main`)
             })
     }
@@ -179,7 +181,7 @@ const Login = () => {
                                 // onClick={initializeApp}
                                 className={classes.green}
                             >
-                                lineでLogin
+                                Hello!
                                 </Button>
                             {/* </a> */}
                         </Typography>
