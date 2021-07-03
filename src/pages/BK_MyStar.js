@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import firebase from 'firebase/app'
 import "firebase/firestore";
-// import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import StarPaper from './StarPaper'
 import liff from '@line/liff';
