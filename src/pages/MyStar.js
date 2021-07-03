@@ -8,8 +8,6 @@ import liff from '@line/liff';
 const MyStar = () => {
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
-    // const [sitarMsg, setSitarMsg] = useState([]);
-    // const [followers, setFollowers] = useState('');
     const db = firebase.firestore();
     const doc = firebase.firestore();
     var storage = firebase.app().storage("gs://my-custom-bucket");
