@@ -29,20 +29,23 @@ const MyLoad = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                console.log("{myLoad}", `${profile.displayName}`, `${profile.userId}`, `${profile.pictureUrl}`);
+                // console.log("ユーザーのid:" + profile.displayName);
+                // console.log("ユーザーの名前:" + profile.userId);
+                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                upload()
             })
-
     }, []
     );
-    useEffect(() => {
+    const upload = () => {
         console.log("id", `${name}`)
         firebase
             .firestore()
             .collection("users")
-            // .doc(`${name}`)
-            .doc("Ue990787da85bbd95eae9595867add9ba")
+            .doc(`${name}`)
+            // .doc("Ue990787da85bbd95eae9595867add9ba")
             .collection('loadsita')
-            // .orderBy("timestamp", "desc")
+            .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 const loadsita = snapshot.docs.map((doc) => {
                     return doc.id &&
@@ -55,16 +58,16 @@ const MyLoad = () => {
             })
     }, []
     );
-    const useStyles = makeStyles({
-        root: {
-            gridRow: 2,
-            margin: '26px',
-        },
-    });
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            {/* {messages.length !== 0 &&
+const useStyles = makeStyles({
+    root: {
+        gridRow: 2,
+        margin: '26px',
+    },
+});
+const classes = useStyles();
+return (
+    <div className={classes.root}>
+        {/* {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.name === `${name}` & messages.myPage === true)
                     .map((messages, index) => {
@@ -74,7 +77,7 @@ const MyLoad = () => {
                     })
             } */}
             myLoad
-        </div>
-    );
+    </div>
+);
 };
 export default MyLoad;
