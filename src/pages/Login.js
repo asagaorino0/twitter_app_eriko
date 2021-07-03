@@ -55,6 +55,7 @@ const Login = () => {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
+                console.log(nName)
                 // .ready.then(() => {
                 // 初期化完了
             })
