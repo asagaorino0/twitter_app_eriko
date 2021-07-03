@@ -55,33 +55,29 @@ const Login = () => {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
-                console.log(nName)
+                // setNName("hello")
+                // console.log(nName)
                 // .ready.then(() => {
                 // 初期化完了
+                initializeApp();
             })
     };
-    // onload();
-    // initializeApp();
-    //         })
-    // };
-    // const onload = function (e) {
-    // function initializeApp() {
-    // ログインチェック
-    // getLineData();
-    // if (liff.isLoggedIn()) {
-    // console.log("ユーザーの名前:" + profile.userId);
-    // if (profile.userId !== "") {
-    //     //ログイン済
-    //     history.push('/Main')
-    // } else {
-    //     // 未ログイン
-    //     let result = window.confirm("LINE Loginしますか？");
-    //     if (result) {
-    //         liff.login();
-    //         // getLineData();
-    //     }
-    // }
-    // }
+
+    function initializeApp() {
+        // ログインチェック
+        if (liff.isLoggedIn()) {
+            //ログイン済
+            onload()
+            // history.push('/Main')
+        } else {
+            //     // 未ログイン
+            let result = window.confirm("LINE Loginしますか？");
+            if (result) {
+                liff.login();
+                // getLineData();
+            }
+        }
+    }
 
     // function initializeApp() {
     //     // ログインチェック
@@ -99,7 +95,8 @@ const Login = () => {
     // }
     // function getLineData() {
     const lineClick = function (e) {
-        setNName("hello")
+        // let result = window.confirm("LINE Loginしますか？");
+        // if (result) {
         liff.login();
     }
     // }, []
@@ -144,30 +141,30 @@ const Login = () => {
 
                     </Typography>
                     <Typography>
-                        {nName.length !== 0 && (
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                onClick={onload}
-                                // onClick={initializeApp}
-                                className={classes.green}
-                            >
-                                Hello! {nName}
-                            </Button>
-                        )}
+                        {/* {nName.length !== 0 && ( */}
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={onload}
+                            // onClick={initializeApp}
+                            className={classes.green}
+                        >
+                            Hello! {nName}
+                        </Button>
+                        {/* )} */}
                     </Typography>
 
                     <Typography>
-                        {nName.length === 0 && (
-                            <Button
-                                variant="contained"
-                                fullWidth
-                                onClick={lineClick}
-                                className={classes.green}
-                            >
-                                lineでLogin
+                        {/* {nName.length !== 0 && ( */}
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            onClick={lineClick}
+                            className={classes.green}
+                        >
+                            lineでLogin
                             </Button>
-                        )}
+                        {/* )} */}
                     </Typography>
                 </div>
             </div>
