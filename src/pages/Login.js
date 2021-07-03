@@ -63,15 +63,16 @@ const Login = () => {
     function initializeApp() {
         // ログインチェック
         liff.login();
-        // if (liff.isLoggedIn()) {
-        //ログイン済
-        // getLineData();
-        history.push('/Main')
-        // } else {
-        // 未ログイン
-        // let result = window.confirm("LINE Loginしますか？");
-        // if (result) {
+        if (liff.isLoggedIn()) {
+            //ログイン済
+            getLineData();
+            history.push('/Main')
+            // } else {
+            // 未ログイン
+            // let result = window.confirm("LINE Loginしますか？");
+            // if (result) {
 
+        }
     }
 
     // function initializeApp() {
@@ -106,7 +107,7 @@ const Login = () => {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                history.push(`/Main`)
+                // history.push(`/Main`)
             })
     }
 
