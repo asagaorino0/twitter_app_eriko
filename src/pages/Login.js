@@ -58,24 +58,27 @@ const Login = () => {
                 // .ready.then(() => {
                 // 初期化完了
                 liff.login();
-                getLineData();
+                onload();
                 // initializeApp();
             })
     };
     const onload = function (e) {
         // function initializeApp() {
         // ログインチェック
-
-        if (liff.isLoggedIn()) {
-            //ログイン済
-
-            history.push('/Main')
-            // } else {
-            // 未ログイン
-            // let result = window.confirm("LINE Loginしますか？");
-            // if (result) {
-
-        }
+        getLineData();
+        // if (liff.isLoggedIn()) {
+        // console.log("ユーザーの名前:" + profile.userId);
+        // if (profile.userId !== "") {
+        //     //ログイン済
+        //     history.push('/Main')
+        // } else {
+        //     // 未ログイン
+        //     let result = window.confirm("LINE Loginしますか？");
+        //     if (result) {
+        //         liff.login();
+        //         // getLineData();
+        //     }
+        // }
     }
 
     // function initializeApp() {
@@ -110,7 +113,18 @@ const Login = () => {
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                history.push(`/Main`)
+                // history.push(`/Main`)
+                if (profile.userId !== "") {
+                    //ログイン済
+                    history.push('/Main')
+                } else {
+                    // 未ログイン
+                    let result = window.confirm("LINE Loginしますか？");
+                    if (result) {
+                        liff.login();
+                        // getLineData();
+                    }
+                }
             })
     }
 
