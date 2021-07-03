@@ -52,13 +52,11 @@ const Login = () => {
     const { globalState, setGlobalState } = useContext(Store)
 
     window.onload = function (e) {
-
         liff
             .init({ liffId: myLiffId })
             .then(() => {
                 // .ready.then(() => {
                 // 初期化完了
-
             })
     };
     // onload();
@@ -100,13 +98,13 @@ const Login = () => {
     // }
     // function getLineData() {
     const lineClick = function (e) {
+        setNName("hello")
         liff.login();
     }
     // }, []
     const onload = function (e) {
         if (liff.isLoggedIn()) {
             //         //ログイン済
-            setNName("hello")
             // useEffect(() => {
             liff.getProfile()
                 .then(profile => {
