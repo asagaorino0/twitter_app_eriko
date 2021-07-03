@@ -110,7 +110,7 @@ const Login = () => {
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 console.log("{}", `${nName}`, `${avatar}`, `${name}`);
-                // history.push(`/Main`)
+                history.push(`/Main`)
             })
     }
 
