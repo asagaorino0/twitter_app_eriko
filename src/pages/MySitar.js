@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import StarPaper from './StarPaper'
 import liff from '@line/liff';
 
 const MySitar = () => {
-    const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
@@ -28,31 +27,24 @@ const MySitar = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{mySita}", `${nName}`, `${avatar}`, `${name}`);
-                sitaload()
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .doc(`${profile.userId}`)
+                    .collection("sitagaki")
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const sitagaki = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setSitarMsg(sitagaki)
+                        setMessages(sitagaki)
+                        console.log(`${name}`, `${user.name}`)
+                    })
             })
     }, []
     );
-    const sitaload = () => {
-        firebase
-            .firestore()
-            .collection("users")
-            .doc(`${name}`)
-            .collection("sitagaki")
-            // .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const sitagaki = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setSitarMsg(sitagaki)
-                setMessages(sitagaki)
-                console.log(`${name}`, `${user.name}`)
-            })
-    };
     const useStyles = makeStyles({
         root: {
             gridRow: 2,

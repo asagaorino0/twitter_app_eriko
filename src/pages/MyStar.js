@@ -28,13 +28,12 @@ const MyStar = () => {
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
-                // likesload()
                 firebase
                     .firestore()
                     .collection("users")
-                    .doc(`${name}`)
+                    .doc(`${profile.userId}`)
                     .collection('likes')
-                    // .orderBy("timestamp", "desc")
+                    .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
                         const likes = snapshot.docs.map((doc) => {
                             return doc.id &&
@@ -81,7 +80,6 @@ const MyStar = () => {
                         )
                     })
             }
-            star
         </div>
     );
 };

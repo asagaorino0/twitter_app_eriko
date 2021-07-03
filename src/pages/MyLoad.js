@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +8,6 @@ import StarPaper from './StarPaper'
 import liff from '@line/liff';
 
 const MyLoad = () => {
-    const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
     const [starMsg, setStarMsg] = useState([]);
     const [sitarMsg, setSitarMsg] = useState([]);
@@ -24,27 +23,14 @@ const MyLoad = () => {
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        // window.onload = function (e) {
         liff.getProfile()
             .then(profile => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                console.log("ユーザーのid:" + profile.displayName);
-                console.log("ユーザーの名前:" + profile.userId);
-                console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{myLoad}", `${nName}`, `${avatar}`, `${name}`);
-                // upload()
-                //         })
-                // }
-                // }, []
-                // );
-                // const upload = () => {
-                // console.log("id", `${name}`)
                 firebase
                     .firestore()
                     .collection("users")
-                    // .doc(`${name}`)
                     .doc(`${profile.userId}`)
                     // .doc("Ue990787da85bbd95eae9595867add9ba")
                     .collection('loadsita')
@@ -80,7 +66,6 @@ const MyLoad = () => {
                         )
                     })
             }
-            {/* myLoad */}
         </div>
     );
 };
