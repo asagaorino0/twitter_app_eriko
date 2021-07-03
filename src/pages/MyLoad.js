@@ -23,8 +23,8 @@ const MyLoad = () => {
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    window.onload = function (e) {
+    useEffect(() => {
+        // window.onload = function (e) {
         liff.getProfile()
             .then(profile => {
                 setNName(profile.displayName)
@@ -34,31 +34,34 @@ const MyLoad = () => {
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 console.log("{myLoad}", `${nName}`, `${avatar}`, `${name}`);
-                upload()
+                // upload()
+                //         })
+                // }
+                // }, []
+                // );
+                // const upload = () => {
+                // console.log("id", `${name}`)
+                firebase
+                    .firestore()
+                    .collection("users")
+                    // .doc(`${name}`)
+                    .doc(`${profile.userId}`)
+                    // .doc("Ue990787da85bbd95eae9595867add9ba")
+                    .collection('loadsita')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const loadsita = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setLoadMsg(loadsita)
+                        setMessages(loadsita)
+                        console.log(loadsita)
+                        console.log(doc.id, doc.data)
+                    })
             })
-    }
-    // }, []
-    // );
-    const upload = () => {
-        console.log("id", `${name}`)
-        firebase
-            .firestore()
-            .collection("users")
-            // .doc(`${name}`)
-            .doc("Ue990787da85bbd95eae9595867add9ba")
-            .collection('loadsita')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const loadsita = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setLoadMsg(loadsita)
-                setMessages(loadsita)
-                console.log(loadsita)
-                console.log(doc.id, doc.data)
-            })
-    }
+    }, []
+    );
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
