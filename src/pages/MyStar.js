@@ -58,14 +58,14 @@ const MyStar = () => {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            {/* {messages.length !== 0 &&
+            {messages.length !== 0 &&
                 messages
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />
                         )
                     })
-            } */}
+            }
             star
         </div>
     );
