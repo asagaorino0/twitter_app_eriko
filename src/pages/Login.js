@@ -51,7 +51,8 @@ const Login = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
     const { globalState, setGlobalState } = useContext(Store)
 
-    window.onload = function (e) {
+    // window.onload = function (e) {
+    const onload = function (e) {
         liff
             .init({ liffId: myLiffId })
             .then(() => {
@@ -193,7 +194,7 @@ const Login = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
-                                // onClick={onload}
+                                onClick={onload}
                                 // onClick={initializeApp}
                                 className={classes.green}
                             >
