@@ -57,12 +57,13 @@ const Login = () => {
             .then(() => {
                 // .ready.then(() => {
                 // 初期化完了
+                liff.login();
                 initializeApp();
             })
     };
     function initializeApp() {
         // ログインチェック
-        liff.login();
+
         if (liff.isLoggedIn()) {
             //ログイン済
             getLineData();
