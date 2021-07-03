@@ -28,12 +28,15 @@ const MySitar = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{mySita}", `${nName}`, `${avatar}`, `${name}`);
+                sitaload()
             })
-
     }, []
     );
-    useEffect(() => {
+    const sitaload = () => {
         firebase
             .firestore()
             .collection("users")
@@ -49,8 +52,7 @@ const MySitar = () => {
                 setMessages(sitagaki)
                 console.log(`${name}`, `${user.name}`)
             })
-    }, []
-    );
+    };
     const useStyles = makeStyles({
         root: {
             gridRow: 2,

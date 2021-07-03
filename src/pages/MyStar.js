@@ -27,7 +27,7 @@ const MyStar = () => {
                 console.log("ユーザーのid:" + profile.displayName);
                 console.log("ユーザーの名前:" + profile.userId);
                 console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
                 likesload()
             })
     }, []
