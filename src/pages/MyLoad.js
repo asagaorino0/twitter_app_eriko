@@ -56,18 +56,17 @@ const MyLoad = () => {
                 console.log(loadsita)
                 console.log(doc.id, doc.data)
             })
-    }, []
-    );
-const useStyles = makeStyles({
-    root: {
-        gridRow: 2,
-        margin: '26px',
-    },
-});
-const classes = useStyles();
-return (
-    <div className={classes.root}>
-        {/* {messages.length !== 0 &&
+    }
+    const useStyles = makeStyles({
+        root: {
+            gridRow: 2,
+            margin: '26px',
+        },
+    });
+    const classes = useStyles();
+    return (
+        <div className={classes.root}>
+            {/* {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.name === `${name}` & messages.myPage === true)
                     .map((messages, index) => {
@@ -77,7 +76,7 @@ return (
                     })
             } */}
             myLoad
-    </div>
-);
+        </div>
+    );
 };
 export default MyLoad;
