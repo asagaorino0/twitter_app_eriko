@@ -230,7 +230,7 @@ const Header = () => {
     });
     const classes = useStyles();
 
-    function sendMessage() {
+    const sendMessage = function (e) {
         if (liff.isApiAvailable('shareTargetPicker')) {
             liff.shareTargetPicker([{
                 'type': 'text',
