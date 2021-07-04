@@ -231,25 +231,56 @@ const Header = () => {
     const classes = useStyles();
 
     const sendMessage = function (e) {
-        // Check if shareTargetPicker is available
         if (liff.isApiAvailable('shareTargetPicker')) {
             liff.shareTargetPicker([
                 {
-                    type: "text",
-                    text: "Hello, World!"
+                    'type': 'text',
+                    'text': 'Hello, World!'
                 }
             ])
-                .then(
-                    console.log("ShareTargetPicker was launched")
-                ).catch(function (res) {
-                    console.log("Failed to launch ShareTargetPicker")
+                .then(function (res) {
+                    if (res) {
+                        // succeeded in sending a message through TargetPicker
+                        console.log(`[${res.status}] Message sent!`)
+                    } else {
+                        const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
+                        if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
+                            // LINE 10.3.0 - 10.10.0
+                            // Old LINE will access here regardless of user's action
+                            console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
+                        } else {
+                            // LINE 10.11.0 -
+                            // sending message canceled
+                            console.log('TargetPicker was closed!')
+                        }
+                    }
+                }).catch(function (error) {
+                    // something went wrong before sending a message
+                    console.log('something wrong happen')
                 })
         }
-        // Check if multiple liff transtion feature is available
-        if (liff.isApiAvailable('multipleLiffTransition')) {
-            window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
-        }
     }
+
+    // const sendMessage = function (e) {
+    //     // Check if shareTargetPicker is available
+    //     if (liff.isApiAvailable('shareTargetPicker')) {
+    //         liff.shareTargetPicker([
+    //             {
+    //                 type: "text",
+    //                 text: "Hello, World!"
+    //             }
+    //         ])
+    //             .then(
+    //                 console.log("ShareTargetPicker was launched")
+    //             ).catch(function (res) {
+    //                 console.log("Failed to launch ShareTargetPicker")
+    //             })
+    //     }
+    //     // Check if multiple liff transtion feature is available
+    //     if (liff.isApiAvailable('multipleLiffTransition')) {
+    //         window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
+    //     }
+    // }
 
     // const sendMessage = function (e) {
     //     if (liff.isApiAvailable('shareTargetPicker')) {
