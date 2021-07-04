@@ -93,6 +93,16 @@ const Main = () => {
             ])
         }
     }
+    const text = "I sent test message!"
+    function sendMessage() {
+        liff.sendMessages(
+            [{ type: "text", text }]
+        ).then(function () {
+            window.alert('Message sent');
+        }).catch(function (error) {
+            window.alert('Error sending message: ' + error);
+        });
+    }
 
     return (
         <div>
@@ -110,7 +120,7 @@ const Main = () => {
             </div>
             {/* <button onClick={               
             } color="secondary">readData</button> */}
-            <button onClick={handleWindow} color="secondary">open</button>
+            <button onClick={sendMessage} color="secondary">open</button>
         </div>
     );
 };

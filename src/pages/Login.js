@@ -40,10 +40,6 @@ const Login = () => {
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    const [nameG, setNameG] = useState('');
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const history = useHistory()
     const myLiffId = "1656149559-xXM4l4Gp"
 
@@ -85,6 +81,20 @@ const Login = () => {
         }
         history.push(`/Main`)
     }
+    // // const handleWindow = () => {
+    // // if (liff.isApiAvailable('Uccd83a6500bba57ace57024cb31d5a1a')) {
+    // // if (liff.isApiAvailable('Ue990787da85bbd95eae9595867add9ba')) {
+    // const text = "I sent test message!"
+    // function sendMessage() {
+    //     liff.sendMessages(
+    //         [{ type: "text", text }]
+    //     ).then(function () {
+    //         window.alert('Message sent');
+    //     }).catch(function (error) {
+    //         window.alert('Error sending message: ' + error);
+    //     });
+    // }
+    // // }
 
     return (
         <div className={classes.paper}>
@@ -104,6 +114,7 @@ const Login = () => {
                         >
                             lineでLogin
                             </Button>
+                        {/* <button onClick={sendMessage} color="secondary">open</button> */}
                     </Typography>
                 </div>
             </div>
