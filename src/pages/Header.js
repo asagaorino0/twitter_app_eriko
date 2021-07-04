@@ -232,12 +232,19 @@ const Header = () => {
 
     function sendMessage() {
         if (liff.isApiAvailable('shareTargetPicker')) {
-            liff.shareTargetPicker([
-                {
-                    type: "text",
-                    text: "Hello, World!"
-                }
-            ])
+            liff.shareTargetPicker([{
+                'type': 'text',
+                'text': 'Hello, World!'
+            }]).then(
+                //shareTargetPickerの取得に成功　　　　　　　
+                document.getElementById('shareTargetPickerMessage').textContent = "Share target picker was launched."
+            ).catch(function (res) {
+                //「シェアターゲットピッカー」が有効になっているが取得に失敗した場合 
+                document.getElementById('shareTargetPickerMessage').textContent = "Failed to launch share target picker.";
+            });
+        } else {
+            //「シェアターゲットピッカー」が無効になっている場合
+            document.getElementById('shareTargetPickerMessage').innerHTML = "<div>Share target picker unavailable.<div><div>This is possibly because you haven't enabled the share target picker on <a href='https://developers.line.biz/console/'>LINE Developers Console</a>.</div>";
         }
     }
 
