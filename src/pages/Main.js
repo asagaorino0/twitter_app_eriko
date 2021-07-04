@@ -93,30 +93,6 @@ const Main = () => {
             ])
         }
     }
-    // const text = "I sent test message!"
-    function sendMessage() {
-        //     liff.sendMessages(
-        //         [{ type: "text", text }]
-        //     ).then(function () {
-        //         window.alert('Message sent');
-        //     }).catch(function (error) {
-        //         window.alert('Error sending message: ' + error);
-        //     });
-        // }
-        document.getElementById('sendMessage').addEventListener('click', function () {
-            // if (!liff.isInClient()) {
-            //     sendAlertIfNotInClient();
-            // } else {
-            liff.sendMessages([{
-                'type': 'text',
-                'text': "Hello, World!"
-            }]).then(function () {
-                window.alert('Message sent');
-            }).catch(function (error) {
-                window.alert('Error sending message: ' + error);
-            });
-        })
-    };
 
     return (
         <div>
@@ -134,7 +110,7 @@ const Main = () => {
             </div>
             {/* <button onClick={               
             } color="secondary">readData</button> */}
-            <button id="sendMessage" onClick={sendMessage} color="secondary">sendMessage</button>
+            {/* <button id="sendMessage" onClick={sendMessage} color="secondary">sendMessage</button> */}
         </div>
     );
 };

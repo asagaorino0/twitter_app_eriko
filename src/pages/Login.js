@@ -114,6 +114,7 @@ const Login = () => {
                         >
                             lineでLogin
                             </Button>
+
                         {/* <button onClick={sendMessage} color="secondary">open</button> */}
                     </Typography>
                 </div>
