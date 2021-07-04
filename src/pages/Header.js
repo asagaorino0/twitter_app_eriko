@@ -335,9 +335,8 @@ const Header = () => {
     return (
         <div className={classes.root}>
             <Toolbar>
-                <div class="line-it-button" data-lang="ja" data-type="like" data-url="https://twitter-app-eriko.web.app" data-lineid="@435dcwgo" style="display: none;"></div>
+                {/* <div class="line-it-button" data-lang="ja" data-type="like" data-url="https://twitter-app-eriko.web.app" data-lineid="@435dcwgo" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
-
                 <img
                     src={`${avatar}`}
                     alt=""
