@@ -228,17 +228,27 @@ const Header = () => {
             margin: '5px 5px 5px 20px',
         },
     });
-    const classes = useStyles();
-    const text = "I sent test message!"
     function sendMessage() {
-        liff.sendMessages(
-            [{ type: "text", text }]
-        ).then(function () {
-            window.alert('Message sent');
-        }).catch(function (error) {
-            window.alert('Error sending message: ' + error);
-        });
+        if (liff.isApiAvailable('shareTargetPicker')) {
+            liff.shareTargetPicker([
+                {
+                    type: "text",
+                    text: "Hello, World!"
+                }
+            ])
+        }
     }
+    // const classes = useStyles();
+    // const text = "I sent test message!"
+    // function sendMessage() {
+    //     liff.sendMessages(
+    //         [{ type: "text", text }]
+    //     ).then(function () {
+    //         window.alert('Message sent');
+    //     }).catch(function (error) {
+    //         window.alert('Error sending message: ' + error);
+    //     });
+    // }
     //     document.getElementById('sendMessage').addEventListener('click', function () {
     //         // if (!liff.isInClient()) {
     //         //     sendAlertIfNotInClient();
