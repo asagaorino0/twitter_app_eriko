@@ -5,6 +5,7 @@ import "firebase/auth";
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import StarPaper from './StarPaper'
+import liff from '@line/liff';
 
 const Main = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
