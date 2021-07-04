@@ -103,6 +103,7 @@ const Main = () => {
             window.alert('Error sending message: ' + error);
         });
     }
+    document.querySelector("#sendMessage").addEventListener("click", sendMessage)
 
     return (
         <div>
