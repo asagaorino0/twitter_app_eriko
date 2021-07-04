@@ -81,6 +81,17 @@ const Main = () => {
                     })
                 })
     };
+    const handleWindow = () => {
+        // if (liff.isApiAvailable('Uccd83a6500bba57ace57024cb31d5a1a')) {
+        if (liff.isApiAvailable('Ue990787da85bbd95eae9595867add9ba')) {
+            liff.shareTargetPicker([
+                {
+                    type: "text",
+                    text: "Hello, World!"
+                }
+            ])
+        }
+    }
 
     return (
         <div>
@@ -96,10 +107,9 @@ const Main = () => {
                         })
                 }
             </div>
-            {/* <button onClick={
-                
+            {/* <button onClick={               
             } color="secondary">readData</button> */}
-            {/* <button onClick={handleWindow} color="secondary">open</button> */}
+            <button onClick={handleWindow} color="secondary">open</button>
         </div>
     );
 };

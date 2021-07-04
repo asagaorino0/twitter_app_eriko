@@ -11,6 +11,9 @@
 /build
 .jsonbuild
 .firebase
+/react-express-test
+/line-liff-v2-starter
+
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
