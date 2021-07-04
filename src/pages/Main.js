@@ -103,7 +103,7 @@ const Main = () => {
         //         window.alert('Error sending message: ' + error);
         //     });
         // }
-        document.getElementById('Ue990787da85bbd95eae9595867add9ba').addEventListener('click', function () {
+        document.getElementById('sendMessage').addEventListener('click', function () {
             // if (!liff.isInClient()) {
             //     sendAlertIfNotInClient();
             // } else {
@@ -134,7 +134,7 @@ const Main = () => {
             </div>
             {/* <button onClick={               
             } color="secondary">readData</button> */}
-            <button onClick={sendMessage} color="secondary">open</button>
+            <button id="sendMessage" onClick={sendMessage} color="secondary">sendMessage</button>
         </div>
     );
 };
