@@ -228,6 +228,8 @@ const Header = () => {
             margin: '5px 5px 5px 20px',
         },
     });
+    const classes = useStyles();
+
     function sendMessage() {
         if (liff.isApiAvailable('shareTargetPicker')) {
             liff.shareTargetPicker([
@@ -238,7 +240,7 @@ const Header = () => {
             ])
         }
     }
-    // const classes = useStyles();
+
     // const text = "I sent test message!"
     // function sendMessage() {
     //     liff.sendMessages(
