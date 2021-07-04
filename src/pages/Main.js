@@ -93,17 +93,30 @@ const Main = () => {
             ])
         }
     }
-    const text = "I sent test message!"
+    // const text = "I sent test message!"
     function sendMessage() {
-        liff.sendMessages(
-            [{ type: "text", text }]
-        ).then(function () {
-            window.alert('Message sent');
-        }).catch(function (error) {
-            window.alert('Error sending message: ' + error);
-        });
-    }
-    document.querySelector("#sendMessage").addEventListener("click", sendMessage)
+        //     liff.sendMessages(
+        //         [{ type: "text", text }]
+        //     ).then(function () {
+        //         window.alert('Message sent');
+        //     }).catch(function (error) {
+        //         window.alert('Error sending message: ' + error);
+        //     });
+        // }
+        document.getElementById('Ue990787da85bbd95eae9595867add9ba').addEventListener('click', function () {
+            // if (!liff.isInClient()) {
+            //     sendAlertIfNotInClient();
+            // } else {
+            liff.sendMessages([{
+                'type': 'text',
+                'text': "Hello, World!"
+            }]).then(function () {
+                window.alert('Message sent');
+            }).catch(function (error) {
+                window.alert('Error sending message: ' + error);
+            });
+        })
+    };
 
     return (
         <div>
