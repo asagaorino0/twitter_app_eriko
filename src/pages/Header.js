@@ -310,7 +310,7 @@ const Header = () => {
                 <Button variant="contained" onClick={signOut}>
                     Logout
             </Button>
-                <button id="sendMessage" onClick={sendMessage} color="secondary">sendMessage</button>
+                <button onClick={sendMessage} color="secondary">sendMessage</button>
             </Toolbar>
             <Accordion>
                 <AccordionSummary
@@ -369,16 +369,6 @@ const Header = () => {
                                 </div>
                             )}
                         </div>
-                        {/* <Button
-                            disabled={!clickable}
-                            type="submit"
-                            variant="contained"
-                            fullWidth
-                            style={{ marginTop: "16px" }}
-                            onClick={() => handleUpload(myFiles)}
-                        >
-                            UPLOAD
-                        </Button> */}
                         {event.length !== 0 && (
                             <Toolbar >
                                 {/* <SendIcon onClick={handleCreate} /> */}
