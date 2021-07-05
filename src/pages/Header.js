@@ -316,7 +316,7 @@ const Header = () => {
 
     const line = require('@line/bot-sdk');
     const client = new line.Client({
-        channelAccessToken: '<channel access token>'
+        channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
     });
     const message1 = {
         type: 'text',
