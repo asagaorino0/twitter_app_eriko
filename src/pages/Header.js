@@ -313,6 +313,24 @@ const Header = () => {
             window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
         }
     }
+
+    const line = require('@line/bot-sdk');
+    const client = new line.Client({
+        channelAccessToken: '<channel access token>'
+    });
+    const message1 = {
+        type: 'text',
+        text: 'Hello,'
+    };
+    const message2 = {
+        type: 'text',
+        text: 'World!'
+    };
+    const sendMessage4 = function (e) {
+        client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
+            [message1, message2]
+        )
+    }
     //使えないやつ
     // const sendMessage4 = function (e) {
     //     if (liff.isApiAvailable('shareTargetPicker')) {
@@ -374,7 +392,7 @@ const Header = () => {
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
                 {/* <button onClick={sendMessage3} color="secondary">sendMessage</button>
                 <button onClick={sendMessage1} color="secondary">sendMessage</button> */}
-                <button onClick={sendMessage3} color="secondary">sendMessage</button>
+                <button onClick={sendMessage4} color="secondary">sendMessage</button>
             </Toolbar>
             <Accordion>
                 <AccordionSummary
