@@ -313,7 +313,6 @@ const Header = () => {
             window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
         }
     }
-
     const line = require('@line/bot-sdk');
     const client = new line.Client({
         channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
@@ -327,8 +326,10 @@ const Header = () => {
         type: 'text',
         text: 'World!'
     };
-    const sendMessage4 = function (e) {
-        e.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
+    const sendMessage4 = function (req, res) {
+        res.statusCode = 200;
+        res.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
+        res.end();
         client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
             [message1, message2]
         )
