@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Link } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import { storage } from "../config/firebase";
 import FolderIcon from '@material-ui/icons/Folder';
@@ -231,43 +231,43 @@ const Header = () => {
     });
     const classes = useStyles();
 
-    const sendMessage = function (e) {
-        liff.shareTargetPicker([{
-            'type': 'text',
-            'text': 'Hello, World!'
-        }])
-    }
-
     // const sendMessage = function (e) {
-    //     if (liff.isApiAvailable('shareTargetPicker')) {
-    //         liff.shareTargetPicker([
-    //             {
-    //                 'type': 'text',
-    //                 'text': 'Hello, World!'
-    //             }
-    //         ])
-    //             .then(function (res) {
-    //                 if (res) {
-    //                     // succeeded in sending a message through TargetPicker
-    //                     console.log(`[${res.status}] Message sent!`)
-    //                 } else {
-    //                     const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
-    //                     if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
-    //                         // LINE 10.3.0 - 10.10.0
-    //                         // Old LINE will access here regardless of user's action
-    //                         console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
-    //                     } else {
-    //                         // LINE 10.11.0 -
-    //                         // sending message canceled
-    //                         console.log('TargetPicker was closed!')
-    //                     }
-    //                 }
-    //             }).catch(function (error) {
-    //                 // something went wrong before sending a message
-    //                 console.log('something wrong happen')
-    //             })
-    //     }
+    //     liff.shareTargetPicker([{
+    //         'type': 'text',
+    //         'text': 'Hello, World!'
+    //     }])
     // }
+
+    const sendMessage = function (e) {
+        if (liff.isApiAvailable('shareTargetPicker')) {
+            liff.shareTargetPicker([
+                {
+                    'type': 'text',
+                    'text': 'Hello, World!'
+                }
+            ])
+                .then(function (res) {
+                    if (res) {
+                        // succeeded in sending a message through TargetPicker
+                        console.log(`[${res.status}] Message sent!`)
+                    } else {
+                        const [majorVer, minorVer] = (liff.getLineVersion() || "").split('.');
+                        if (parseInt(majorVer) == 10 && parseInt(minorVer) < 11) {
+                            // LINE 10.3.0 - 10.10.0
+                            // Old LINE will access here regardless of user's action
+                            console.log('TargetPicker was opened at least. Whether succeeded to send message is unclear')
+                        } else {
+                            // LINE 10.11.0 -
+                            // sending message canceled
+                            console.log('TargetPicker was closed!')
+                        }
+                    }
+                }).catch(function (error) {
+                    // something went wrong before sending a message
+                    console.log('something wrong happen')
+                })
+        }
+    }
 
     // const sendMessage = function (e) {
     //     // Check if shareTargetPicker is available
@@ -351,9 +351,14 @@ const Header = () => {
                 <Button variant="contained" onClick={signOut}>
                     Logout
             </Button>
-                {/* <button onClick={sendMessage} color="secondary">sendMessage</button> */}
+                <button onClick={sendMessage} color="secondary">sendMessage</button>
                 <div>
-                    <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
+                    <Link
+                        href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
+                        underline="none"
+                        target="_blank"
+                    ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
+                    </Link>
                 </div>
                 {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
