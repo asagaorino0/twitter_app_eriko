@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
 import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
+import { Link } from "@material-ui/core";
 
 const Login = () => {
     const useStyles = makeStyles((theme) => ({
@@ -31,7 +32,7 @@ const Login = () => {
             color: 'red',
         },
         green: {
-            backgroundColor: '#00B900',
+            backgroundColor: '#06c755',
             color: 'white'
         },
     }));
@@ -108,9 +109,14 @@ const Login = () => {
                             </Button>
                     </Typography>
                 </div>
-                <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" >期間限定！今だけ。
+                <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://api.line.me/v2/bot/message/multicast' " data-color="default" data-size="small" data-count="false" >期間限定！今だけ。
                 <div>
-                        <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
+                        <Link
+                            href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
+                            underline="none"
+                            target="_blank"
+                        ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
+                        </Link>
                     </div>
                 </div>
             </div>

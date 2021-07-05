@@ -18,7 +18,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
-import { Store } from '../store/index'
 
 const Header = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
@@ -256,19 +255,34 @@ const Header = () => {
     }
 
     const sendMessage1 = function (e) {
-        liff.shareTargetPicker([{
-            'type': 'text',
-            'text': 'Hello, World!'
-        }])
+        const line = require('@line/bot-sdk');
+        const client = new line.Client({
+            channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
+        });
+        liff.shareTargetPicker([
+            client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', '',
+            ]),
+            {
+                'type': 'text',
+                'text': 'Hello, World!'
+            }])
     }
 
+
     const sendMessage2 = function (e) {
+        const line = require('@line/bot-sdk');
+        const client = new line.Client({
+            channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
+        });
         if (liff.isApiAvailable('shareTargetPicker')) {
-            liff.shareTargetPicker([
+            // liff.shareTargetPicker([
+            client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', '',
+                // ])
                 {
                     'type': 'text',
                     'text': 'Hello, World!'
                 }
+
             ])
                 .then(function (res) {
                     if (res) {
@@ -298,8 +312,8 @@ const Header = () => {
         if (liff.isApiAvailable('shareTargetPicker')) {
             liff.shareTargetPicker([
                 {
-                    type: "text",
-                    text: "Hello, World!"
+                    "type": "text",
+                    "text": "\uDBC0\uDC84 LINE original emoji"
                 }
             ])
                 .then(
@@ -313,27 +327,27 @@ const Header = () => {
             window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
         }
     }
-    const line = require('@line/bot-sdk');
-    const client = new line.Client({
-        channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
-
-    });
-    const message1 = {
-        type: 'text',
-        text: 'Hello,'
-    };
-    const message2 = {
-        type: 'text',
-        text: 'World!'
-    };
-    const sendMessage4 = function (req, res) {
-        // res.statusCode = 200;
-        res.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
-        res.end();
-        client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
-            [message1, message2]
-        )
-    }
+    //使えないやつ
+    // const line = require('@line/bot-sdk');
+    // const client = new line.Client({
+    //     channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
+    // });
+    // const message1 = {
+    //     type: 'text',
+    //     text: 'Hello,'
+    // };
+    // const message2 = {
+    //     type: 'text',
+    //     text: 'World!'
+    // };
+    // const sendMessage4 = function (req, res) {
+    //     // res.statusCode = 200;
+    //     res.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
+    //     res.end();
+    //     client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
+    //         [message1, message2]
+    //     )
+    // }
     //使えないやつ
     // const sendMessage4 = function (e) {
     //     if (liff.isApiAvailable('shareTargetPicker')) {
@@ -393,9 +407,9 @@ const Header = () => {
                 </div>
                 {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
-                {/* <button onClick={sendMessage3} color="secondary">sendMessage</button>
-                <button onClick={sendMessage1} color="secondary">sendMessage</button> */}
-                <button onClick={sendMessage4} color="secondary">sendMessage</button>
+                <button onClick={sendMessage1} color="secondary">sendMessage1</button>
+                <button onClick={sendMessage2} color="secondary">sendMessage2</button>
+                <button onClick={sendMessage3} color="secondary">sendMessage3</button>
             </Toolbar>
             <Accordion>
                 <AccordionSummary
