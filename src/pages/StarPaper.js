@@ -78,15 +78,16 @@ export default function SimplePaper({ messages }) {
     const D = ("00" + date.getDate()).slice(-2)
     const h = ("00" + date.getHours()).slice(-2)
     const m = ("00" + date.getMinutes()).slice(-2)
-    const s = ("00" + date.getSeconds()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
     const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
-    const [insta, setInsta] = useState(`${messages.insta}`);
+    const [url, setUrl] = useState(`${messages.url}`);
     const [event, setEvent] = useState(`${messages.event}`);
-    const [nichizi, setNichizi] = useState(`${messages.nichizi}`);
+    const [nichi, setNichi] = useState('');
+    const [zi, setZi] = useState('');
+    const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
 
     // 現在ログインしているユーザーを取得する
@@ -111,9 +112,11 @@ export default function SimplePaper({ messages }) {
                 avatar: messages.avatar,
                 event: `${event}`,
                 message: `${message}`,
-                nichizi: `${nichizi}`,
+                nichi: `${nichi}`,
+                zi: `${zi}`,
+                basyo: `${basyo}`,
                 src: `${src}`,
-                insta: `${insta}`,
+                url: `${url}`,
                 myPage: true,
                 like: messages.like,
                 sita: true,
@@ -148,9 +151,11 @@ export default function SimplePaper({ messages }) {
                 avatar: messages.avatar,
                 event: messages.event,
                 message: messages.message,
-                nichizi: messages.nichizi,
+                nichi: messages.nichi,
+                zi: messages.zi,
+                basyo: messages.basyo,
                 src: messages.src,
-                insta: messages.insta,
+                url: messages.url,
                 time: now,
                 myPage: true,
                 like: messages.like,
@@ -177,11 +182,13 @@ export default function SimplePaper({ messages }) {
                 name: `${name}`,
                 nName: messages.nName,
                 message: messages.message,
-                nichizi: messages.nichizi,
+                nichi: messages.nichi,
+                zi: messages.zi,
+                basyo: messages.basyo,
                 src: messages.src,
                 avatar: messages.avatar,
                 time: now,
-                insta: messages.insta,
+                url: messages.url,
                 like: messages.like,
                 sita: false,
                 load: true,
@@ -196,11 +203,13 @@ export default function SimplePaper({ messages }) {
                         name: `${name}`,
                         nName: messages.nName,
                         message: messages.message,
-                        nichizi: messages.nichizi,
+                        nichi: messages.nichi,
+                        zi: messages.zi,
+                        basyo: messages.basyo,
                         src: messages.src,
                         avatar: messages.avatar,
                         time: now,
-                        insta: messages.insta,
+                        url: messages.url,
                         like: messages.like,
                         sita: false,
                         load: true,
@@ -232,11 +241,13 @@ export default function SimplePaper({ messages }) {
                 name: `${name}`,
                 nName: messages.nName,
                 message: messages.message,
-                nichizi: messages.nichizi,
+                nichi: messages.nichi,
+                zi: messages.zi,
+                basyo: messages.basyo,
                 src: messages.src,
                 avatar: messages.avatar,
                 time: now,
-                insta: messages.insta,
+                url: messages.url,
                 myPage: true,
                 sita: false,
                 like: true,
@@ -261,9 +272,11 @@ export default function SimplePaper({ messages }) {
                 id: messages.id,
                 event: `${event}`,
                 message: `${message}`,
-                nichizi: `${nichizi}`,
+                nichi: `${nichi}`,
+                zi: `${zi}`,
+                basyo: `${basyo}`,
                 src: `${src}`,
-                insta: `${insta}`,
+                url: `${url}`,
                 myPage: true,
                 like: messages.like,
                 // sita:true,
@@ -356,9 +369,19 @@ export default function SimplePaper({ messages }) {
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
                         {messages.event}
                     </Typography>
-                    {`${messages.nichizi}`.length !== 0 &&
+                    {`${messages.nichi}`.length !== 0 &&
                         <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
-                            日時：{messages.nichizi}
+                            年月日：{messages.nichi}
+                        </Typography>
+                    }
+                    {`${messages.zi}`.length !== 0 &&
+                        <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                            時間：{messages.zi}
+                        </Typography>
+                    }
+                    {`${messages.basyo}`.length !== 0 &&
+                        <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                            場所：{messages.basyo}
                         </Typography>
                     }
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
@@ -373,9 +396,9 @@ export default function SimplePaper({ messages }) {
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="caption" color="textSecondary">
                         {messages.time}更新
                     </Typography>
-                    {`${messages.insta}`.length !== 0 &&
-                        <Link href={messages.insta} underline="none" target="_blank">
-                            <h6>関連url:{messages.insta}</h6>
+                    {`${messages.url}`.length !== 0 &&
+                        <Link href={messages.url} underline="none" target="_blank">
+                            <h6>関連url:{messages.url}</h6>
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
@@ -468,20 +491,40 @@ export default function SimplePaper({ messages }) {
 
                             <MenuItem>
                                 <TextField required id="standard-required"
-                                    label="日時"
+                                    label="年月日"
                                     // type="datetime-local"
-                                    defaultValue={messages.nichizi}
+                                    defaultValue={messages.nichi}
                                     fullWidth={true}
-                                    onChange={(e) => setNichizi(e.target.value)}
-                                    value={nichizi}
+                                    onChange={(e) => setNichi(e.target.value)}
+                                    value={nichi}
+                                />
+                            </MenuItem>
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="時間"
+                                    // type="datetime-local"
+                                    defaultValue={messages.zi}
+                                    fullWidth={true}
+                                    onChange={(e) => setZi(e.target.value)}
+                                    value={zi}
+                                />
+                            </MenuItem>
+                            <MenuItem>
+                                <TextField required id="standard-required"
+                                    label="場所"
+                                    // type="datetime-local"
+                                    defaultValue={messages.Basyo}
+                                    fullWidth={true}
+                                    onChange={(e) => setBasyo(e.target.value)}
+                                    value={basyo}
                                 />
                             </MenuItem>
                             <MenuItem>
                                 <TextField required id="standard-required"
                                     label="関連url"
-                                    defaultValue={messages.insta}
-                                    value={insta}
-                                    onChange={(e) => setInsta(e.target.value)}
+                                    defaultValue={messages.url}
+                                    value={url}
+                                    onChange={(e) => setUrl(e.target.value)}
                                 />
                             </MenuItem>
                             <Card>

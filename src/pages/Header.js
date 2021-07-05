@@ -22,7 +22,6 @@ import { Store } from '../store/index'
 
 const Header = () => {
     const myLiffId = "1656149559-xXM4l4Gp"
-    const { globalState, setGlobalState } = useContext(Store)
     const db = firebase.firestore();
     const [user, setUser] = useState([]);
     const [messages, setMessages] = useState('');
@@ -32,7 +31,10 @@ const Header = () => {
     const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
-    const [nichizi, setNichizi] = useState('');
+    const [nichi, setNichi] = useState('');
+    const [zi, setZi] = useState('');
+    const [basyo, setBasyo] = useState('');
+    const [url, setUrl] = useState('');
     const [insta, setInsta] = useState('');
     const ref = useRef < HTMLDivElement > (null);
     const history = useHistory()
@@ -81,9 +83,11 @@ const Header = () => {
                 avatar: `${avatar}`,
                 nName: `${nName}`,
                 event: `${event}`,
-                nichizi: `${nichizi}`,
+                nichi: `${nichi}`,
+                zi: `${zi}`,
+                basyo: `${basyo}`,
                 message,
-                insta: `${insta}`,
+                url: `${url}`,
                 src: `${src}`,
                 time: now,
                 star: 0,
@@ -97,7 +101,7 @@ const Header = () => {
                     console.log("Document successfully written!:", docref.id);
                     setMessage("");
                     setSrc("");
-                    setInsta("");
+                    setUrl("");
                     setMyFiles([]);
                     setClickable(false);
                     db.collection("messages").doc(docref.id).set({
@@ -110,9 +114,11 @@ const Header = () => {
                         avatar: `${avatar}`,
                         nName: `${nName}`,
                         event: `${event}`,
-                        nichizi: `${nichizi}`,
+                        nichi: `${nichi}`,
+                        zi: `${zi}`,
+                        basyo: `${basyo}`,
                         message,
-                        insta: `${insta}`,
+                        url: `${url}`,
                         src: `${src}`,
                         time: now,
                         star: 0,
@@ -135,9 +141,11 @@ const Header = () => {
                 avatar: `${avatar}`,
                 nName: `${nName}`,
                 event: `${event}`,
-                nichizi: `${nichizi}`,
+                nichi: `${nichi}`,
+                zi: `${zi}`,
+                basyo: `${basyo}`,
                 message,
-                insta: `${insta}`,
+                url: `${url}`,
                 src: `${src}`,
                 time: now,
                 star: 0,
@@ -151,7 +159,10 @@ const Header = () => {
                     console.log("Document successfully written!:", docsita.id);
                     setMessage("");
                     setSrc("");
-                    setInsta("");
+                    setNichi("");
+                    setZi("");
+                    setBasyo("");
+                    setUrl("");
                     setMyFiles([]);
                     setClickable(false);
                     db.collection("users").doc(`${name}`).collection("sitagaki").doc(docsita.id).set({
@@ -241,7 +252,7 @@ const Header = () => {
                     // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
                 })
         }
-        // history.push(`/Main`)
+        history.push(`/Main`)
     }
 
     const sendMessage1 = function (e) {
@@ -384,12 +395,28 @@ const Header = () => {
 
                         />
                         <TextField
-                            label="日時"
+                            label="年月日"
+                            // type="date-local"
+                            defaultValue=""
+                            fullWidth={true}
+                            onChange={(e) => setNichi(e.target.value)}
+                            value={nichi}
+                        />
+                        <TextField
+                            label="時間"
+                            // type="time-local"
+                            defaultValue=""
+                            fullWidth={true}
+                            onChange={(e) => setZi(e.target.value)}
+                            value={zi}
+                        />
+                        <TextField
+                            label="場所"
                             // type="datetime-local"
                             defaultValue=""
                             fullWidth={true}
-                            onChange={(e) => setNichizi(e.target.value)}
-                            value={nichizi}
+                            onChange={(e) => setBasyo(e.target.value)}
+                            value={basyo}
                         />
                         <TextField
                             label="メッセージ"
@@ -399,10 +426,16 @@ const Header = () => {
                         />
                         <TextField required id="standard-required"
                             label="関連url"
+                            defaultValue={messages.url}
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                        />
+                        {/* <TextField required id="standard-required"
+                            label="関連url"
                             defaultValue={messages.insta}
                             value={insta}
-                            onChange={(e) => setInsta(e.target.value)}
-                        />
+                            onChange={(e) => setIUrl(e.target.value)}
+                        /> */}
                     </Typography>
                 </AccordionDetails>
                 <Card>

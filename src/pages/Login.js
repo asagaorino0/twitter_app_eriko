@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Counter.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import firebase from '../config/firebase'
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
 import lineLogo from '../img/square-default.png';
@@ -37,7 +35,6 @@ const Login = () => {
         },
     }));
     const classes = useStyles();
-    const db = firebase.firestore();
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
@@ -77,7 +74,7 @@ const Login = () => {
                     setNName(profile.displayName)
                     setName(profile.userId)
                     setAvatar(profile.pictureUrl)
-                    // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                    console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
                 })
         }
         history.push(`/Main`)
