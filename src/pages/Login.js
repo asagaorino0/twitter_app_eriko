@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import firebase from '../config/firebase'
 import styles from './Counter.module.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -35,6 +36,7 @@ const Login = () => {
         },
     }));
     const classes = useStyles();
+    const db = firebase.firestore();
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
@@ -75,15 +77,15 @@ const Login = () => {
                     setName(profile.userId)
                     setAvatar(profile.pictureUrl)
                     console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+                    db.collection('users').doc(`${profile.userId}`).set({
+                        name: `${profile.userId}`,
+                        nName: `${profile.displayName}`,
+                        avatar: `${profile.pictureUrl}`,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    })
+                    history.push(`/Main`)
                 })
         }
-        db.collection('users').doc(`${profile.userId}`).set({
-            name: `${profile.userId}`,
-            nName: `${profile.displayName}`,
-            avatar: `${profile.pictureUrl}`,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        })
-        history.push(`/Main`)
     }
 
     return (
