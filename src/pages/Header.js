@@ -327,7 +327,7 @@ const Header = () => {
         text: 'World!'
     };
     const sendMessage4 = function (req, res) {
-        res.statusCode = 200;
+        // res.statusCode = 200;
         res.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
         res.end();
         client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
