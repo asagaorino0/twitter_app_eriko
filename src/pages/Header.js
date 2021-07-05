@@ -353,7 +353,7 @@ const Header = () => {
             </Button>
                 <button onClick={sendMessage} color="secondary">sendMessage</button>
                 <div>
-                    <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app/main" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
+                    <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
                 </div>
                 {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
