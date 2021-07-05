@@ -269,69 +269,56 @@ const Header = () => {
     //     }
     // }
 
-    const sendMessage3 = function (e) {
-        // Check if shareTargetPicker is available
-        if (liff.isApiAvailable('shareTargetPicker')) {
-            liff.shareTargetPicker([
-                {
-                    type: "text",
-                    text: "Hello, World!"
-                }
-            ])
-                .then(
-                    console.log("ShareTargetPicker was launched")
-                ).catch(function (res) {
-                    console.log("Failed to launch ShareTargetPicker")
-                })
-        }
-        // Check if multiple liff transtion feature is available
-        if (liff.isApiAvailable('multipleLiffTransition')) {
-            window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
-        }
-    }
+    // const sendMessage3 = function (e) {
+    //     // Check if shareTargetPicker is available
+    //     if (liff.isApiAvailable('shareTargetPicker')) {
+    //         liff.shareTargetPicker([
+    //             {
+    //                 type: "text",
+    //                 text: "Hello, World!"
+    //             }
+    //         ])
+    //             .then(
+    //                 console.log("ShareTargetPicker was launched")
+    //             ).catch(function (res) {
+    //                 console.log("Failed to launch ShareTargetPicker")
+    //             })
+    //     }
+    //     // Check if multiple liff transtion feature is available
+    //     if (liff.isApiAvailable('multipleLiffTransition')) {
+    //         window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
+    //     }
+    // }
 
-    const sendMessage4 = function (e) {
-        if (liff.isApiAvailable('shareTargetPicker')) {
-            liff.shareTargetPicker([{
-                'type': 'text',
-                'text': 'Hello, World!'
-            }]).then(
-                //shareTargetPickerの取得に成功　　　　　　　
-                document.getElementById('shareTargetPickerMessage').textContent = "Share target picker was launched."
-            ).catch(function (res) {
-                //「シェアターゲットピッカー」が有効になっているが取得に失敗した場合 
-                document.getElementById('shareTargetPickerMessage').textContent = "Failed to launch share target picker.";
-            });
-        } else {
-            //「シェアターゲットピッカー」が無効になっている場合
-            document.getElementById('shareTargetPickerMessage').innerHTML = "<div>Share target picker unavailable.<div><div>This is possibly because you haven't enabled the share target picker on <a href='https://developers.line.biz/console/'>LINE Developers Console</a>.</div>";
-        }
-    }
+    // const sendMessage4 = function (e) {
+    //     if (liff.isApiAvailable('shareTargetPicker')) {
+    //         liff.shareTargetPicker([{
+    //             'type': 'text',
+    //             'text': 'Hello, World!'
+    //         }]).then(
+    //             //shareTargetPickerの取得に成功　　　　　　　
+    //             document.getElementById('shareTargetPickerMessage').textContent = "Share target picker was launched."
+    //         ).catch(function (res) {
+    //             //「シェアターゲットピッカー」が有効になっているが取得に失敗した場合 
+    //             document.getElementById('shareTargetPickerMessage').textContent = "Failed to launch share target picker.";
+    //         });
+    //     } else {
+    //         //「シェアターゲットピッカー」が無効になっている場合
+    //         document.getElementById('shareTargetPickerMessage').innerHTML = "<div>Share target picker unavailable.<div><div>This is possibly because you haven't enabled the share target picker on <a href='https://developers.line.biz/console/'>LINE Developers Console</a>.</div>";
+    //     }
+    // }
 
     const text = "I sent test message!"
     function sendMessage5() {
-        //     liff.sendMessages(
-        //         [{ type: "text", text }]
-        //     ).then(function () {
-        //         window.alert('Message sent');
-        //     }).catch(function (error) {
-        //         window.alert('Error sending message: ' + error);
-        //     });
-        // }
-        document.getElementById('sendMessage').addEventListener('click', function () {
-            // if (!liff.isInClient()) {
-            //     sendAlertIfNotInClient();
-            // } else {
-            liff.sendMessages([{
-                'type': 'text',
-                'text': "Hello, World!"
-            }]).then(function () {
-                window.alert('Message sent');
-            }).catch(function (error) {
-                window.alert('Error sending message: ' + error);
-            });
-        })
-    };
+        liff.sendMessages(
+            [{ type: "text", text }]
+        ).then(function () {
+            window.alert('Message sent');
+        }).catch(function (error) {
+            window.alert('Error sending message: ' + error);
+        });
+    }
+
 
     return (
         <div className={classes.root}>
@@ -361,8 +348,8 @@ const Header = () => {
                 </div>
                 {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
-                <button onClick={sendMessage3} color="secondary">sendMessage</button>
-                <button onClick={sendMessage4} color="secondary">sendMessage</button>
+                {/* <button onClick={sendMessage3} color="secondary">sendMessage</button>
+                <button onClick={sendMessage4} color="secondary">sendMessage</button> */}
                 <button onClick={sendMessage5} color="secondary">sendMessage</button>
             </Toolbar>
             <Accordion>
