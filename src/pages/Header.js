@@ -351,7 +351,7 @@ const Header = () => {
                 <Button variant="contained" onClick={signOut}>
                     Logout
             </Button>
-                <button onClick={sendMessage} color="secondary">sendMessage</button>
+                {/* <button onClick={sendMessage} color="secondary">sendMessage</button> */}
                 <div>
                     <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
                 </div>
