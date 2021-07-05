@@ -314,6 +314,7 @@ const Header = () => {
         }
     }
 
+    const [header, setHeader] = useState('');
     const line = require('@line/bot-sdk');
     const client = new line.Client({
         channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
@@ -327,6 +328,7 @@ const Header = () => {
         text: 'World!'
     };
     const sendMessage4 = function (e) {
+        setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
         client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
             [message1, message2]
         )
