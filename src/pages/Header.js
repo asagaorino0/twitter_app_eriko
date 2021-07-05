@@ -255,34 +255,19 @@ const Header = () => {
     }
 
     const sendMessage1 = function (e) {
-        const line = require('@line/bot-sdk');
-        const client = new line.Client({
-            channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
-        });
-        liff.shareTargetPicker([
-            client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', '',
-            ]),
-            {
-                'type': 'text',
-                'text': 'Hello, World!'
-            }])
+        liff.shareTargetPicker([{
+            'type': 'text',
+            'text': 'Hello, World!'
+        }])
     }
 
-
     const sendMessage2 = function (e) {
-        const line = require('@line/bot-sdk');
-        const client = new line.Client({
-            channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
-        });
         if (liff.isApiAvailable('shareTargetPicker')) {
-            // liff.shareTargetPicker([
-            client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', '',
-                // ])
+            liff.shareTargetPicker([
                 {
                     'type': 'text',
                     'text': 'Hello, World!'
                 }
-
             ])
                 .then(function (res) {
                     if (res) {
@@ -327,10 +312,25 @@ const Header = () => {
             window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
         }
     }
+    const sendMessage4 = function (e) {
+        liff.sendMessages([
+            {
+                type: 'text',
+                text: 'Hello, World!'
+            }
+        ])
+            .then(() => {
+                console.log('message sent');
+            })
+            .catch((err) => {
+                console.log('error', err);
+            });
+    }
     //使えないやつ
     // const line = require('@line/bot-sdk');
     // const client = new line.Client({
     //     channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
+
     // });
     // const message1 = {
     //     type: 'text',
