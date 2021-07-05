@@ -16,6 +16,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SaveIcon from '@material-ui/icons/Save';
 import TelegramIcon from '@material-ui/icons/Telegram';
+import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
 import { Store } from '../store/index'
 
@@ -351,7 +352,10 @@ const Header = () => {
                     Logout
             </Button>
                 <button onClick={sendMessage} color="secondary">sendMessage</button>
-                <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div>
+                <div>
+                    <a href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app/main" ><img src={lineLogo} size="small" alt="LINEメッセージを送る" /></a>
+                </div>
+                {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
                 {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
             </Toolbar>
             <Accordion>

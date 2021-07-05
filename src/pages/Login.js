@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import firebase from '../config/firebase'
 import Typography from '@material-ui/core/Typography';
 import logo from '../img/0730.jpg';
+import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
 
 const Login = () => {
