@@ -77,6 +77,12 @@ const Login = () => {
                     console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
                 })
         }
+        db.collection('users').doc(`${profile.userId}`).set({
+            name: `${profile.userId}`,
+            nName: `${profile.displayName}`,
+            avatar: `${profile.pictureUrl}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
         history.push(`/Main`)
     }
 

@@ -396,7 +396,7 @@ const Header = () => {
                         />
                         <TextField
                             label="年月日"
-                            // type="date-local"
+                            type="date"
                             defaultValue=""
                             fullWidth={true}
                             onChange={(e) => setNichi(e.target.value)}
@@ -404,7 +404,7 @@ const Header = () => {
                         />
                         <TextField
                             label="時間"
-                            // type="time-local"
+                            type="time"
                             defaultValue=""
                             fullWidth={true}
                             onChange={(e) => setZi(e.target.value)}
