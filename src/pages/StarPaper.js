@@ -376,7 +376,7 @@ export default function SimplePaper({ messages }) {
             .onSnapshot((snapshot) => {
                 const followedId = snapshot.docs.map((doc) => {
                     return doc.id &&
-                        doc.id()
+                        doc.uid()
                     // doc.data()
                 });
                 setFollowedId(followedId)
