@@ -106,20 +106,20 @@ export default function SimplePaper({ messages }) {
                 // console.log("ユーザーの名前:" + profile.userId);
                 // console.log("ユーザーの画像URL:" + profile.pictureUrl);
                 // console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .doc(`${name}`)
-                    .collection('likes')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followed = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setFollowed(followed)
-                        console.log("followed", followed)
-                    })
+                // firebase
+                //     .firestore()
+                //     .collection("users")
+                //     .doc(`${name}`)
+                //     .collection('likes')
+                //     .orderBy("timestamp", "desc")
+                //     .onSnapshot((snapshot) => {
+                //         const followed = snapshot.docs.map((doc) => {
+                //             return doc.id &&
+                //                 doc.data()
+                //         });
+                //         setFollowed(followed)
+                //         console.log("followed", followed)
+                // })
             })
     }, []
     );
@@ -298,9 +298,7 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-                console.log(followers.includes(`${name}`))
-                console.log("name", `${name}`)
-                console.log("Document written with ID: ");
+
                 firebase
                     .firestore()
                     .collection("users")
@@ -316,6 +314,9 @@ export default function SimplePaper({ messages }) {
                         console.log("followed", followed)
                     })
             })
+        console.log(followers.includes(`${name}`))
+        console.log("name", `${name}`)
+        console.log("Document written with ID: ");
     }
 
     const sitarId = async () => {
@@ -464,12 +465,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.includes(`${name}`) === false &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />
-                        }
-                        {followers.includes(`${name}`) === true &&
-                            <StarIcon className={classes.yellow} onClick={stardel} />
-                        }
+                        {/* {followers.includes(`${name}`) === false && */}
+                        <StarBorderIcon className={classes.yellow} onClick={starId} />
+
+                        {/* {followers.includes(`${name}`) === true && */}
+                        <StarIcon className={classes.yellow} onClick={stardel} />
+
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
