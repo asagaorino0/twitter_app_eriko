@@ -246,9 +246,6 @@ export default function SimplePaper({ messages }) {
     }
 
     const stardel = async () => {
-        // console.log(followers.includes(`${name}`))
-        console.log(followers.includes(`${name}`))
-        console.log("name", `${name}`)
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -270,6 +267,8 @@ export default function SimplePaper({ messages }) {
                     doc.ref.delete();
                 })
             })
+        console.log(followers.includes(`${name}`))
+        console.log("name", `${name}`)
     }
     const starId = async () => {
         db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
@@ -299,7 +298,6 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-                // console.log(followers.includes(`${name}`))
                 console.log(followers.includes(`${name}`))
                 console.log("name", `${name}`)
                 console.log("Document written with ID: ");
@@ -466,12 +464,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followers.uid.includes(`${name}`) !== true && */}
-                        <StarBorderIcon className={classes.yellow} onClick={starId} />
-
-                        {/* {followers.uid.includes(`${name}`) === true && */}
-                        <StarIcon className={classes.yellow} onClick={stardel} />
-
+                        {followers.includes(`${name}`) === false &&
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
+                        {followers.includes(`${name}`) === true &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
