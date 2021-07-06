@@ -64,14 +64,15 @@ const Login = () => {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
-                liff.login();
-                // window.location.href = loginUrl;
+                // liff.login();
+                window.location.href = loginUrl;
             }
         }
     }
     const lineClick = function () {
-        liff.login();
+        // liff.login();
         // window.location.href = loginUrl;
+        history.push(`/Main`)
     };
 
 
@@ -114,25 +115,25 @@ const Login = () => {
                             </Button>
                     </Typography>
                 </div>
-今だけ！期間限定
+                {/* 今だけ！期間限定 */}
                 <div class="line-it-button" data-lang="ja" data-type="share-a" data-ver="3" data-url="https://social-plugins.line.me/ja/how_to_install#lineitbutton" data-color="default" data-size="small" data-count="false" style={{ display: 'none' }}></div>
                 <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 
                 <div>
-                    <Link
+                    {/* <Link
                         href="https://api-data.line.me/v2/bot/audienceGroup/upload/byUe;"
                         underline="none"
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
-                    </Link>
+                    </Link> */}
                 </div>
                 <div>
-                    <Link
+                    {/* <Link
                         href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
                         underline="none"
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
         </div>
