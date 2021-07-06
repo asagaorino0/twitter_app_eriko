@@ -444,10 +444,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followeds.id !== `${messages.id}` &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />}
-                        {followeds.id === `${messages.id}` &&
-                            <StarIcon className={classes.yellow} onClick={stardel} />}
+                        {/* {followeds.id !== `${messages.id}` && */}
+                        <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        {/* } */}
+                        {/* {followeds.id === `${messages.id}` && */}
+                        <StarIcon className={classes.yellow} onClick={stardel} />
+                        {/* } */}
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
