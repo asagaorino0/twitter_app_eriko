@@ -71,7 +71,8 @@ const Login = () => {
     }
     const lineClick = function () {
         // liff.login();
-        window.location.href = " https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Ftwitter-app-eriko.web.app%2F";
+        window.location.href = loginUrl;
+        // window.location.href = " https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Ftwitter-app-eriko.web.app%2F";
         // https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id={CHANNEL_ID}&redirect_uri={CALLBACK_URL}&state={STATE}&bot_prompt={BOT_PROMPT}&scope={SCOPE_LIST}        
     };
 
@@ -119,7 +120,14 @@ const Login = () => {
                 <div class="line-it-button" data-lang="ja" data-type="share-a" data-ver="3" data-url="https://social-plugins.line.me/ja/how_to_install#lineitbutton" data-color="default" data-size="small" data-count="false" style={{ display: 'none' }}></div>
                 <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
 
-
+                <div>
+                    <Link
+                        href="https://api-data.line.me/v2/bot/Ue/upload/byFile;"
+                        underline="none"
+                        target="_blank"
+                    ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
+                    </Link>
+                </div>
                 <div>
                     <Link
                         href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"

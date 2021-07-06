@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from "firebase/app"
+import PanToolIcon from '@material-ui/icons/PanTool';
+import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Follower from './Follower'
@@ -99,7 +101,6 @@ export default function SimplePaper({ messages }) {
                 setAvatar(profile.pictureUrl)
                 // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
             })
-
     }, []
     );
     const likeSitarId = async () => {
@@ -226,35 +227,56 @@ export default function SimplePaper({ messages }) {
 
     const starId = async () => {
         await
-            // db.settings({ ignoreUndefinedProperties: true })
-            db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
-                follower: `${avatar}`,
-                followerName: `${nName}`,
-                uid: `${name}`,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            }, { merge: true }//←上書きされないおまじない
-            )
-        db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
-            .set({
-                id: messages.id,
-                event: messages.event,
-                name: `${name}`,
-                nName: messages.nName,
-                message: messages.message,
-                nichi: messages.nichi,
-                zi: messages.zi,
-                basyo: messages.basyo,
-                src: messages.src,
-                avatar: messages.avatar,
-                time: now,
-                url: messages.url,
-                myPage: true,
-                sita: false,
-                like: true,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            db.collection("messages")
+                .doc(messages.id)
+                .collection('follower')
+                .where("uid", "==", `${name}`)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        doc.ref.delete();
+                    })
+                })
+        db.collection("users")
+            .doc(`${name}`)
+            .collection("likes")
+            .where("id", "==", `${messages.id}`)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    doc.ref.delete();
+                })
             })
-            .then((docRef) => {
-                console.log("Document written with ID: ");
+            .catch(() => {
+                db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
+                    follower: `${avatar}`,
+                    followerName: `${nName}`,
+                    uid: `${name}`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                }, { merge: true }//←上書きされないおまじない
+                )
+                db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
+                    .set({
+                        id: messages.id,
+                        event: messages.event,
+                        name: `${name}`,
+                        nName: messages.nName,
+                        message: messages.message,
+                        nichi: messages.nichi,
+                        zi: messages.zi,
+                        basyo: messages.basyo,
+                        src: messages.src,
+                        avatar: messages.avatar,
+                        time: now,
+                        url: messages.url,
+                        myPage: true,
+                        sita: false,
+                        like: true,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    })
+                    .then((docRef) => {
+                        console.log("Document written with ID: ");
+                    })
             })
     }
     const sitarId = async () => {
@@ -291,6 +313,7 @@ export default function SimplePaper({ messages }) {
                     console.log("Document written with ID: ");
                 })
     }
+
     useEffect(() => {
         firebase
             .firestore()
@@ -304,11 +327,14 @@ export default function SimplePaper({ messages }) {
                         doc.data()
                 });
                 setFollowers(followers)
-                // console.log(followers)
+                console.log("followers", followers)
             })
     }, []
     );
     const [followers, setFollowers] = useState('');
+
+    //////////////////////////////////////////
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorMl, setAnchorMl] = React.useState(null);
     const handleClick = (event) => {
