@@ -92,7 +92,7 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState('');
-    const [setFollowed] = useState('');
+    // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState('');
 
     // 現在ログインしているユーザーを取得する
@@ -298,25 +298,24 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .doc(`${name}`)
-                    .collection('likes')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followed = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setFollowed(followed)
-                        console.log("followed", followed)
-                    })
+                console.log("Document written with ID: ");
+                // firebase
+                //     .firestore()
+                //     .collection("users")
+                //     .doc(`${name}`)
+                //     .collection('likes')
+                //     .orderBy("timestamp", "desc")
+                //     .onSnapshot((snapshot) => {
+                //         const followed = snapshot.docs.map((doc) => {
+                //             return doc.id &&
+                //                 doc.data()
+                //         });
+                //         setFollowed(followed)
+                //         console.log("followed", followed)
+                //     })
+                // console.log(followers.includes(`${name}`))
+                // console.log("name", `${name}`)
             })
-        console.log(followers.includes(`${name}`))
-        console.log("name", `${name}`)
-        console.log("Document written with ID: ");
     }
 
     const sitarId = async () => {
@@ -376,7 +375,8 @@ export default function SimplePaper({ messages }) {
             .collection('follower')
             .onSnapshot((snapshot) => {
                 const followedId = snapshot.docs.map((doc) => {
-                    return doc.id()
+                    return doc.id &&
+                        doc.id()
                     // doc.data()
                 });
                 setFollowedId(followedId)
