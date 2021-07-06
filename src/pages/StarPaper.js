@@ -91,9 +91,9 @@ export default function SimplePaper({ messages }) {
     const [zi, setZi] = useState('');
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
-    const [followers, setFollowers] = useState('');
+    const [followers, setFollowers] = useState([]);
     // const [setFollowed] = useState('');
-    const [followedId, setFollowedId] = useState('');
+    const [followedId, setFollowedId] = useState([]);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -368,20 +368,14 @@ export default function SimplePaper({ messages }) {
                 setFollowers(followers)
                 console.log("followers", followers)
             })
-        firebase
-            .firestore()
-            .collection("messages")
-            .doc(messages.id)
-            .collection('follower')
-            .onSnapshot((snapshot) => {
-                const followedId = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.uid()
-                    // doc.data()
-                });
-                setFollowedId(followedId)
-                console.log("followers", followedId)
-            })
+        {
+            const followedId = followers.length !== 0 &&
+                followers.map((followers) => {
+                    return ([followers.uid])
+                })
+            setFollowedId(followedId)
+            console.log("followers", followedId)
+        }
     }, []
     );
 
