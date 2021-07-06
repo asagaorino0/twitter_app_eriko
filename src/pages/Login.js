@@ -64,15 +64,14 @@ const Login = () => {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
-                // liff.login();
-                window.location.href = loginUrl;
+                liff.login();
+                // window.location.href = loginUrl;
             }
         }
     }
     const lineClick = function () {
-        // liff.login();
+        liff.login();
         // window.location.href = loginUrl;
-        history.push(`/Main`)
     };
 
 
