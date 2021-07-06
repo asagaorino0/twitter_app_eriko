@@ -343,10 +343,10 @@ const Header = () => {
     //             console.log('LIFF Initialization failed ', err);
     //         });
     // }
-    function sendMessage4(text) {
+    function sendMessage4(e) {
         liff.sendMessages([{
             'type': 'text',
-            'text': text
+            'text': 'Hello, World!'
         }]).then(function () {
             liff.closeWindow();
         }).catch(function (error) {
