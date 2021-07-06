@@ -465,12 +465,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followers.includes(`${name}`) === false && */}
-                        <StarBorderIcon className={classes.yellow} onClick={starId} />
-
-                        {/* {followers.includes(`${name}`) === true && */}
-                        <StarIcon className={classes.yellow} onClick={stardel} />
-
+                        {followers.includes(`${name}`) === false &&
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
+                        {followers.includes(`${name}`) !== false &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (

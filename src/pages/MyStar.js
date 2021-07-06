@@ -7,10 +7,10 @@ import liff from '@line/liff';
 
 const MyStar = () => {
     const [messages, setMessages] = useState('');
-    const [starMsg, setStarMsg] = useState([]);
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    var storage = firebase.app().storage("gs://my-custom-bucket");
+    // const [starMsg, setStarMsg] = useState([]);
+    // const db = firebase.firestore();
+    // const doc = firebase.firestore();
+    // var storage = firebase.app().storage("gs://my-custom-bucket");
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -37,7 +37,7 @@ const MyStar = () => {
                             return doc.id &&
                                 doc.data()
                         });
-                        setStarMsg(likes)
+                        // setStarMsg(likes)
                         setMessages(likes)
                         console.log(likes)
                     })

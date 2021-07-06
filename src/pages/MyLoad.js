@@ -1,33 +1,31 @@
 import { useEffect, useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/firestore";
-import "firebase/auth";
+// import "firebase/auth";
 import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import StarPaper from './StarPaper'
 import liff from '@line/liff';
 
 const MyLoad = () => {
     const [messages, setMessages] = useState('');
-    const [starMsg, setStarMsg] = useState([]);
-    const [sitarMsg, setSitarMsg] = useState([]);
-    const [loadMsg, setLoadMsg] = useState([]);
-    const [followers, setFollowers] = useState('');
-    const history = useHistory()
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    var storage = firebase.app().storage("gs://my-custom-bucket");
-    const [user, setUser] = useState([]);
-    const [name, setName] = useState('');
-    const [nName, setNName] = useState('');
-    const [avatar, setAvatar] = useState('');
+    // const [loadMsg, setLoadMsg] = useState([]);
+    // const [followers, setFollowers] = useState('');
+    // const history = useHistory()
+    // const db = firebase.firestore();
+    // const doc = firebase.firestore();
+    // var storage = firebase.app().storage("gs://my-custom-bucket");
+    // const [user, setUser] = useState([]);
+    // const [name, setName] = useState('');
+    // const [nName, setNName] = useState('');
+    // const [avatar, setAvatar] = useState('');
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
         liff.getProfile()
             .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
+                // setNName(profile.displayName)
+                // setName(profile.userId)
+                // setAvatar(profile.pictureUrl)
                 firebase
                     .firestore()
                     .collection("users")
@@ -39,10 +37,10 @@ const MyLoad = () => {
                             return doc.id &&
                                 doc.data()
                         });
-                        setLoadMsg(loadsita)
+                        // setLoadMsg(loadsita)
                         setMessages(loadsita)
-                        console.log(loadsita)
-                        console.log(doc.id, doc.data)
+                        // console.log(loadsita)
+                        // console.log(doc.id, doc.data)
                     })
             })
     }, []

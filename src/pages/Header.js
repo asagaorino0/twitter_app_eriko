@@ -410,8 +410,6 @@ const Header = () => {
     return (
         <div className={classes.root}>
             <Toolbar>
-                {/* <div class="line-it-button" data-lang="ja" data-type="like" data-url="https://twitter-app-eriko.web.app" data-lineid="@435dcwgo" style="display: none;"></div> */}
-                {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
                 <img
                     src={`${avatar}`}
                     alt=""
@@ -426,15 +424,13 @@ const Header = () => {
                     Logout
             </Button>
                 <div>
-                    <Link
+                    {/* <Link
                         href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
                         underline="none"
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
-                    </Link>
+                    </Link> */}
                 </div>
-                {/* <div class="line-it-button" data-lang="ja" data-type="share-b" data-ver="3" data-url="https://twitter-app-eriko.web.app" data-color="default" data-size="small" data-count="false" style="display: none;"></div> */}
-                {/* <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script> */}
                 <button onClick={sendMessage1} color="secondary">sendMessage1</button>
                 <button onClick={sendMessage2} color="secondary">sendMessage2</button>
                 <button onClick={sendMessage3} color="secondary">sendMessage3</button>

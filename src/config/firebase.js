@@ -65,17 +65,6 @@ export const db = firebase.firestore();
 //         });
 //     });
 
-// class Users {
-//     constructor(first, last, born) {
-//         // this.id = id;
-//         this.first = first;
-//         this.last = last;
-//         this.born = born;
-//     }
-//     toString() {
-//         return this.first + ', ' + this.last + ', ' + this.born;
-//     }
-// }
 // // Firestore data converter
 // var usersConverter = {
 //     toFirestore: function (users) {
