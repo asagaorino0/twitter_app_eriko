@@ -368,14 +368,14 @@ export default function SimplePaper({ messages }) {
                 setFollowers(followers)
                 console.log("followers", followers)
             })
-        {
-            const followedId =
-                followers.map((followers) => {
-                    return followers.uid()
-                })
-            setFollowedId(followedId)
-            console.log("followedId", followedId)
-        }
+        // {
+        //     const followedId =
+        //         followers.map((followers) => {
+        //             return followers.uid()
+        //         })
+        //     setFollowedId(followedId)
+        //     console.log("followedId", followedId)
+        // }
     }, []
     );
 
@@ -472,12 +472,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followedId.includes(`${name}`) === false &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />
-                        }
-                        {followedId.includes(`${name}`) !== false &&
-                            <StarIcon className={classes.yellow} onClick={stardel} />
-                        }
+                        {/* {followedId.includes(`${name}`) === false && */}
+                        <StarBorderIcon className={classes.yellow} onClick={starId} />
+
+                        {/* {followedId.includes(`${name}`) !== false && */}
                         <StarIcon className={classes.yellow} onClick={stardel} />
 
                         {followers.length !== 0 &&
