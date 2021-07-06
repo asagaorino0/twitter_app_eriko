@@ -246,7 +246,8 @@ export default function SimplePaper({ messages }) {
     }
 
     const stardel = async () => {
-        console.log("followers.uid", followers.uid)
+        console.log(followers.includes(`${name}`))
+        console.log(followers.uid.includes(`${name}`))
         console.log("name", `${name}`)
         await
             db.collection("messages")
@@ -298,7 +299,8 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-                console.log("followers.uid", followers.uid)
+                console.log(followers.includes(`${name}`))
+                console.log(followers.uid.includes(`${name}`))
                 console.log("name", `${name}`)
                 console.log("Document written with ID: ");
                 firebase
@@ -464,10 +466,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.includes(`${name}`) !== true &&
+                        {followers.uid.includes(`${name}`) !== true &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {followers.includes(`${name}`) === true &&
+                        {followers.uid.includes(`${name}`) === true &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         {followers.length !== 0 &&
