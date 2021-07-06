@@ -225,7 +225,7 @@ export default function SimplePaper({ messages }) {
                 })
     }
 
-    const starId = async () => {
+    const stardel = async () => {
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -247,38 +247,39 @@ export default function SimplePaper({ messages }) {
                     doc.ref.delete();
                 })
             })
-            .catch(() => {
-                db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
-                    follower: `${avatar}`,
-                    followerName: `${nName}`,
-                    uid: `${name}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                }, { merge: true }//←上書きされないおまじない
-                )
-                db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
-                    .set({
-                        id: messages.id,
-                        event: messages.event,
-                        name: `${name}`,
-                        nName: messages.nName,
-                        message: messages.message,
-                        nichi: messages.nichi,
-                        zi: messages.zi,
-                        basyo: messages.basyo,
-                        src: messages.src,
-                        avatar: messages.avatar,
-                        time: now,
-                        url: messages.url,
-                        myPage: true,
-                        sita: false,
-                        like: true,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
-                    .then((docRef) => {
-                        console.log("Document written with ID: ");
-                    })
+    }
+    const starId = async () => {
+        db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
+            follower: `${avatar}`,
+            followerName: `${nName}`,
+            uid: `${name}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        }, { merge: true }//←上書きされないおまじない
+        )
+        db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
+            .set({
+                id: messages.id,
+                event: messages.event,
+                name: `${name}`,
+                nName: messages.nName,
+                message: messages.message,
+                nichi: messages.nichi,
+                zi: messages.zi,
+                basyo: messages.basyo,
+                src: messages.src,
+                avatar: messages.avatar,
+                time: now,
+                url: messages.url,
+                myPage: true,
+                sita: false,
+                like: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then((docRef) => {
+                console.log("Document written with ID: ");
             })
     }
+
     const sitarId = async () => {
         try {
             // アップロード処理
@@ -329,9 +330,24 @@ export default function SimplePaper({ messages }) {
                 setFollowers(followers)
                 console.log("followers", followers)
             })
+        firebase
+            .firestore()
+            .collection("users")
+            .doc(`${name}`)
+            .collection('likes')
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const followeds = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setFolloweds(followeds)
+                console.log("followeds", followeds)
+            })
     }, []
     );
     const [followers, setFollowers] = useState('');
+    const [followeds, setFolloweds] = useState('');
 
     //////////////////////////////////////////
 
@@ -428,10 +444,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.length === 0 &&
+                        {followeds.id !== `${messages.id}` &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />}
-                        {followers.length !== 0 &&
-                            <StarIcon className={classes.yellow} onClick={starId} />}
+                        {followeds.id === `${messages.id}` &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />}
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
