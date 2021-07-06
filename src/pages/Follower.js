@@ -1,44 +1,13 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
-// import firebase from "firebase/app"
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-// import liff from '@line/liff';
 
 export default function SimplePaper({ followers }) {
-    // const [user, setUser] = useState([]);
-    // const [name, setName] = useState('');
-    // const [nName, setNName] = useState('');
-    // const [avatar, setAvatar] = useState('');
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             firebase
-    //                 .firestore()
-    //                 .collection("users")
-    //                 .where("name", "==", `${name}`)
-    //                 .onSnapshot((snapshot) => {
-    //                     const user = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data()
-    //                     });
-    //                     setUser(user)
-    //                     console.log("forowers_user", user)
-    //                 })
-    //         })
-    // }, []
-    // );
     const [anchorFl, setAnchorFl] = React.useState(null);
     const handleFollower = (event) => {
         setAnchorFl(event.currentTarget);
-        // console.log(followers.length)
-        // console.log(followers.follower)
-        // console.log(followers.name)
     };
     const handleClose = () => {
         setAnchorFl(null);
@@ -64,6 +33,3 @@ export default function SimplePaper({ followers }) {
         </div>
     )
 }
-
-
-    // export default Follower;
