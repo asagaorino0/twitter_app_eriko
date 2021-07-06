@@ -371,7 +371,7 @@ export default function SimplePaper({ messages }) {
         {
             const followedId =
                 followers.map((followers) => {
-                    return followers.uid
+                    return followers.uid()
                 })
             setFollowedId(followedId)
             console.log("followedId", followedId)
