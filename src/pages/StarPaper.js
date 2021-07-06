@@ -91,6 +91,8 @@ export default function SimplePaper({ messages }) {
     const [zi, setZi] = useState('');
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
+    const [followers, setFollowers] = useState('');
+    const [followed, setFollowed] = useState('');
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -110,12 +112,12 @@ export default function SimplePaper({ messages }) {
                     .collection('likes')
                     .orderBy("timestamp", "desc")
                     .onSnapshot((snapshot) => {
-                        const followeds = snapshot.docs.map((doc) => {
+                        const followed = snapshot.docs.map((doc) => {
                             return doc.id &&
                                 doc.data()
                         });
-                        setFolloweds(followeds)
-                        console.log("followeds", followeds)
+                        setFollowed(followed)
+                        console.log("followed", followed)
                     })
             })
     }, []
@@ -349,10 +351,6 @@ export default function SimplePaper({ messages }) {
             })
     }, []
     );
-    const [followers, setFollowers] = useState('');
-    const [followeds, setFolloweds] = useState('');
-
-    //////////////////////////////////////////
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorMl, setAnchorMl] = React.useState(null);
@@ -447,10 +445,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followeds.id !== `${messages.id}` && */}
+                        {/* {followed.id !== `${messages.id}` && */}
                         <StarBorderIcon className={classes.yellow} onClick={starId} />
                         {/* } */}
-                        {/* {followeds.id === `${messages.id}` && */}
+                        {/* {followed.id === `${messages.id}` && */}
                         <StarIcon className={classes.yellow} onClick={stardel} />
                         {/* } */}
                         {followers.length !== 0 &&

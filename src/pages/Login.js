@@ -122,7 +122,7 @@ const Login = () => {
 
                 <div>
                     <Link
-                        href="https://api-data.line.me/v2/bot/Ue/upload/byFile;"
+                        href="https://api-data.line.me/v2/bot/audienceGroup/upload/byUe;"
                         underline="none"
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
