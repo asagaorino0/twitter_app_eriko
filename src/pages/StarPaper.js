@@ -460,10 +460,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followed.name !== `${name}` &&
+                        {followers.name !== `${name}` &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {followed.name === `${name}` &&
+                        {followers.name === `${name}` &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         {followers.length !== 0 &&
