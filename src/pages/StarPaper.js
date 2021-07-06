@@ -5,7 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
-import firebase from "firebase/app"
+import firebase from "firebase/app";
+import lineLogo from '../img/square-default.png';
 import PanToolIcon from '@material-ui/icons/PanTool';
 import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import StarIcon from '@material-ui/icons/Star';
@@ -459,12 +460,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followed.id !== `${messages.id}` && */}
-                        <StarBorderIcon className={classes.yellow} onClick={starId} />
-                        {/* } */}
-                        {/* {followed.id === `${messages.id}` && */}
-                        <StarIcon className={classes.yellow} onClick={stardel} />
-                        {/* } */}
+                        {followed.id !== `${messages.id}` &&
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
+                        {followed.id === `${messages.id}` &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
@@ -488,6 +489,17 @@ export default function SimplePaper({ messages }) {
                     <Grid item>
                         <DeleteIcon color="disabled" onClick={deleteLike} title="del" />
                     </Grid>
+                }
+                {messages.load === true &&
+                    <Grid item>
+                        <div>
+                            <Link
+                                href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
+                                underline="none"
+                                target="_blank"
+                            ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
+                            </Link>
+                        </div>                                </Grid>
                 }
             </Grid>
 
