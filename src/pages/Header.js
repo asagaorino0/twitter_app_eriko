@@ -312,48 +312,32 @@ const Header = () => {
             window.location.href = "https://liff.line.me/1656149559-xXM4l4Gp"
         }
     }
-    // const sendMessage4 = function (e) {
-    //     liff.sendMessages([
-    //         {
-    //             type: 'text',
-    //             text: 'Hello, World!'
-    //         }
-    //     ])
-    //         .then(() => {
-    //             console.log('message sent');
-    //         })
-    //         .catch((err) => {
-    //             console.log('error', err);
-    //         });
-    // }
-
-
-    // function initializeLiff(myLiffId) {
-    //     liff
-    //         .init({
-    //             liffId: myLiffId
-    //         })
-    //         .then(() => {
-    //             if (!liff.isInClient() && !liff.isLoggedIn()) {
-    //                 window.alert("LINEアカウントにログインしてください。");
-    //                 liff.login();
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             console.log('LIFF Initialization failed ', err);
-    //         });
-    // }
-    function sendMessage4(e) {
-        liff.sendMessages([{
-            'type': 'text',
-            'text': 'Hello, World!'
-        }]).then(function () {
-            liff.closeWindow();
-        }).catch(function (error) {
-            // "user doesn't grant required permissions yet." が発生している
-            window.alert('Failed to send message ' + error);
-        });
+    const sendMessage4 = function (e) {
+        liff.sendMessages([
+            {
+                type: 'text',
+                text: 'Hello, World!'
+            }
+        ])
+            .then(() => {
+                console.log('message sent');
+            })
+            .catch((err) => {
+                console.log('error', err);
+            });
     }
+
+    // function sendMessage4() {
+    //     liff.sendMessages([{
+    //         'type': 'text',
+    //         'text': 'Hello, World!'
+    //     }]).then(function () {
+    //         liff.closeWindow();
+    //     }).catch(function (error) {
+    //         // "user doesn't grant required permissions yet." が発生している
+    //         window.alert('Failed to send message ' + error);
+    //     });
+    // }
     //使えないやつ
     // const line = require('@line/bot-sdk');
     // const client = new line.Client({

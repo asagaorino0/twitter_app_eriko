@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
@@ -69,12 +69,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimplePaper({ messages }) {
-    const myLiffId = "1656149559-xXM4l4Gp"
     const classes = useStyles();
     const history = useHistory()
     const db = firebase.firestore();
-    const doc = firebase.firestore();
-    const follower = firebase.firestore();
+    // const doc = firebase.firestore();
+    // const follower = firebase.firestore();
     const date = new Date()
     const Y = date.getFullYear()
     const M = ("00" + (date.getMonth() + 1)).slice(-2)
@@ -82,7 +81,7 @@ export default function SimplePaper({ messages }) {
     const h = ("00" + date.getHours()).slice(-2)
     const m = ("00" + date.getMinutes()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
-    const [user, setUser] = useState([]);
+    // const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -93,7 +92,7 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState('');
-    const [followed, setFollowed] = useState('');
+    const [setFollowed] = useState('');
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -468,9 +467,9 @@ export default function SimplePaper({ messages }) {
                         {followers.includes(`${name}`) === false &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {followers.includes(`${name}`) !== false &&
-                            <StarIcon className={classes.yellow} onClick={stardel} />
-                        }
+                        {/* {followers.includes(`${name}`) !== false && */}
+                        <StarIcon className={classes.yellow} onClick={stardel} />
+
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
@@ -502,6 +501,7 @@ export default function SimplePaper({ messages }) {
                                 href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
                                 underline="none"
                                 target="_blank"
+                                style={{ width: '25px', height: '25px' }}
                             ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                             </Link>
                         </div>                                </Grid>
