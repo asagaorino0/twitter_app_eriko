@@ -11,6 +11,9 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Follower from './Follower'
 import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
@@ -44,27 +47,9 @@ const useStyles = makeStyles((theme) => ({
     pos: {
         marginBottom: 0,
     },
-    pink: {
-        color: '#fff',
-        backgroundColor: 'pink',
-    },
-    followPink: {
-        color: '#fff',
-        backgroundColor: 'pink',
-        fontSize: '10px',
-        borderRadius: '50%',
-        width: '20px',
-        height: '20px'
-    },
     yellow: {
         color: 'yelloW',
         // backgroundColor: 'yelloW',
-    },
-    largePink: {
-        width: '40px',
-        height: '40px',
-        color: '#fff',
-        backgroundColor: 'pink',
     },
 }));
 
@@ -92,8 +77,11 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState([]);
+    const [checked, setChecked] = React.useState(false);
+    const [sanka, setSanka] = useState('');
+    // const [checked, setChecked] = React.useState(false);
     // const [setFollowed] = useState('');
-    const [followedId, setFollowedId] = useState([]);
+    // const [followedId, setFollowedId] = useState([]);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -246,6 +234,8 @@ export default function SimplePaper({ messages }) {
     }
 
     const stardel = async () => {
+        setSanka("")
+        setChecked((prev) => !prev);
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -298,25 +288,12 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
+
+                setSanka("参加する")
                 console.log("Document written with ID: ");
-                // firebase
-                //     .firestore()
-                //     .collection("users")
-                //     .doc(`${name}`)
-                //     .collection('likes')
-                //     .orderBy("timestamp", "desc")
-                //     .onSnapshot((snapshot) => {
-                //         const followed = snapshot.docs.map((doc) => {
-                //             return doc.id &&
-                //                 doc.data()
-                //         });
-                //         setFollowed(followed)
-                //         console.log("followed", followed)
-                //     })
-                // console.log(followers.includes(`${name}`))
-                // console.log("name", `${name}`)
             })
     }
+
 
     const sitarId = async () => {
         try {
@@ -477,7 +454,12 @@ export default function SimplePaper({ messages }) {
 
                         {/* {followedId.includes(`${name}`) !== false && */}
                         <StarIcon className={classes.yellow} onClick={stardel} />
-
+                        <FormGroup>
+                            <FormControlLabel
+                                control={<Switch checked={starId} onChange={stardel} />}
+                                label={sanka}
+                            />
+                        </FormGroup>
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
