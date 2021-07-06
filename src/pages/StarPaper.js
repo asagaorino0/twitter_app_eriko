@@ -460,10 +460,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followed.id !== `${messages.id}` &&
+                        {followed.name !== `${name}` &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {followed.id === `${messages.id}` &&
+                        {followed.name === `${name}` &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         {followers.length !== 0 &&
@@ -490,7 +490,7 @@ export default function SimplePaper({ messages }) {
                         <DeleteIcon color="disabled" onClick={deleteLike} title="del" />
                     </Grid>
                 }
-                {messages.load === true &&
+                {messages.name === `${name}` &&
                     <Grid item>
                         <div>
                             <Link
