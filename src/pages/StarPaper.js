@@ -246,7 +246,7 @@ export default function SimplePaper({ messages }) {
     }
 
     const stardel = async () => {
-        console.log(followers.includes(`${name}`))
+        // console.log(followers.includes(`${name}`))
         console.log(followers.uid.includes(`${name}`))
         console.log("name", `${name}`)
         await
@@ -299,7 +299,7 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-                console.log(followers.includes(`${name}`))
+                // console.log(followers.includes(`${name}`))
                 console.log(followers.uid.includes(`${name}`))
                 console.log("name", `${name}`)
                 console.log("Document written with ID: ");
