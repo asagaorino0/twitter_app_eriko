@@ -246,6 +246,8 @@ export default function SimplePaper({ messages }) {
     }
 
     const stardel = async () => {
+        console.log("followers.name", followers.uid)
+        console.log("name", `${name}`)
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -269,6 +271,8 @@ export default function SimplePaper({ messages }) {
             })
     }
     const starId = async () => {
+        console.log("followers.name", followers.uid)
+        console.log("name", `${name}`)
         db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
             follower: `${avatar}`,
             followerName: `${nName}`,
@@ -460,10 +464,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.name !== `${name}` &&
+                        {followers.uid !== `${name}` &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {followers.name === `${name}` &&
+                        {followers.uid === `${name}` &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         {followers.length !== 0 &&
