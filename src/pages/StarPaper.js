@@ -93,6 +93,7 @@ export default function SimplePaper({ messages }) {
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState('');
     const [setFollowed] = useState('');
+    const [followedId, setFollowedId] = useState('');
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -368,6 +369,19 @@ export default function SimplePaper({ messages }) {
                 setFollowers(followers)
                 console.log("followers", followers)
             })
+        firebase
+            .firestore()
+            .collection("messages")
+            .doc(messages.id)
+            .collection('follower')
+            .onSnapshot((snapshot) => {
+                const followedId = snapshot.docs.map((doc) => {
+                    return doc.id()
+                    // doc.data()
+                });
+                setFollowedId(followedId)
+                console.log("followers", followedId)
+            })
     }, []
     );
 
@@ -464,10 +478,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.includes(`${name}`) === false &&
+                        {followedId.includes(`${name}`) === false &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {/* {followers.includes(`${name}`) !== false && */}
+                        {followedId.includes(`${name}`) !== false &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         <StarIcon className={classes.yellow} onClick={stardel} />
 
                         {followers.length !== 0 &&
