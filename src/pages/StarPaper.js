@@ -271,8 +271,6 @@ export default function SimplePaper({ messages }) {
             })
     }
     const starId = async () => {
-        console.log("followers.uid", followers.uid)
-        console.log("name", `${name}`)
         db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
             follower: `${avatar}`,
             followerName: `${nName}`,
@@ -300,6 +298,8 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
+                console.log("followers.uid", followers.uid)
+                console.log("name", `${name}`)
                 console.log("Document written with ID: ");
                 firebase
                     .firestore()
@@ -464,12 +464,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followers.uid !== `${name}` && */}
-                        <StarBorderIcon className={classes.yellow} onClick={starId} />
-
-                        {/* {followers.uid === `${name}` && */}
-                        <StarIcon className={classes.yellow} onClick={stardel} />
-
+                        {followers.includes(`${name}`) !== true &&
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
+                        {followers.includes(`${name}`) === true &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
