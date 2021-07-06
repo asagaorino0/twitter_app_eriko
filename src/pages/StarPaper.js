@@ -99,7 +99,24 @@ export default function SimplePaper({ messages }) {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+                console.log("ユーザーのid:" + profile.displayName);
+                console.log("ユーザーの名前:" + profile.userId);
+                console.log("ユーザーの画像URL:" + profile.pictureUrl);
+                console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .doc(`${name}`)
+                    .collection('likes')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followeds = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setFolloweds(followeds)
+                        console.log("followeds", followeds)
+                    })
             })
     }, []
     );
@@ -329,20 +346,6 @@ export default function SimplePaper({ messages }) {
                 });
                 setFollowers(followers)
                 console.log("followers", followers)
-            })
-        firebase
-            .firestore()
-            .collection("users")
-            .doc(`${name}`)
-            .collection('likes')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const followeds = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setFolloweds(followeds)
-                console.log("followeds", followeds)
             })
     }, []
     );
