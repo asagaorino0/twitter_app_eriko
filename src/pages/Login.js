@@ -61,19 +61,17 @@ const Login = () => {
             //ログイン済
             onload()
         } else {
-            //     // 未ログイン
+            // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
-                // liff.login();
-                window.location.href = loginUrl;
+                liff.login();
+                // window.location.href = loginUrl;
             }
         }
     }
     const lineClick = function () {
-        // liff.login();
-        window.location.href = loginUrl;
-        // window.location.href = " https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Ftwitter-app-eriko.web.app%2F";
-        // https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id={CHANNEL_ID}&redirect_uri={CALLBACK_URL}&state={STATE}&bot_prompt={BOT_PROMPT}&scope={SCOPE_LIST}        
+        liff.login();
+        // window.location.href = loginUrl;
     };
 
 
