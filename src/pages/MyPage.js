@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +15,7 @@ import liff from '@line/liff';
 
 const MyPage = () => {
     const history = useHistory()
-    const [setName] = useState('');
+    const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
 
