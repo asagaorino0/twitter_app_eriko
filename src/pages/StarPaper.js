@@ -81,7 +81,7 @@ export default function SimplePaper({ messages }) {
     const [sanka, setSanka] = useState('');
     const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
-    // const [followedId, setFollowedId] = useState([]);
+    const [followedId, setFollowedId] = useState([]);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -350,16 +350,24 @@ export default function SimplePaper({ messages }) {
                         doc.data()
                 });
                 setFollowers(followers)
-                console.log("followers", followers)
-                console.log("followers.uid", followers.uid)
-                console.log("[followers.uid]", [followers.uid])
-                console.log("(followers.uid)", (followers.uid))
-                console.log(followers.includes(`${name}`))
-                console.log(followers.includes(`${name}`, followers.uid))
-                console.log(followers.includes.call(`${name}`))  // true
-                console.log(followers.includes.call(arguments, `${name}`))  // true
-                console.log(followers.includes(arguments, `${name}`))  // true
-                // console.log(followers.uid.includes(`${name}`))
+                firebase
+                    .firestore()
+                    .collection("messages")
+                    .doc(messages.id)
+                    .collection('follower')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followedId = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data().uid
+                        });
+                        setFollowedId(followedId)
+                        console.log("followedID", followedId)
+                        console.log(followedId.includes(`${name}`))
+                        console.log(followedId.includes.call(`${name}`))
+                        console.log(followedId.includes.call(arguments, `${name}`))
+                        console.log(followedId.includes(arguments, `${name}`))                          // console.log(followers.uid.includes(`${name}`))
+                    })
             })
     }, []
     );
