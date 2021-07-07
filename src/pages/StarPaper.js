@@ -467,10 +467,10 @@ export default function SimplePaper({ messages }) {
                                 label={sanka}
                             /> */}
                             <FormControlLabel
-                                value="last"
+                                value="end"
                                 control={<Switch color="primary" checked={state} onChange={toggleChecked} />}
                                 label="参加する"
-                                labelPlacement="last"
+                                labelPlacement="end"
 
                             />
                         </FormGroup>
