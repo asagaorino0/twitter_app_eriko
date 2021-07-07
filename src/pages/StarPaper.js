@@ -479,7 +479,7 @@ export default function SimplePaper({ messages }) {
                             /> */}
                             <FormControlLabel
                                 value="bottom"
-                                control={<Switch color="primary" onChange={toggleChecked} />}
+                                control={<Switch color="primary" checked={state} onChange={toggleChecked} />}
                                 label={sanka}
                                 fontSize="8px"
                                 labelPlacement="bottom"
@@ -497,7 +497,7 @@ export default function SimplePaper({ messages }) {
                         }
                     </Grid>
                     <Grid item >
-                        <h6>{`name:${name}`}</h6>
+                        <h6>{`state:${state}`}</h6>
                     </Grid>
                 </Grid>
                 {messages.sita === true &&
