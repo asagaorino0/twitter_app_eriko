@@ -293,7 +293,7 @@ export default function SimplePaper({ messages }) {
             })
     }
     const toggleChecked = () => {
-        setChecked((prev) => !prev);
+        setCheckedSanka((prev) => !prev);
         starId()
     };
 
