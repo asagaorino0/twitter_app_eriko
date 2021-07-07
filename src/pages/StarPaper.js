@@ -235,7 +235,6 @@ export default function SimplePaper({ messages }) {
 
     const stardel = async () => {
         setSanka("")
-        // setCheckedsanka((prev) => !prev);
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -294,7 +293,11 @@ export default function SimplePaper({ messages }) {
     }
     const toggleChecked = () => {
         setCheckedSanka((prev) => !prev);
-        starId()
+        if (sanka !== "参加する") {
+            starId()
+        } else {
+            stardel()
+        }
     };
 
     const sitarId = async () => {
@@ -347,14 +350,6 @@ export default function SimplePaper({ messages }) {
                 setFollowers(followers)
                 console.log("followers", followers)
             })
-        // {
-        //     const followedId =
-        //         followers.map((followers) => {
-        //             return followers.uid()
-        //         })
-        //     setFollowedId(followedId)
-        //     console.log("followedId", followedId)
-        // }
     }, []
     );
 
@@ -457,9 +452,17 @@ export default function SimplePaper({ messages }) {
                         {/* {followedId.includes(`${name}`) !== false && */}
                         <StarIcon className={classes.yellow} onClick={stardel} />
                         <FormGroup>
-                            <FormControlLabel
+                            {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
                                 label={sanka}
+                            /> */}
+                            <FormControlLabel
+                                value="bottom"
+                                control={<Switch color="primary" onChange={toggleChecked} />}
+                                label={sanka}
+                                fontSize="8px"
+                                labelPlacement="bottom"
+
                             />
                         </FormGroup>
                         {followers.length !== 0 &&

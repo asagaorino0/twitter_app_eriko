@@ -60,9 +60,6 @@ const MyPage = () => {
     const back = () => {
         history.push('/Main')
     }
-    const myStar = () => {
-        history.push('/MyStar')
-    }
 
     return (
         <div>
