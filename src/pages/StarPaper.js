@@ -80,7 +80,8 @@ export default function SimplePaper({ messages }) {
     const [checked, setChecked] = React.useState(false);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
-    const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
+    // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
+    const [checkedsanka, setCheckedSanka] = React.useState(true);
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
@@ -106,7 +107,7 @@ export default function SimplePaper({ messages }) {
                         console.log("followedID", followedId)
                         console.log("name", `${name}`)
                         // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        console.log(followedId.includes(`${profile.userId}`))
+                        console.log("state", followedId.includes(`${profile.userId}`))
                         setState(followedId.includes(`${profile.userId}`))
                     })
             })
@@ -369,6 +370,7 @@ export default function SimplePaper({ messages }) {
                         // console.log(followers.includes("Ue990787da85bbd95eae9595867add9ba"))
                         // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${name}`))
+                        setState(followedId.includes(`${name}`))
                         // console.log(followedId.includes.call(`${name}`))
                         // console.log(followedId.includes.call(arguments, `${name}`))
                         // console.log(followedId.includes(arguments, `${name}`))                          // console.log(followers.uid.includes(`${name}`))
