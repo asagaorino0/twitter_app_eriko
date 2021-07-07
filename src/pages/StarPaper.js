@@ -454,10 +454,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {state === false &&
+                        {`${state}` === false &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {state === true &&
+                        {`${state}` === true &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         <FormGroup>
@@ -466,11 +466,11 @@ export default function SimplePaper({ messages }) {
                                 label={sanka}
                             /> */}
                             <FormControlLabel
-                                value="bottom"
+                                value="end"
                                 control={<Switch color="primary" checked={`${state}`} onChange={toggleChecked} />}
-                                label={`${sanka}`}
+                                label="参加する"
                                 labelFontSize="8px"
-                                labelPlacement="bottom"
+                                labelPlacement="end"
 
                             />
                         </FormGroup>
