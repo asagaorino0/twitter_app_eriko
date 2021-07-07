@@ -1,19 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
-import firebase from "firebase";
+import React, { useEffect, useState } from 'react';
+import firebase from "firebase/app";
 import "firebase/firestore";
-import "firebase/auth";
 import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
 import StarPaper from './StarPaper'
-import liff from '@line/liff';
 
 const Main = () => {
-    const myLiffId = "1656149559-xXM4l4Gp"
-    const [id, setId] = useState('');
-    const [src, setSrc] = useState('');
-    const db = firebase.firestore();
-    const doc = firebase.firestore();
-    var storage = firebase.app().storage("gs://my-custom-bucket");
     const [messages, setMessages] = useState('');
     useEffect(() => {
         firebase
@@ -26,7 +18,6 @@ const Main = () => {
                         doc.data()
                 });
                 setMessages(messages);
-                // console.log(messages)
             })
     }, []
     );
@@ -35,64 +26,24 @@ const Main = () => {
             gridRow: 2,
             margin: '26px',
         },
-        paper: {
-            maxWidth: 400,
-            margin: '5px 0px 5px 0px ',
-            padding: '16px',
-            boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
-        },
-        green: {
-            color: '#fff',
-            backgroundColor: 'green',
-            margin: '5px 5px 5px 20px',
-        },
-        yellow: {
-            color: 'yelloW',
-        },
-        formControl: {
-            margin: 'spacing(1)',
-            minWidth: '120px',
-        },
-        selectEmpty: {
-            marginTop: 'spacing(2)',
-        },
-        pos: {
-            marginBottom: 10,
-        },
-        pink: {
-            color: '#fff',
-            backgroundColor: 'pink',
-        },
-        largePink: {
-            width: 'spacing(20)',
-            height: 'spacing(20)',
-            fontSize: '100px',
-            color: '#fff',
-            backgroundColor: 'pink',
-        },
+        // paper: {
+        //     maxWidth: 400,
+        //     margin: '5px 0px 5px 0px ',
+        //     padding: '16px',
+        //     boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+        // },
     });
     const classes = useStyles();
-    const handleDelete = async () => {
-        await
-            db.collection("messages").where("message", "==", "")
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        doc.ref.delete();
-                    })
-                })
-    };
-    const handleWindow = () => {
-        // if (liff.isApiAvailable('Uccd83a6500bba57ace57024cb31d5a1a')) {
-        if (liff.isApiAvailable('Ue990787da85bbd95eae9595867add9ba')) {
-            liff.shareTargetPicker([
-                {
-                    type: "text",
-                    text: "Hello, World!"
-                }
-            ])
-        }
-    }
+    // const handleDelete = async () => {
+    //     await
+    //         db.collection("messages").where("message", "==", "")
+    //             .get()
+    //             .then((querySnapshot) => {
+    //                 querySnapshot.forEach((doc) => {
+    //                     doc.ref.delete();
+    //                 })
+    //             })
+    // };
 
     return (
         <div>

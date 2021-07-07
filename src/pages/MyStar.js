@@ -31,7 +31,7 @@ const MyStar = () => {
                     .collection("users")
                     .doc(`${profile.userId}`)
                     .collection('likes')
-                    .orderBy("timestamp", "desc")
+                    .orderBy("nichi", "desc")
                     .onSnapshot((snapshot) => {
                         const likes = snapshot.docs.map((doc) => {
                             return doc.id &&
