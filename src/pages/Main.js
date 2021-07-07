@@ -9,16 +9,9 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import liff from '@line/liff';
 
 const Main = () => {
     const [messages, setMessages] = useState('');
-    const [name, setName] = useState('');
-    const [setNName] = useState('');
-    const [setAvatar] = useState('');
-    const [setFollowedId] = useState([]);
-    const [state, setState] = useState('');
-
     useEffect(() => {
         firebase
             .firestore()
@@ -30,40 +23,10 @@ const Main = () => {
                         doc.data()
                 });
                 setMessages(messages);
-
-            })
-    }, []
-    );
-    // 現在ログインしているユーザーを取得する
-    useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                firebase
-                    .firestore()
-                    .collection("messages")
-                    .doc(messages.id)
-                    .collection('follower')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followedId = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data().uid
-                        });
-                        setFollowedId(followedId)
-                        console.log("followedID", followedId)
-                        console.log("name", `${name}`)
-                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        console.log("state", followedId.includes(`${profile.userId}`))
-                        setState(followedId.includes(`${profile.userId}`))
-                    })
             })
     }, []
     );
     const eventNow = async () => {
-
     }
     const useStyles = makeStyles({
         heading: {
