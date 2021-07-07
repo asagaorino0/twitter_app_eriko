@@ -76,7 +76,7 @@ export default function SimplePaper({ messages }) {
     const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
     // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
-    const [setFollowedId] = useState([]);
+    const [followedId, setFollowedId] = useState([]);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -467,7 +467,7 @@ export default function SimplePaper({ messages }) {
                             /> */}
                             <FormControlLabel
                                 value="bottom"
-                                control={<Switch color="primary" checked={state} onChange={toggleChecked} />}
+                                control={<Switch color="primary" checked={`${state}`} onChange={toggleChecked} />}
                                 label={`${sanka}`}
                                 labelFontSize="8px"
                                 labelPlacement="bottom"
