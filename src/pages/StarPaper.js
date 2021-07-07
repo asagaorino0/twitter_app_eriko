@@ -79,7 +79,7 @@ export default function SimplePaper({ messages }) {
     const [followers, setFollowers] = useState([]);
     const [checked, setChecked] = React.useState(false);
     const [sanka, setSanka] = useState('');
-    // const [checked, setChecked] = React.useState(false);
+    const [checkedsanka, setCheckedsanka] = React.useState(false);
     // const [setFollowed] = useState('');
     // const [followedId, setFollowedId] = useState([]);
 
@@ -235,7 +235,7 @@ export default function SimplePaper({ messages }) {
 
     const stardel = async () => {
         setSanka("")
-        setChecked((prev) => !prev);
+        // setCheckedsanka((prev) => !prev);
         await
             db.collection("messages")
                 .doc(messages.id)
@@ -288,12 +288,14 @@ export default function SimplePaper({ messages }) {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then((docRef) => {
-
                 setSanka("参加する")
                 console.log("Document written with ID: ");
             })
     }
-
+    const toggleChecked = () => {
+        setChecked((prev) => !prev);
+        starId()
+    };
 
     const sitarId = async () => {
         try {
@@ -456,7 +458,7 @@ export default function SimplePaper({ messages }) {
                         <StarIcon className={classes.yellow} onClick={stardel} />
                         <FormGroup>
                             <FormControlLabel
-                                control={<Switch checked={starId} onChange={stardel} />}
+                                control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
                                 label={sanka}
                             />
                         </FormGroup>
@@ -491,10 +493,10 @@ export default function SimplePaper({ messages }) {
                                 href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
                                 underline="none"
                                 target="_blank"
-                                style={{ width: '25px', height: '25px' }}
-                            ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
+                            ><img src={lineLogo} size="small" alt="LINEメッセージを送る" style={{ width: '25px', height: '25px' }} />
                             </Link>
-                        </div>                                </Grid>
+                        </div>
+                    </Grid>
                 }
             </Grid>
 
