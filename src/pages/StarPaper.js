@@ -288,6 +288,8 @@ export default function SimplePaper({ messages }) {
             })
             .then((docRef) => {
                 setSanka("参加する")
+                console.log(followers.includes(`${name}`))
+                console.log("name", `${name}`)
                 console.log("Document written with ID: ");
             })
     }
