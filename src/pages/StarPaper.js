@@ -9,6 +9,7 @@ import firebase from "firebase/app";
 import lineLogo from '../img/square-default.png';
 import PanToolIcon from '@material-ui/icons/PanTool';
 import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
+import RefreshIcon from '@material-ui/icons/Refresh'
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Switch from '@material-ui/core/Switch';
@@ -25,7 +26,6 @@ import { Typography, Button } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
 import { storage } from "../config/firebase";
 import FolderIcon from '@material-ui/icons/Folder';
-import RefreshIcon from '@material-ui/icons/Refresh';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import QueueIcon from '@material-ui/icons/Queue';
@@ -438,6 +438,7 @@ export default function SimplePaper({ messages }) {
 
     return (
         < Paper className={classes.paper} >
+            <RefreshIcon onClick={load} />
             <Grid container wrap="nowrap" spacing={1} >
                 <Grid item >
                     <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
@@ -480,10 +481,10 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <TouchAppOutlinedIcon className={classes.yellow} onClick={starId} />
+                            <TouchAppOutlinedIcon className={classes.yellow} fontSize="large" onClick={starId} />
                         }
                         {state === true &&
-                            <PanToolIcon className={classes.yellow} onClick={stardel} />
+                            <PanToolIcon className={classes.yellow} fontSize="large" onClick={stardel} />
                         }
                         {/* <FormGroup> */}
                         {/* <FormControlLabel
@@ -536,7 +537,7 @@ export default function SimplePaper({ messages }) {
                             </Link>
                         </div>
                     </Grid>
-                }
+                }            <RefreshIcon onClick={load} />
             </Grid>
 
             <div>

@@ -413,10 +413,10 @@ const Header = () => {
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                     </Link> */}
                 </div>
-                <button onClick={sendMessage1} color="secondary">sendMessage1</button>
-                <button onClick={sendMessage2} color="secondary">sendMessage2</button>
-                <button onClick={sendMessage3} color="secondary">sendMessage3</button>
-                <button onClick={sendMessage4} color="secondary">sendMessage4</button>
+                {/* <button onClick={sendMessage1} color="secondary">sendMessage1</button> */}
+                {/* <button onClick={sendMessage2} color="secondary">sendMessage2</button> */}
+                {/* <button onClick={sendMessage3} color="secondary">sendMessage3</button> */}
+                {/* <button onClick={sendMessage4} color="secondary">sendMessage4</button> */}
             </Toolbar>
             <Accordion>
                 <AccordionSummary
