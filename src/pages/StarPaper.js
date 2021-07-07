@@ -104,7 +104,7 @@ export default function SimplePaper({ messages }) {
                         setFollowedId(followedId)
                         console.log("followedID", followedId)
                         console.log("name", `${name}`)
-                        console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${profile.userId}`))
                     })
             })
@@ -232,6 +232,41 @@ export default function SimplePaper({ messages }) {
                 })
     }
 
+    const sitarId = async () => {
+        try {
+            // アップロード処理
+            const uploadTask = storage
+                .ref(`/images/${myFiles[0].name}`)
+                .put(myFiles[0]);
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
+        }
+        catch (error) {
+        }
+        await
+            db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
+                id: messages.id,
+                event: `${event}`,
+                message: `${message}`,
+                nichi: `${nichi}`,
+                zi: `${zi}`,
+                basyo: `${basyo}`,
+                src: `${src}`,
+                url: `${url}`,
+                myPage: true,
+                like: messages.like,
+                // sita:true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                time: now,
+            }, { merge: true }//←上書きされないおまじない
+            )
+                .then((docRef) => {
+                    setAnchorMl(null);
+                    setMyFiles([]);
+                    setClickable(false);
+                    console.log("Document written with ID: ");
+                })
+    }
+
     const stardel = async () => {
         setSanka("")
         await
@@ -301,40 +336,6 @@ export default function SimplePaper({ messages }) {
         }
     };
 
-    const sitarId = async () => {
-        try {
-            // アップロード処理
-            const uploadTask = storage
-                .ref(`/images/${myFiles[0].name}`)
-                .put(myFiles[0]);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
-        }
-        catch (error) {
-        }
-        await
-            db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
-                id: messages.id,
-                event: `${event}`,
-                message: `${message}`,
-                nichi: `${nichi}`,
-                zi: `${zi}`,
-                basyo: `${basyo}`,
-                src: `${src}`,
-                url: `${url}`,
-                myPage: true,
-                like: messages.like,
-                // sita:true,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                time: now,
-            }, { merge: true }//←上書きされないおまじない
-            )
-                .then((docRef) => {
-                    setAnchorMl(null);
-                    setMyFiles([]);
-                    setClickable(false);
-                    console.log("Document written with ID: ");
-                })
-    }
 
     useEffect(() => {
         firebase
@@ -364,7 +365,7 @@ export default function SimplePaper({ messages }) {
                         console.log("followedID", followedId)
                         console.log("name", `${name}`)
                         // console.log(followers.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${name}`))
                         // console.log(followedId.includes.call(`${name}`))
                         // console.log(followedId.includes.call(arguments, `${name}`))
@@ -418,18 +419,17 @@ export default function SimplePaper({ messages }) {
         };
     };
     return (
+
+
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
-                {`${messages.avatar}`.length === 1 &&
-                    <Grid item >
-                        <Avatar className={classes.pink} onClick={handleClick} >{messages.avatar} </Avatar>
-                    </Grid>
-                }
-                {`${messages.avatar}`.length !== 1 &&
-                    <Grid item>
-                        <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
-                    </Grid>
-                }
+                <Grid item >
+                    <h6>{`name:${name}`}</h6>
+                </Grid>
+                <Grid item >
+                    <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                </Grid>
+
                 <Grid item xs >
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
                         {messages.event}
