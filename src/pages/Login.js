@@ -94,6 +94,43 @@ const Login = () => {
         }
     }
 
+    const googleClick = () => {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        firebase.auth().languageCode = 'jp';
+        firebase.auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+                /** @type {firebase.auth.OAuthCredential} */
+                const nameG = (result.user?.displayName)
+                setNName(`${nameG}`)
+                const avatarG = (result.user?.photoURL)
+                setAvatar(`${avatarG}`)
+                console.log(avatar)
+                setNName(nameG)
+                const uid = (result.user?.uid)
+                setName(`${uid}`)
+                console.log(`${uid}`)
+                db.collection('users').doc(`${uid}`).set({
+                    name: result.user?.uid,
+                    nName: `${nameG}`,
+                    avatar: `${avatar}`,
+                    // avatarG: `${avatarG}`,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                })
+                    .then((docref) => {
+                        console.log("Document successfully written!:", `${name}`);
+                    })
+                    .catch((error) => {
+                        console.error("Error writing document: ");
+                    })
+                history.push('/Main')
+            });
+    }
+
+
+
+
     return (
         <div className={classes.paper}>
             <img src={logo} style={{ borderRadius: '50%', width: '60px', height: '60px' }} alt="logo" />
@@ -133,6 +170,14 @@ const Login = () => {
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                     </Link> */}
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={googleClick}
+                        color="primary"
+                    >
+                        googleでLogin
+                         </Button>
                 </div>
             </div>
         </div>

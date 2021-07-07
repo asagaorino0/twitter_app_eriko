@@ -70,7 +70,7 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState([]);
-    const [checked, setChecked] = React.useState(`${state}`);
+    // const [checked, setChecked] = React.useState(`${state}`);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
     const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
@@ -78,34 +78,57 @@ export default function SimplePaper({ messages }) {
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
-    // 現在ログインしているユーザーを取得する
-    useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                firebase
-                    .firestore()
-                    .collection("messages")
-                    .doc(messages.id)
-                    .collection('follower')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followedId = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data().uid
-                        });
-                        setFollowedId(followedId)
-                        console.log("followedID", followedId)
-                        console.log("name", `${name}`)
-                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        console.log("state", followedId.includes(`${profile.userId}`))
-                        setState(followedId.includes(`${profile.userId}`))
-                    })
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     liff.getProfile()
+    //         .then(profile => {
+    //             setNName(profile.displayName)
+    //             setName(profile.userId)
+    //             setAvatar(profile.pictureUrl)
+    //             firebase
+    //                 .firestore()
+    //                 .collection("messages")
+    //                 .doc(messages.id)
+    //                 .collection('follower')
+    //                 .orderBy("timestamp", "desc")
+    //                 .onSnapshot((snapshot) => {
+    //                     const followedId = snapshot.docs.map((doc) => {
+    //                         return doc.id &&
+    //                             doc.data().uid
+    //                     });
+    //                     setFollowedId(followedId)
+    //                     console.log("followedID", followedId)
+    //                     console.log("name", `${name}`)
+    //                     // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+    //                     console.log("state", followedId.includes(`${profile.userId}`))
+    //                     setState(followedId.includes(`${profile.userId}`))
+    //                 })
+    //         })
+    // }, []
+    // );
+    window.onload = function (e) {
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        firebase
+            .firestore()
+            .collection("messages")
+            .doc(messages.id)
+            .collection('follower')
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const followedId = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data().uid
+                });
+                setFollowedId(followedId)
+                console.log("followedID", followedId)
+                console.log("name", `${name}`)
+                // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+                // console.log("state", followedId.includes(`${"Ue990787da85bbd95eae9595867add9ba"}`))
+                setState(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
             })
-    }, []
-    );
+    }
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
@@ -321,20 +344,21 @@ export default function SimplePaper({ messages }) {
                 setState(followers.includes(`${name}`))
                 // console.log("Document written with ID: ")
             })
+        load()
     }
-    const toggleChecked = () => {
-        setChecked((prev) => !prev);
-        if (sanka !== "参加する") {
-            starId()
-        } else {
-            stardel()
-        }
-        load()
-    };
-    useEffect(() => {
-        load()
-    }, []
-    );
+    // const toggleChecked = () => {
+    //     setChecked((prev) => !prev);
+    //     if (sanka !== "参加する") {
+    //         starId()
+    //     } else {
+    //         stardel()
+    //     }
+    //     load()
+    // };
+    // useEffect(() => {
+    //     load()
+    // }, []
+    // );
     const load = function () {
         firebase
             .firestore()
@@ -461,20 +485,20 @@ export default function SimplePaper({ messages }) {
                         {state === true &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
-                        <FormGroup>
-                            {/* <FormControlLabel
+                        {/* <FormGroup> */}
+                        {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
                                 label={sanka}
                             /> */}
-                            <FormControlLabel
+                        {/* <FormControlLabel
                                 value="end"
                                 control={<Switch color="primary" checked={`${state}`} onChange={toggleChecked} />}
                                 label="参加する"
                                 labelFontSize="8px"
                                 labelPlacement="end"
 
-                            />
-                        </FormGroup>
+                            /> */}
+                        {/* </FormGroup> */}
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (

@@ -27,7 +27,6 @@ const Header = () => {
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    const [nameG, setNameG] = useState('');
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
     const [nichi, setNichi] = useState('');
@@ -47,19 +46,24 @@ const Header = () => {
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
 
     // 現在ログインしているユーザーを取得する
-    useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
-            })
-    }, []
-    );
+    // useEffect(() => {
+    //     liff.getProfile()
+    //         .then(profile => {
+    //             setNName(profile.displayName)
+    //             setName(profile.userId)
+    //             setAvatar(profile.pictureUrl)
+    //             // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+    //         })
+    // }, []
+    // );
+    window.onload = function (e) {
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
-            setNameG('')
+            setNName('')
             setAvatar('')
             history.push('/')
         }).catch((error) => {
@@ -68,12 +72,6 @@ const Header = () => {
     }
     const myPage = () => {
         history.push('/MyPage')
-    }
-    const myStar = () => {
-        history.push('/MyStar')
-    }
-    const myLoad = () => {
-        history.push('/MyLoad')
     }
     const handleCreate = async () => {
         await
@@ -415,10 +413,10 @@ const Header = () => {
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                     </Link> */}
                 </div>
-                {/* <button onClick={sendMessage1} color="secondary">sendMessage1</button> */}
-                {/* <button onClick={sendMessage2} color="secondary">sendMessage2</button> */}
-                {/* <button onClick={sendMessage3} color="secondary">sendMessage3</button> */}
-                {/* <button onClick={sendMessage4} color="secondary">sendMessage4</button> */}
+                <button onClick={sendMessage1} color="secondary">sendMessage1</button>
+                <button onClick={sendMessage2} color="secondary">sendMessage2</button>
+                <button onClick={sendMessage3} color="secondary">sendMessage3</button>
+                <button onClick={sendMessage4} color="secondary">sendMessage4</button>
             </Toolbar>
             <Accordion>
                 <AccordionSummary
