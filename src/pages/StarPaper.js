@@ -351,8 +351,11 @@ export default function SimplePaper({ messages }) {
                 });
                 setFollowers(followers)
                 console.log("followers", followers)
+                console.log("followers.uid", followers.uid)
+                console.log("[followers.uid]", [followers.uid])
+                console.log("(followers.uid)", (followers.uid))
                 console.log([followers.uid].includes(`${name}`))
-                console.log(followers.uid.includes(`${name}`))
+                // console.log(followers.uid.includes(`${name}`))
             })
     }, []
     );
