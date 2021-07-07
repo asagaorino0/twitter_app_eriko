@@ -79,7 +79,8 @@ export default function SimplePaper({ messages }) {
     const [followers, setFollowers] = useState([]);
     const [checked, setChecked] = React.useState(false);
     const [sanka, setSanka] = useState('');
-    const [checkedsanka, setCheckedSanka] = React.useState(false);
+    const [state, setState] = useState('');
+    const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
@@ -106,6 +107,7 @@ export default function SimplePaper({ messages }) {
                         console.log("name", `${name}`)
                         // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${profile.userId}`))
+                        setState(followedId.includes(`${profile.userId}`))
                     })
             })
     }, []
@@ -424,12 +426,8 @@ export default function SimplePaper({ messages }) {
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
                 <Grid item >
-                    <h6>{`name:${name}`}</h6>
-                </Grid>
-                <Grid item >
                     <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
                 </Grid>
-
                 <Grid item xs >
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
                         {messages.event}
@@ -496,7 +494,9 @@ export default function SimplePaper({ messages }) {
                             })
                         }
                     </Grid>
-
+                    <Grid item >
+                        <h6>{`name:${name}`}</h6>
+                    </Grid>
                 </Grid>
                 {messages.sita === true &&
                     <Grid item>
