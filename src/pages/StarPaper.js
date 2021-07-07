@@ -355,10 +355,10 @@ export default function SimplePaper({ messages }) {
     //     }
     //     load()
     // };
-    // useEffect(() => {
-    //     load()
-    // }, []
-    // );
+    useEffect(() => {
+        load()
+    }, []
+    );
     const load = function () {
         firebase
             .firestore()
@@ -480,10 +480,10 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                            <TouchAppOutlinedIcon className={classes.yellow} onClick={starId} />
                         }
                         {state === true &&
-                            <StarIcon className={classes.yellow} onClick={stardel} />
+                            <PanToolIcon className={classes.yellow} onClick={stardel} />
                         }
                         {/* <FormGroup> */}
                         {/* <FormControlLabel
@@ -702,16 +702,9 @@ export default function SimplePaper({ messages }) {
                         open={Boolean(anchorMl)}
                         onClose={handleClose}
                     >
-                        {`${messages.avatar}`.length === 1 &&
-                            <MenuItem onClick={handleClose} >
-                                <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
-                            </MenuItem>
-                        }
-                        {`${messages.avatar}`.length !== 1 &&
-                            <MenuItem onClick={handleClose}>
-                                <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
-                            </MenuItem>
-                        }
+                        <MenuItem onClick={handleClose}>
+                            <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
+                        </MenuItem>
                         <MenuItem onClick={handleClose}>
                             <img src={messages.src} alt="" style={{ width: '180px', height: 'auto' }} />
                         </MenuItem>
