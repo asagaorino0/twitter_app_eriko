@@ -363,6 +363,7 @@ export default function SimplePaper({ messages }) {
                         });
                         setFollowedId(followedId)
                         console.log("followedID", followedId)
+                        console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${name}`))
                         console.log(followedId.includes.call(`${name}`))
                         console.log(followedId.includes.call(arguments, `${name}`))
