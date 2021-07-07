@@ -74,9 +74,9 @@ export default function SimplePaper({ messages }) {
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
     const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
-    const [setFollowedId] = useState([]);    // const [checkedsanka, setCheckedSanka] = React.useState(false);
+    // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
-
+    const [setFollowedId] = useState([]);
 
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -454,12 +454,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {state === false &&
+                        {state === false &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
                         {state === true &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
-                        } */}
+                        }
                         <FormGroup>
                             {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
