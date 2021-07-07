@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/firestore";
 import Header from './Header';
+import EventNow from './EventNow';
 import { makeStyles } from '@material-ui/core/styles';
-import StarPaper from './StarPaper'
+import Typography from '@material-ui/core/Typography';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const Main = () => {
     const [messages, setMessages] = useState('');
@@ -21,47 +26,64 @@ const Main = () => {
             })
     }, []
     );
+    const eventNow = async () => {
+    }
     const useStyles = makeStyles({
-        root: {
-            gridRow: 2,
-            margin: '26px',
+        heading: {
+            fontSize: 'typography.pxToRem(11)',
+            fontWeight: 'typography.fontWeightRegular',
+            color: 'black',
         },
-        // paper: {
-        //     maxWidth: 400,
-        //     margin: '5px 0px 5px 0px ',
-        //     padding: '16px',
-        //     boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
-        // },
     });
     const classes = useStyles();
-    // const handleDelete = async () => {
-    //     await
-    //         db.collection("messages").where("message", "==", "")
-    //             .get()
-    //             .then((querySnapshot) => {
-    //                 querySnapshot.forEach((doc) => {
-    //                     doc.ref.delete();
-    //                 })
-    //             })
-    // };
 
     return (
         <div>
             <Header />
-            <div className={classes.root}>
-                {messages.length !== 0 &&
-                    messages
-                        .filter((messages) => messages.myPage === false)
-                        .map((messages, index) => {
-                            return (
-                                <StarPaper messages={messages} key={`${messages.id} `} />
-                            )
-                        })
-                }
+            <div>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography className={classes.heading} variant="button" onClick={eventNow}>
+                            募集中のイベント
+                    </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <EventNow />
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography className={classes.heading} variant="button" >
+                            過去のイベント
+                    </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        工事中！
+                    </AccordionDetails>
+                </Accordion>
+                {/* <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography className={classes.heading} variant="button" onClick={loadList}>
+                            投稿したイベント
+                    </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        < />
+                    </AccordionDetails>
+                </Accordion> */}
             </div>
-            {/* <button onClick={               
-            } color="secondary">readData</button> */}
-            {/* <button id="sendMessage" onClick={sendMessage} color="secondary">sendMessage</button> */}
         </div>
     );
 };

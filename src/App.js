@@ -12,6 +12,7 @@ import MyPage from './pages/MyPage';
 import MyStar from './pages/MyStar';
 import MySitar from './pages/MySitar';
 import MyLoad from './pages/MyLoad';
+import EventNow from './pages/EventNow';
 import CreateUser from './pages/CreateUser';
 // import CreateUser from './pages/CreateUser'
 
@@ -23,6 +24,7 @@ const App = () => {
           {/* <Login /> */}
           <Switch>
             <Route exact path='/Main/' component={Main} />
+            <Route exact path='/EventNow/' component={EventNow} />
             <Route exact path="/" component={Login} />
             {/* <Route exact path="/" component={LineLogin} /> */}
             <Route exact path="/createUser/:new!" component={CreateUser} />

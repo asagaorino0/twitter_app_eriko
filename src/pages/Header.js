@@ -415,10 +415,10 @@ const Header = () => {
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                     </Link> */}
                 </div>
-                <button onClick={sendMessage1} color="secondary">sendMessage1</button>
-                <button onClick={sendMessage2} color="secondary">sendMessage2</button>
-                <button onClick={sendMessage3} color="secondary">sendMessage3</button>
-                <button onClick={sendMessage4} color="secondary">sendMessage4</button>
+                {/* <button onClick={sendMessage1} color="secondary">sendMessage1</button> */}
+                {/* <button onClick={sendMessage2} color="secondary">sendMessage2</button> */}
+                {/* <button onClick={sendMessage3} color="secondary">sendMessage3</button> */}
+                {/* <button onClick={sendMessage4} color="secondary">sendMessage4</button> */}
             </Toolbar>
             <Accordion>
                 <AccordionSummary
@@ -439,7 +439,7 @@ const Header = () => {
 
                         />
                         <TextField
-                            label="年月日"
+                            label=""
                             type="date"
                             defaultValue=""
                             fullWidth={true}
@@ -447,7 +447,7 @@ const Header = () => {
                             value={nichi}
                         />
                         <TextField
-                            label="時間"
+                            label=""
                             type="time"
                             defaultValue=""
                             fullWidth={true}

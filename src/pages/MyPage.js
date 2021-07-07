@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +15,7 @@ import liff from '@line/liff';
 
 const MyPage = () => {
     const history = useHistory()
-    const [name, setName] = useState('');
+    const [setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
 
@@ -26,10 +26,6 @@ const MyPage = () => {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("ユーザーのid:" + profile.displayName);
-                // console.log("ユーザーの名前:" + profile.userId);
-                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                // console.log("{mypage}", `${nName}`, `${avatar}`, `${name}`);
             })
     }, []
     );
@@ -41,15 +37,6 @@ const MyPage = () => {
     const loadList = async () => {
     }
     const useStyles = makeStyles({
-        root: {
-            gridRow: 2,
-            margin: '26px',
-        },
-        green: {
-            color: '#fff',
-            backgroundColor: 'green',
-            margin: '5px 5px 5px 20px',
-        },
         heading: {
             fontSize: 'typography.pxToRem(11)',
             fontWeight: 'typography.fontWeightRegular',
@@ -83,7 +70,7 @@ const MyPage = () => {
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading} variant="button" onClick={starList}>
-                        ☆を付けたイベント
+                        参加したイベント
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

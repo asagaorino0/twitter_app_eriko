@@ -47,18 +47,12 @@ const useStyles = makeStyles((theme) => ({
     pos: {
         marginBottom: 0,
     },
-    yellow: {
-        color: 'yelloW',
-        // backgroundColor: 'yelloW',
-    },
 }));
 
 export default function SimplePaper({ messages }) {
     const classes = useStyles();
     const history = useHistory()
     const db = firebase.firestore();
-    // const doc = firebase.firestore();
-    // const follower = firebase.firestore();
     const date = new Date()
     const Y = date.getFullYear()
     const M = ("00" + (date.getMonth() + 1)).slice(-2)
@@ -66,7 +60,6 @@ export default function SimplePaper({ messages }) {
     const h = ("00" + date.getHours()).slice(-2)
     const m = ("00" + date.getMinutes()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
-    // const [user, setUser] = useState([]);
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -234,7 +227,6 @@ export default function SimplePaper({ messages }) {
                     history.push('/Main')
                 })
     }
-
     const sitarId = async () => {
         try {
             // アップロード処理
@@ -269,7 +261,6 @@ export default function SimplePaper({ messages }) {
                     console.log("Document written with ID: ");
                 })
     }
-
     const stardel = async () => {
         setSanka("")
         await
@@ -338,8 +329,6 @@ export default function SimplePaper({ messages }) {
             stardel()
         }
     };
-
-
     useEffect(() => {
         firebase
             .firestore()
@@ -367,13 +356,8 @@ export default function SimplePaper({ messages }) {
                         setFollowedId(followedId)
                         console.log("followedID", followedId)
                         console.log("name", `${name}`)
-                        // console.log(followers.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes(`${name}`))
                         setState(followedId.includes(`${name}`))
-                        // console.log(followedId.includes.call(`${name}`))
-                        // console.log(followedId.includes.call(arguments, `${name}`))
-                        // console.log(followedId.includes(arguments, `${name}`))                          // console.log(followers.uid.includes(`${name}`))
                     })
             })
     }, []
@@ -393,7 +377,7 @@ export default function SimplePaper({ messages }) {
     };
 
     const [myFiles, setMyFiles] = useState([]);
-    const [clickable, setClickable] = useState(false);
+    const [setClickable] = useState(false);
     const [src, setSrc] = useState(`${messages.src}`);
     const onDrop = useCallback(async (acceptedFiles) => {
         if (!acceptedFiles[0]) return;
@@ -422,9 +406,8 @@ export default function SimplePaper({ messages }) {
             setSrc(reader.result);
         };
     };
+
     return (
-
-
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
                 <Grid item >
@@ -467,11 +450,12 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {/* {followedId.includes(`${name}`) === false && */}
-                        <StarBorderIcon className={classes.yellow} onClick={starId} />
-
-                        {/* {followedId.includes(`${name}`) !== false && */}
-                        <StarIcon className={classes.yellow} onClick={stardel} />
+                        {state === false &&
+                            <StarBorderIcon className={classes.yellow} onClick={starId} />
+                        }
+                        {state === true &&
+                            <StarIcon className={classes.yellow} onClick={stardel} />
+                        }
                         <FormGroup>
                             {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
