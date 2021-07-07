@@ -46,21 +46,21 @@ const Header = () => {
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
 
     // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
-    //         })
-    // }, []
-    // );
-    window.onload = function (e) {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-    }
+    useEffect(() => {
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+            })
+    }, []
+    );
+    // window.onload = function (e) {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    // }
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNName('')

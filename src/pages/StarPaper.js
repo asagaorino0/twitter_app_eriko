@@ -78,57 +78,57 @@ export default function SimplePaper({ messages }) {
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             firebase
-    //                 .firestore()
-    //                 .collection("messages")
-    //                 .doc(messages.id)
-    //                 .collection('follower')
-    //                 .orderBy("timestamp", "desc")
-    //                 .onSnapshot((snapshot) => {
-    //                     const followedId = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data().uid
-    //                     });
-    //                     setFollowedId(followedId)
-    //                     console.log("followedID", followedId)
-    //                     console.log("name", `${name}`)
-    //                     // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-    //                     console.log("state", followedId.includes(`${profile.userId}`))
-    //                     setState(followedId.includes(`${profile.userId}`))
-    //                 })
-    //         })
-    // }, []
-    // );
-    window.onload = function (e) {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        firebase
-            .firestore()
-            .collection("messages")
-            .doc(messages.id)
-            .collection('follower')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const followedId = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data().uid
-                });
-                setFollowedId(followedId)
-                console.log("followedID", followedId)
-                console.log("name", `${name}`)
-                // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-                // console.log("state", followedId.includes(`${"Ue990787da85bbd95eae9595867add9ba"}`))
-                setState(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+    // 現在ログインしているユーザーを取得する
+    useEffect(() => {
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                firebase
+                    .firestore()
+                    .collection("messages")
+                    .doc(messages.id)
+                    .collection('follower')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followedId = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data().uid
+                        });
+                        setFollowedId(followedId)
+                        console.log("followedID", followedId)
+                        console.log("name", `${name}`)
+                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+                        console.log("state", followedId.includes(`${profile.userId}`))
+                        setState(followedId.includes(`${profile.userId}`))
+                    })
             })
-    }
+    }, []
+    );
+    // window.onload = function (e) {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     firebase
+    //         .firestore()
+    //         .collection("messages")
+    //         .doc(messages.id)
+    //         .collection('follower')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const followedId = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data().uid
+    //             });
+    //             setFollowedId(followedId)
+    //             console.log("followedID", followedId)
+    //             console.log("name", `${name}`)
+    //             // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+    //             // console.log("state", followedId.includes(`${"Ue990787da85bbd95eae9595867add9ba"}`))
+    //             setState(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+    //         })
+    // }
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await

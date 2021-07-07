@@ -16,52 +16,52 @@ const MyLoad = () => {
     // const doc = firebase.firestore();
     // var storage = firebase.app().storage("gs://my-custom-bucket");
     // const [user, setUser] = useState([]);
-    const [name, setName] = useState('');
-    const [nName, setNName] = useState('');
-    const [avatar, setAvatar] = useState('');
+    // const [name, setName] = useState('');
+    // const [nName, setNName] = useState('');
+    // const [avatar, setAvatar] = useState('');
 
     // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             // setNName(profile.displayName)
-    //             // setName(profile.userId)
-    //             // setAvatar(profile.pictureUrl)
-    //             firebase
-    //                 .firestore()
-    //                 .collection("users")
-    //                 .doc(`${profile.userId}`)
-    //                 .collection('loadsita')
-    //                 .orderBy("timestamp", "desc")
-    //                 .onSnapshot((snapshot) => {
-    //                     const loadsita = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data()
-    //                     });
-    //                     setMessages(loadsita)
-    //                 })
-    //         })
-    // }, []
-    // );
-    // 現在ログインしているユーザーを取得する
-    window.onload = function (e) {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        firebase
-            .firestore()
-            .collection("users")
-            .doc("Ue990787da85bbd95eae9595867add9ba")
-            .collection('loadsita')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const loadsita = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setMessages(loadsita)
+    useEffect(() => {
+        liff.getProfile()
+            .then(profile => {
+                // setNName(profile.displayName)
+                // setName(profile.userId)
+                // setAvatar(profile.pictureUrl)
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .doc(`${profile.userId}`)
+                    .collection('loadsita')
+                    .orderBy("nichi", "desc")
+                    .onSnapshot((snapshot) => {
+                        const loadsita = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setMessages(loadsita)
+                    })
             })
-    }
+    }, []
+    );
+    // 現在ログインしているユーザーを取得する
+    // window.onload = function (e) {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .doc("Ue990787da85bbd95eae9595867add9ba")
+    //         .collection('loadsita')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const loadsita = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setMessages(loadsita)
+    //         })
+    // }
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
