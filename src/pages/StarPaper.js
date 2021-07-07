@@ -81,7 +81,7 @@ export default function SimplePaper({ messages }) {
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
     // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
-    const [checkedsanka, setCheckedSanka] = React.useState(true);
+    const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
@@ -480,8 +480,8 @@ export default function SimplePaper({ messages }) {
                             <FormControlLabel
                                 value="bottom"
                                 control={<Switch color="primary" checked={state} onChange={toggleChecked} />}
-                                label={sanka}
-                                fontSize="8px"
+                                label={`${sanka}`}
+                                labelFontSize="8px"
                                 labelPlacement="bottom"
 
                             />
@@ -497,7 +497,7 @@ export default function SimplePaper({ messages }) {
                         }
                     </Grid>
                     <Grid item >
-                        <h6>{`state:${state}`}</h6>
+                        <h6>{`state:${state}`}{`${sanka}`}</h6>
                     </Grid>
                 </Grid>
                 {messages.sita === true &&
