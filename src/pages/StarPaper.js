@@ -318,11 +318,12 @@ export default function SimplePaper({ messages }) {
                 setSanka("参加する")
                 console.log(followers.includes(`${name}`))
                 console.log("name", `${name}`)
-                console.log("Document written with ID: ");
+                setState(followers.includes(`${name}`))
+                // console.log("Document written with ID: ")
             })
     }
     const toggleChecked = () => {
-        setCheckedSanka((prev) => !prev);
+        setChecked((prev) => !prev);
         if (sanka !== "参加する") {
             starId()
         } else {
@@ -454,10 +455,10 @@ export default function SimplePaper({ messages }) {
                         </Link>
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {`${state}` === false &&
+                        {state === false &&
                             <StarBorderIcon className={classes.yellow} onClick={starId} />
                         }
-                        {`${state}` === true &&
+                        {state === true &&
                             <StarIcon className={classes.yellow} onClick={stardel} />
                         }
                         <FormGroup>
