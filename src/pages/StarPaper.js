@@ -90,24 +90,23 @@ export default function SimplePaper({ messages }) {
                 setNName(profile.displayName)
                 setName(profile.userId)
                 setAvatar(profile.pictureUrl)
-                // console.log("ユーザーのid:" + profile.displayName);
-                // console.log("ユーザーの名前:" + profile.userId);
-                // console.log("ユーザーの画像URL:" + profile.pictureUrl);
-                // console.log("{myStar}", `${nName}`, `${avatar}`, `${name}`);
-                // firebase
-                //     .firestore()
-                //     .collection("users")
-                //     .doc(`${name}`)
-                //     .collection('likes')
-                //     .orderBy("timestamp", "desc")
-                //     .onSnapshot((snapshot) => {
-                //         const followed = snapshot.docs.map((doc) => {
-                //             return doc.id &&
-                //                 doc.data()
-                //         });
-                //         setFollowed(followed)
-                //         console.log("followed", followed)
-                // })
+                firebase
+                    .firestore()
+                    .collection("messages")
+                    .doc(messages.id)
+                    .collection('follower')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followedId = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data().uid
+                        });
+                        setFollowedId(followedId)
+                        console.log("followedID", followedId)
+                        console.log("name", `${name}`)
+                        console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
+                        console.log(followedId.includes(`${profile.userId}`))
+                    })
             })
     }, []
     );
@@ -364,13 +363,12 @@ export default function SimplePaper({ messages }) {
                         setFollowedId(followedId)
                         console.log("followedID", followedId)
                         console.log("name", `${name}`)
-                        console.log(followers.includes("Ue990787da85bbd95eae9595867add9ba"))
+                        // console.log(followers.includes("Ue990787da85bbd95eae9595867add9ba"))
                         console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-
                         console.log(followedId.includes(`${name}`))
-                        console.log(followedId.includes.call(`${name}`))
-                        console.log(followedId.includes.call(arguments, `${name}`))
-                        console.log(followedId.includes(arguments, `${name}`))                          // console.log(followers.uid.includes(`${name}`))
+                        // console.log(followedId.includes.call(`${name}`))
+                        // console.log(followedId.includes.call(arguments, `${name}`))
+                        // console.log(followedId.includes(arguments, `${name}`))                          // console.log(followers.uid.includes(`${name}`))
                     })
             })
     }, []
