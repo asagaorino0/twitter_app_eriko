@@ -70,7 +70,7 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState([]);
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(`${state}`);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
     const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
