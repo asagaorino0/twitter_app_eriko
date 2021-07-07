@@ -70,7 +70,7 @@ const MyPage = () => {
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading} variant="button" onClick={starList}>
-                        参加したイベント
+                        参加イベント
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
