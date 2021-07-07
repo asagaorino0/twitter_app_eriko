@@ -70,12 +70,11 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState([]);
-    // const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(false);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
-    const [setCheckedSanka] = React.useState(`${state}`);
-    const [setFollowedId] = useState([]);
-    // const [checkedsanka, setCheckedSanka] = React.useState(false);
+    const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
+    const [setFollowedId] = useState([]);    // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
 
 
@@ -467,10 +466,11 @@ export default function SimplePaper({ messages }) {
                                 label={sanka}
                             /> */}
                             <FormControlLabel
-                                value="end"
+                                value="bottom"
                                 control={<Switch color="primary" checked={state} onChange={toggleChecked} />}
-                                label="参加する"
-                                labelPlacement="end"
+                                label={`${sanka}`}
+                                labelFontSize="8px"
+                                labelPlacement="bottom"
 
                             />
                         </FormGroup>
