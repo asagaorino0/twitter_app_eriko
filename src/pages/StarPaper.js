@@ -80,8 +80,8 @@ export default function SimplePaper({ messages }) {
     const [checked, setChecked] = React.useState(false);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
-    // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
-    const [checkedsanka, setCheckedSanka] = React.useState(false);
+    const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
+    // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
