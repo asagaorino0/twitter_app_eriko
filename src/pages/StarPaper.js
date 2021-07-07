@@ -355,6 +355,10 @@ export default function SimplePaper({ messages }) {
                 console.log("[followers.uid]", [followers.uid])
                 console.log("(followers.uid)", (followers.uid))
                 console.log([followers.uid].includes(`${name}`))
+                    (function () {
+                        console.log(Array.prototype.includes.call(arguments, 'a'))  // true
+                        console.log(Array.prototype.includes.call(arguments, 'd'))  // false
+                    })('a', 'b', 'c')
                 // console.log(followers.uid.includes(`${name}`))
             })
     }, []
