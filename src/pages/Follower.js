@@ -16,7 +16,7 @@ export default function SimplePaper({ followers }) {
     return (
         <div>
             <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                <img src={followers.follower} alt="" style={{ borderRadius: '50%', width: '20px', height: '20px' }} onClick={handleFollower} />
+                <img src={followers.follower} alt="" style={{ borderRadius: '50%', width: '30px', height: '30px' }} onClick={handleFollower} />
             </Grid>
             <Menu
                 id="simple-menu"

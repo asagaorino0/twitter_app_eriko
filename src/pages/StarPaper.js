@@ -12,9 +12,9 @@ import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import RefreshIcon from '@material-ui/icons/Refresh'
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import Switch from '@material-ui/core/Switch';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Switch from '@material-ui/core/Switch';
+// import FormGroup from '@material-ui/core/FormGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Follower from './Follower'
 import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
@@ -97,10 +97,9 @@ export default function SimplePaper({ messages }) {
                                 doc.data().uid
                         });
                         setFollowedId(followedId)
-                        console.log("followedID", followedId)
-                        console.log("name", `${name}`)
-                        // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-                        console.log("state", followedId.includes(`${profile.userId}`))
+                        // console.log("followedID", followedId)
+                        // console.log("name", `${name}`)
+                        // console.log("state", followedId.includes(`${profile.userId}`))
                         setState(followedId.includes(`${profile.userId}`))
                     })
             })
@@ -438,7 +437,6 @@ export default function SimplePaper({ messages }) {
 
     return (
         < Paper className={classes.paper} >
-            <RefreshIcon onClick={load} />
             <Grid container wrap="nowrap" spacing={1} >
                 <Grid item >
                     <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
@@ -486,6 +484,7 @@ export default function SimplePaper({ messages }) {
                         {state === true &&
                             <PanToolIcon className={classes.yellow} fontSize="large" onClick={stardel} />
                         }
+                        <RefreshIcon onClick={load} />
                         {/* <FormGroup> */}
                         {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
@@ -537,7 +536,7 @@ export default function SimplePaper({ messages }) {
                             </Link>
                         </div>
                     </Grid>
-                }            <RefreshIcon onClick={load} />
+                }
             </Grid>
 
             <div>

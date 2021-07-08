@@ -9,6 +9,8 @@ import logo from '../img/0730.jpg';
 import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
 import { Link } from "@material-ui/core";
+import MyPro from './MyPro';
+import MyPage from './MyPage';
 // import { get } from '@line/liff/dist/lib/store/';
 
 const Login = () => {
@@ -95,41 +97,11 @@ const Login = () => {
     }
 
     const googleClick = () => {
-        var provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        firebase.auth().languageCode = 'jp';
-        firebase.auth()
-            .signInWithPopup(provider)
-            .then((result) => {
-                /** @type {firebase.auth.OAuthCredential} */
-                const nameG = (result.user?.displayName)
-                setNName(`${nameG}`)
-                const avatarG = (result.user?.photoURL)
-                setAvatar(`${avatarG}`)
-                console.log(avatar)
-                setNName(nameG)
-                const uid = (result.user?.uid)
-                setName(`${uid}`)
-                console.log(`${uid}`)
-                db.collection('users').doc(`${uid}`).set({
-                    name: result.user?.uid,
-                    nName: `${nameG}`,
-                    avatar: `${avatar}`,
-                    // avatarG: `${avatarG}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                })
-                    .then((docref) => {
-                        console.log("Document successfully written!:", `${name}`);
-                    })
-                    .catch((error) => {
-                        console.error("Error writing document: ");
-                    })
-                history.push('/Main')
-            });
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        console.log("name", `${name}`)
     }
-
-
-
 
     return (
         <div className={classes.paper}>
@@ -178,6 +150,8 @@ const Login = () => {
                     >
                         googleでLogin
                          </Button>
+                    {/* <MyPage /> */}
+                    <MyPro />
                 </div>
             </div>
         </div>
