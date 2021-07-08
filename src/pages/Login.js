@@ -42,7 +42,6 @@ const Login = () => {
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
-    const [user, setUser] = useState([]);
     const history = useHistory()
     const myLiffId = "1656149559-xXM4l4Gp"
     const loginUrl = "https://access.line.me/oauth2/v2.1/authorize?app_id=1656149559-xXM4l4Gp&client_id=1656149559&scope=chat_message.write+openid+profile&state=MTSFhIGGxsff&bot_prompt=aggressive&response_type=code&code_challenge_method=S256&code_challenge=Hx-YFyPAvO9ZQIg5pQpaGQuMChsOE11Raf_3DHDGFgY&liff_sdk_version=2.11.1&type=L&redirect_uri=https%3A%2F%2Ftwitter-app-eriko.web.app%2F"
@@ -65,8 +64,8 @@ const Login = () => {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
             if (result) {
-                liff.login();
-                // window.location.href = loginUrl;
+                // liff.login();
+                window.location.href = loginUrl;
             }
         }
     }
@@ -84,6 +83,9 @@ const Login = () => {
                     setName(profile.userId)
                     setAvatar(profile.pictureUrl)
                     console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+                    // firebase.firestore().settings({
+                    //     ignoreUndefinedProperties: true,
+                    // })
                     db.collection('users').doc(`${profile.userId}`).set({
                         name: `${profile.userId}`,
                         nName: `${profile.displayName}`,
@@ -91,45 +93,11 @@ const Login = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
-                    firebase
-                        .firestore()
-                        .collection("users")
-                        .where("name", "==", `${profile.userId}`)
-                        .get()
-                        .then((querySnapshot) => {
-                            querySnapshot.forEach((doc) => {
-                                console.log(doc.id, " => ", doc.data())
-                                setUser(doc.data())
-                            })
-                            console.log("user", `${user}`)
-                        })
-                    db.collection('users').doc(`${profile.userId}`).set({
-                        namae: `${user.namae}`,
-                        insta: `${user.insta}`,
-                        bunno1: `${user.bunno1}`,
-                        nameY: `${user.nameY}`,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    }, { merge: true }//←上書きされないおまじない
-                    )
                     history.push(`/Main`)
                 })
         }
     }
-    const myProfile = async () => {
-        await
-            firebase
-                .firestore()
-                .collection("users")
-                .where("name", "==", `${name}`)
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        console.log(doc.id, " => ", doc.data())
-                        setUser(doc.data())
-                    })
-                    // console.log("user", `${user}`)
-                })
-    }
+
     const googleClick = () => {
         setNName("おりのえりこ")
         setName("Ue990787da85bbd95eae9595867add9ba")

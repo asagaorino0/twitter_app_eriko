@@ -18,6 +18,7 @@ export default function SimplePaper({ followers }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        console.log(`${user.bunno1}`.toString())
         firebase
             .firestore()
             .collection("users")
@@ -57,7 +58,7 @@ export default function SimplePaper({ followers }) {
                     <Grid item>
                         {/* <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} /> */}
                         <Link href={user.insta} underline="none" target="_blank">
-                            {`${user.insta}` !== "" &&
+                            {`${user.insta}`.toString() !== 'undefined' &&
                                 <InstagramIcon alt="insta" color="disabled" />
                             }
                         </Link>
@@ -66,13 +67,13 @@ export default function SimplePaper({ followers }) {
                 <MenuItem
                     onClick={handleClose}
                 >{`${followers.followerName}`}</MenuItem>
-                {`${user.nameY}` !== "" &&
+                {`${user.nameY}`.toString() !== 'undefined' &&
                     <MenuItem
                         onClick={handleClose}
                     >{`${user.nameY}`}
                     </MenuItem>
                 }
-                {`${user.bunno1}`.length !== 0 &&
+                {`${user.bunno1}`.toString() !== 'undefined' &&
                     <MenuItem
                         style={{ whiteSpace: "pre-wrap" }}
                         onClick={handleClose}
