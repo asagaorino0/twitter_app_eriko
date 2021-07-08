@@ -45,22 +45,25 @@ const Header = () => {
     const s = ("00" + date.getSeconds()).slice(-2)
     const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
 
-    // 現在ログインしているユーザーを取得する
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     liff.getProfile()
+    //         .then(profile => {
+    //             setNName(profile.displayName)
+    //             setName(profile.userId)
+    //             setAvatar(profile.pictureUrl)
+    //             // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
+    //         })
+    // }, []
+    // );
     useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                // console.log("{header}", `${nName}`, `${avatar}`, `${name}`);
-            })
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        // console.log(name, nName)
     }, []
     );
-    // window.onload = function (e) {
-    //     setNName("おりのえりこ")
-    //     setName("Ue990787da85bbd95eae9595867add9ba")
-    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-    // }
+
     const signOut = () => {
         firebase.auth().signOut().then(() => {
             setNName('')
@@ -472,12 +475,6 @@ const Header = () => {
                             value={url}
                             onChange={(e) => setUrl(e.target.value)}
                         />
-                        {/* <TextField required id="standard-required"
-                            label="関連url"
-                            defaultValue={messages.insta}
-                            value={insta}
-                            onChange={(e) => setIUrl(e.target.value)}
-                        /> */}
                     </Typography>
                 </AccordionDetails>
                 <Card>

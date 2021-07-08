@@ -11,7 +11,9 @@ import PersonIcon from '@material-ui/icons/Person';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import InstagramIcon from '@material-ui/icons/Instagram';
 // import PanToolIcon from '@material-ui/icons/PanTool';
-// import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import TouchAppIcon from '@material-ui/icons/TouchApp';
+import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import RefreshIcon from '@material-ui/icons/Refresh'
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -50,6 +52,14 @@ const useStyles = makeStyles((theme) => ({
     pos: {
         marginBottom: 0,
     },
+    pink: {
+        color: 'pink',
+        // backgroundColor: 'pink',
+    },
+    green: {
+        color: '#00b900',
+        // color: '#06c775',
+    },
 }));
 
 export default function SimplePaper({ messages }) {
@@ -82,84 +92,74 @@ export default function SimplePaper({ messages }) {
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
 
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     liff.getProfile()
+    //         .then(profile => {
+    //             setNName(profile.displayName)
+    //             setName(profile.userId)
+    //             setAvatar(profile.pictureUrl)
+    //             firebase
+    //                 .firestore()
+    //                 .collection("messages")
+    //                 .doc(messages.id)
+    //                 .collection('follower')
+    //                 .orderBy("timestamp", "desc")
+    //                 .onSnapshot((snapshot) => {
+    //                     const followedId = snapshot.docs.map((doc) => {
+    //                         return doc.id &&
+    //                             doc.data().uid
+    //                     });
+    //                     setFollowedId(followedId)
+    //                     setState(followedId.includes(`${profile.userId}`))
+    //                 })
+    //             firebase
+    //                 .firestore()
+    //                 .collection("users")
+    //                 .onSnapshot((snapshot) => {
+    //                     const users = snapshot.docs.map((doc) => {
+    //                         return doc.id &&
+    //                             doc.data()
+    //                     });
+    //                     setUsers(users)
+    //                     console.log(users)
+    //                 })
+    //         })
+    // }, []
+    // );
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                firebase
-                    .firestore()
-                    .collection("messages")
-                    .doc(messages.id)
-                    .collection('follower')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followedId = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data().uid
-                        });
-                        setFollowedId(followedId)
-                        // console.log("followedID", followedId)
-                        // console.log("name", `${name}`)
-                        // console.log("state", followedId.includes(`${profile.userId}`))
-                        setState(followedId.includes(`${profile.userId}`))
-                    })
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .onSnapshot((snapshot) => {
-                        const users = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setUsers(users)
-                        console.log(users)
-                    })
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        firebase
+            .firestore()
+            .collection("messages")
+            .doc(messages.id)
+            .collection('follower')
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const followedId = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data().uid
+                });
+                setFollowedId(followedId)
+                setState(followedId.includes(`${name}`))
+            })
+        firebase
+            .firestore()
+            .collection("users")
+            .onSnapshot((snapshot) => {
+                const users = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setUsers(users)
+                load()
+                // console.log(users)
             })
     }, []
     );
-
-    // const handleChoice = async () => {
-    // .collection("users")
-    // .where("name", "==", `${name}`)
-    // .get()
-    // .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //         console.log(doc.id, " => ", doc.data())
-    //         setUser(doc.data())
-    //     })
-    //     console.log("user", `${user}`)
-
-    // })
-    // .catch((error) => {
-    //     console.log("Error getting documents: ", error);
-    // })
-
-    // window.onload = function (e) {
-    //     setNName("おりのえりこ")
-    //     setName("Ue990787da85bbd95eae9595867add9ba")
-    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-    //     firebase
-    //         .firestore()
-    //         .collection("messages")
-    //         .doc(messages.id)
-    //         .collection('follower')
-    //         .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const followedId = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data().uid
-    //             });
-    //             setFollowedId(followedId)
-    //             console.log("followedID", followedId)
-    //             console.log("name", `${name}`)
-    //             // console.log(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-    //             // console.log("state", followedId.includes(`${"Ue990787da85bbd95eae9595867add9ba"}`))
-    //             setState(followedId.includes("Ue990787da85bbd95eae9595867add9ba"))
-    //         })
-    // }
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
@@ -338,8 +338,9 @@ export default function SimplePaper({ messages }) {
                     doc.ref.delete();
                 })
             })
-        console.log(followers.includes(`${name}`))
-        console.log("name", `${name}`)
+        load()
+        // console.log(followers.includes(`${name}`))
+        // console.log("name", `${name}`)
     }
     const starId = async () => {
         db.collection("messages").doc(messages.id).collection('follower').doc(`${name}`).set({
@@ -377,15 +378,6 @@ export default function SimplePaper({ messages }) {
             })
         load()
     }
-    // const toggleChecked = () => {
-    //     setChecked((prev) => !prev);
-    //     if (sanka !== "参加する") {
-    //         starId()
-    //     } else {
-    //         stardel()
-    //     }
-    //     load()
-    // };
     useEffect(() => {
         load()
     }, []
@@ -415,9 +407,9 @@ export default function SimplePaper({ messages }) {
                                 doc.data().uid
                         });
                         setFollowedId(followedId)
-                        console.log("followedID", followedId)
-                        console.log("name", `${name}`)
-                        console.log(followedId.includes(`${name}`))
+                        // console.log("followedID", followedId)
+                        // console.log("name", `${name}`)
+                        // console.log(followedId.includes(`${name}`))
                         setState(followedId.includes(`${name}`))
                     })
             })
@@ -427,8 +419,17 @@ export default function SimplePaper({ messages }) {
     const [anchorMl, setAnchorMl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-        console.log(anchorEl)
-
+        firebase
+            .firestore()
+            .collection("users")
+            .where("name", "==", `${messages.name}`)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.id, " => ", doc.data())
+                    setUser(doc.data())
+                })
+            })
     };
     const handleMessage = (event) => {
         setAnchorMl(event.currentTarget);
@@ -439,7 +440,7 @@ export default function SimplePaper({ messages }) {
     };
 
     const [myFiles, setMyFiles] = useState([]);
-    const [setClickable] = useState(false);
+    const [clickable, setClickable] = useState(false);
     const [src, setSrc] = useState(`${messages.src}`);
     const onDrop = useCallback(async (acceptedFiles) => {
         if (!acceptedFiles[0]) return;
@@ -473,7 +474,7 @@ export default function SimplePaper({ messages }) {
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
                 <Grid item >
-                    <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                    <img src={messages.avatar} style={{ cursor: 'pointer' }} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
                 </Grid>
                 <Grid item xs >
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
@@ -500,7 +501,7 @@ export default function SimplePaper({ messages }) {
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         <img src={messages.src} alt="" style={{ width: '80px', height: 'auto' }} />
                     </Typography>
-                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                    <Typography onClick={handleClick} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         投稿者：{messages.nName}
                     </Typography>
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="caption" color="textSecondary">
@@ -513,24 +514,11 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <PersonAddIcon className={classes.yellow} fontSize="large" onClick={starId} />
+                            <TouchAppIcon className={classes.green} fontSize="large" onClick={starId} />
                         }
                         {state === true &&
-                            <PersonIcon className={classes.yellow} fontSize="large" onClick={stardel} />
+                            <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />
                         }
-                        {/* <FormGroup> */}
-                        {/* <FormControlLabel
-                                control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
-                                label={sanka}
-                            /> */}
-                        {/* <FormControlLabel
-                                value="end"
-                                control={<Switch color="primary" checked={`${state}`} onChange={toggleChecked} />}
-                                label="参加する"
-                                labelFontSize="8px"
-                                labelPlacement="end"
-                            /> */}
-                        {/* </FormGroup> */}
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
@@ -587,21 +575,31 @@ export default function SimplePaper({ messages }) {
                         <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
                     </MenuItem>
                     <MenuItem>
-                        {/* <Grid item>
-                            <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                        <Grid item>
+                            {/* <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} /> */}
                             <Link href={user.insta} underline="none" target="_blank">
-                                {`${user.insta}`.length !== 0 &&
+                                {`${user.insta}` !== "" &&
                                     <InstagramIcon alt="insta" color="disabled" />
                                 }
                             </Link>
-                        </Grid> */}
+                        </Grid>
                     </MenuItem>
                     <MenuItem
                         onClick={handleClose}
                     >{`${messages.nName}`}</MenuItem>
-
+                    {`${user.nameY}` !== "" &&
+                        <MenuItem
+                            onClick={handleClose}
+                        >{`${user.nameY}`}
+                        </MenuItem>
+                    }
+                    {`${user.bunno1}`.length !== 0 &&
+                        <MenuItem
+                            onClick={handleClose}
+                        >{`${user.bunno1}`}
+                        </MenuItem>
+                    }
                 </Menu>
-
             </div>
             {messages.myPage === true &&
                 <div>
@@ -729,25 +727,39 @@ export default function SimplePaper({ messages }) {
 
                 </div>}
 
-            {messages.myPage !== true &&
+            {/* {messages.myPage !== true &&
                 <div>
                     <Menu
                         id="simple-menu"
-                        anchorEl={anchorMl}
+                        anchorMl={anchorMl}
+                        fullWidth={true}
                         keepMounted
                         open={Boolean(anchorMl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose}>
+                        <MenuItem
+                            onClick={handleClose}
+                        >
                             <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            {/* {user.insta} */}
+                        <MenuItem>
+                            <Grid item>
+                                <Link href={user.insta} underline="none" target="_blank">
+                                    {`${user.insta}`.length !== 0 &&
+                                        <InstagramIcon alt="insta" color="disabled" />
+                                    }
+                                </Link>
+                            </Grid>
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>{`${messages.nName}`}</MenuItem>
+                        <MenuItem
+                            onClick={handleClose}
+                        >{`${messages.nName}`}</MenuItem>
+                        <MenuItem
+                            onClick={handleClose}
+                        >{`${user.nameY}`}</MenuItem>
                     </Menu>
                 </div>
-            }
+            } */}
 
         </Paper >
     );

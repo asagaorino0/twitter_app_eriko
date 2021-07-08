@@ -1,34 +1,82 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import firebase from "firebase/app";
+import Link from '@material-ui/core/Link';
+import InstagramIcon from '@material-ui/icons/Instagram';
 
 export default function SimplePaper({ followers }) {
-    const [anchorFl, setAnchorFl] = React.useState(null);
-    const handleFollower = (event) => {
-        setAnchorFl(event.currentTarget);
+    // const [anchorFl, setAnchorFl] = React.useState(null);
+    // const handleFollower = (event) => {
+    //     setAnchorFl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorFl(null);
+    // };
+    const [user, setUser] = useState([]);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+        firebase
+            .firestore()
+            .collection("users")
+            .where("name", "==", `${followers.uid}`)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.id, " => ", doc.data())
+                    setUser(doc.data())
+                })
+            })
     };
     const handleClose = () => {
-        setAnchorFl(null);
+        setAnchorEl(null);
     };
 
     return (
         <div>
-            <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                <img src={followers.follower} alt="" style={{ borderRadius: '50%', width: '30px', height: '30px' }} onClick={handleFollower} />
+            <Grid container direction="row" justify="flex-start" alignItems="flex-top" style={{ cursor: 'pointer' }}>
+                <img src={followers.follower} alt="" style={{ borderRadius: '50%', width: '30px', height: '30px' }} onClick={handleClick} />
             </Grid>
             <Menu
                 id="simple-menu"
-                anchorEl={anchorFl}
+                anchorEl={anchorEl}
+                fullWidth={true}
                 keepMounted
-                open={Boolean(anchorFl)}
+                open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                    onClick={handleClose}
+                >
                     <img src={`${followers.follower}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
                 </MenuItem>
-                <MenuItem onClick={handleClose}>{`${followers.followerName}`}</MenuItem>
+                <MenuItem>
+                    <Grid item>
+                        {/* <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} /> */}
+                        <Link href={user.insta} underline="none" target="_blank">
+                            {`${user.insta}` !== "" &&
+                                <InstagramIcon alt="insta" color="disabled" />
+                            }
+                        </Link>
+                    </Grid>
+                </MenuItem>
+                <MenuItem
+                    onClick={handleClose}
+                >{`${followers.followerName}`}</MenuItem>
+                {`${user.nameY}` !== "" &&
+                    <MenuItem
+                        onClick={handleClose}
+                    >{`${user.nameY}`}
+                    </MenuItem>
+                }
+                {`${user.bunno1}`.length !== 0 &&
+                    <MenuItem
+                        onClick={handleClose}
+                    >{`${user.bunno1}`}
+                    </MenuItem>
+                }
             </Menu>
         </div>
     )

@@ -32,6 +32,10 @@ const Login = () => {
         submit: {
             margin: theme.spacing(3, 0, 2),
         },
+        green: {
+            color: '#ffffff',
+            backgroundColor: '#06c775',
+        },
     }));
     const classes = useStyles();
     const db = firebase.firestore();
@@ -83,6 +87,9 @@ const Login = () => {
                         name: `${profile.userId}`,
                         nName: `${profile.displayName}`,
                         avatar: `${profile.pictureUrl}`,
+                        namae: "",
+                        insta: "",
+                        bunno1: "",
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
@@ -148,7 +155,7 @@ const Login = () => {
                         googleでLogin
                          </Button>
                     {/* <MyPage /> */}
-                    {/* <MyPro /> */}
+                    <MyPro />
                 </div>
             </div>
         </div>

@@ -41,7 +41,7 @@ const Main = () => {
         <div>
             <Header />
             <div>
-                <Accordion>
+                {/* <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -51,10 +51,10 @@ const Main = () => {
                             募集中のイベント
                     </Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        <EventNow />
-                    </AccordionDetails>
-                </Accordion>
+                    <AccordionDetails> */}
+                <EventNow />
+                {/* </AccordionDetails>
+                </Accordion> */}
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
