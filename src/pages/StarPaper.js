@@ -473,8 +473,8 @@ export default function SimplePaper({ messages }) {
     return (
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
-                <Grid item >
-                    <img src={messages.avatar} style={{ cursor: 'pointer' }} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                <Grid item style={{ cursor: 'pointer' }}>
+                    <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
                 </Grid>
                 <Grid item xs >
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
