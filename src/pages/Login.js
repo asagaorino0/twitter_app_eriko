@@ -21,8 +21,10 @@ const Login = () => {
             flexDirection: 'column',
             alignItems: 'center',
         },
-        avatar: {
-            margin: theme.spacing(7),
+        root: {
+            gridRow: 2,
+            margin: '26px',
+            textAlign: 'left',
         },
         form: {
             width: '100%', // Fix IE 11 issue.
@@ -30,13 +32,6 @@ const Login = () => {
         },
         submit: {
             margin: theme.spacing(3, 0, 2),
-        },
-        red: {
-            color: 'red',
-        },
-        green: {
-            backgroundColor: '#06c755',
-            color: 'white'
         },
     }));
     const classes = useStyles();
@@ -96,15 +91,17 @@ const Login = () => {
         }
     }
 
-    const googleClick = () => {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        console.log("name", `${name}`)
-    }
+    // const googleClick = () => {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     console.log("name", `${name}`)
+    //     history.push(`/Main`)
+    // }
 
     return (
-        <div className={classes.paper}>
+        <div className={classes.root}>
+            {/*  <div className={classes.paper}> */}
             <img src={logo} style={{ borderRadius: '50%', width: '60px', height: '60px' }} alt="logo" />
             <div>
                 <span className={styles.value}>konoyubi</span>
@@ -151,7 +148,7 @@ const Login = () => {
                         googleでLogin
                          </Button>
                     {/* <MyPage /> */}
-                    <MyPro />
+                    {/* <MyPro /> */}
                 </div>
             </div>
         </div>
