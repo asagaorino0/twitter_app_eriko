@@ -7,8 +7,11 @@ import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from "firebase/app";
 import lineLogo from '../img/square-default.png';
-import PanToolIcon from '@material-ui/icons/PanTool';
-import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import InstagramIcon from '@material-ui/icons/Instagram';
+// import PanToolIcon from '@material-ui/icons/PanTool';
+// import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import RefreshIcon from '@material-ui/icons/Refresh'
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -70,10 +73,11 @@ export default function SimplePaper({ messages }) {
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
     const [followers, setFollowers] = useState([]);
-    // const [checked, setChecked] = React.useState(`${state}`);
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
-    const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
+    // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
     // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
     const [followedId, setFollowedId] = useState([]);
@@ -102,9 +106,37 @@ export default function SimplePaper({ messages }) {
                         // console.log("state", followedId.includes(`${profile.userId}`))
                         setState(followedId.includes(`${profile.userId}`))
                     })
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .onSnapshot((snapshot) => {
+                        const users = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUsers(users)
+                        console.log(users)
+                    })
             })
     }, []
     );
+
+    // const handleChoice = async () => {
+    // .collection("users")
+    // .where("name", "==", `${name}`)
+    // .get()
+    // .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id, " => ", doc.data())
+    //         setUser(doc.data())
+    //     })
+    //     console.log("user", `${user}`)
+
+    // })
+    // .catch((error) => {
+    //     console.log("Error getting documents: ", error);
+    // })
+
     // window.onload = function (e) {
     //     setNName("おりのえりこ")
     //     setName("Ue990787da85bbd95eae9595867add9ba")
@@ -395,6 +427,8 @@ export default function SimplePaper({ messages }) {
     const [anchorMl, setAnchorMl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        console.log(anchorEl)
+
     };
     const handleMessage = (event) => {
         setAnchorMl(event.currentTarget);
@@ -479,10 +513,10 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <TouchAppOutlinedIcon className={classes.yellow} fontSize="large" onClick={starId} />
+                            <PersonAddIcon className={classes.yellow} fontSize="large" onClick={starId} />
                         }
                         {state === true &&
-                            <PanToolIcon className={classes.yellow} fontSize="large" onClick={stardel} />
+                            <PersonIcon className={classes.yellow} fontSize="large" onClick={stardel} />
                         }
                         <RefreshIcon onClick={load} />
                         {/* <FormGroup> */}
@@ -548,24 +582,27 @@ export default function SimplePaper({ messages }) {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    {`${messages.avatar}`.length === 1 &&
-                        <MenuItem
-                            onClick={handleClose}
-                        >
-                            <Avatar className={classes.largePink}>{messages.avatar} </Avatar>
-                        </MenuItem>
-                    }
-                    {`${messages.avatar}`.length !== 1 &&
-                        <MenuItem
-                            onClick={handleClose}
-                        >
-                            <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
-                        </MenuItem>
-                    }
+                    <MenuItem
+                        onClick={handleClose}
+                    >
+                        <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
+                    </MenuItem>
+                    <MenuItem>
+                        {/* <Grid item>
+                            <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
+                            <Link href={user.insta} underline="none" target="_blank">
+                                {`${user.insta}`.length !== 0 &&
+                                    <InstagramIcon alt="insta" color="disabled" />
+                                }
+                            </Link>
+                        </Grid> */}
+                    </MenuItem>
                     <MenuItem
                         onClick={handleClose}
                     >{`${messages.nName}`}</MenuItem>
+
                 </Menu>
+
             </div>
             {messages.myPage === true &&
                 <div>
@@ -706,7 +743,7 @@ export default function SimplePaper({ messages }) {
                             <img src={`${messages.avatar}`} alt="" style={{ borderRadius: '50%', width: '80px', height: '80px' }} />
                         </MenuItem>
                         <MenuItem onClick={handleClose}>
-                            <img src={messages.src} alt="" style={{ width: '180px', height: 'auto' }} />
+                            {/* {user.insta} */}
                         </MenuItem>
                         <MenuItem onClick={handleClose}>{`${messages.nName}`}</MenuItem>
                     </Menu>
