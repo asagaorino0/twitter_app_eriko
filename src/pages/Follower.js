@@ -46,6 +46,7 @@ export default function SimplePaper({ followers }) {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                style={{ whiteSpace: "pre-wrap" }}
             >
                 <MenuItem
                     onClick={handleClose}
@@ -73,11 +74,13 @@ export default function SimplePaper({ followers }) {
                 }
                 {`${user.bunno1}`.length !== 0 &&
                     <MenuItem
+                        style={{ whiteSpace: "pre-wrap" }}
                         onClick={handleClose}
-                    >{`${user.bunno1}`}
+                    > {`${user.bunno1}`
+                        }
                     </MenuItem>
                 }
             </Menu>
-        </div>
+        </div >
     )
 }

@@ -568,6 +568,7 @@ export default function SimplePaper({ messages }) {
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
+                    style={{ whiteSpace: "pre-wrap" }}
                 >
                     <MenuItem
                         onClick={handleClose}
@@ -595,6 +596,7 @@ export default function SimplePaper({ messages }) {
                     }
                     {`${user.bunno1}`.length !== 0 &&
                         <MenuItem
+                            style={{ whiteSpace: "pre-wrap" }}
                             onClick={handleClose}
                         >{`${user.bunno1}`}
                         </MenuItem>

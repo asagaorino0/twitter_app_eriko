@@ -91,7 +91,18 @@ const Login = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
-                    myProfile()
+                    firebase
+                        .firestore()
+                        .collection("users")
+                        .where("name", "==", `${profile.userId}`)
+                        .get()
+                        .then((querySnapshot) => {
+                            querySnapshot.forEach((doc) => {
+                                console.log(doc.id, " => ", doc.data())
+                                setUser(doc.data())
+                            })
+                            console.log("user", `${user}`)
+                        })
                     db.collection('users').doc(`${profile.userId}`).set({
                         namae: `${user.namae}`,
                         insta: `${user.insta}`,
