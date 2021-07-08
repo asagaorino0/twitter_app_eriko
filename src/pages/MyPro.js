@@ -128,9 +128,11 @@ const CreateUser = () => {
                         {`${user.nameY}`.length !== 0 &&
                             `屋号：${user.nameY}`
                         }
-                        {`${user.insta}` !== "" &&
-                            <InstagramIcon alt="insta" />
-                        }
+                        <Link href={user.insta} underline="none" target="_blank">
+                            {`${user.insta}` !== "" &&
+                                <InstagramIcon alt="insta" />
+                            }
+                        </Link>
                     </Typography>
                 </Grid>
             </Grid>
