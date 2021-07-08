@@ -147,7 +147,7 @@ const Login = () => {
                         googleでLogin
                          </Button>
                     {/* <MyPage /> */}
-                    <MyPro />
+                    {/* <MyPro /> */}
                 </div>
             </div>
         </div>
