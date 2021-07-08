@@ -84,7 +84,8 @@ const Login = () => {
                         nName: `${profile.displayName}`,
                         avatar: `${profile.pictureUrl}`,
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    })
+                    }, { merge: true }//←上書きされないおまじない
+                    )
                     history.push(`/Main`)
                 })
         }
@@ -147,7 +148,7 @@ const Login = () => {
                         googleでLogin
                          </Button>
                     {/* <MyPage /> */}
-                    <MyPro />
+                    {/* <MyPro /> */}
                 </div>
             </div>
         </div>
