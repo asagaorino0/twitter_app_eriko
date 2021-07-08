@@ -518,7 +518,6 @@ export default function SimplePaper({ messages }) {
                         {state === true &&
                             <PersonIcon className={classes.yellow} fontSize="large" onClick={stardel} />
                         }
-                        <RefreshIcon onClick={load} />
                         {/* <FormGroup> */}
                         {/* <FormControlLabel
                                 control={<Switch checked={checkedsanka} onChange={toggleChecked} />}
@@ -530,7 +529,6 @@ export default function SimplePaper({ messages }) {
                                 label="参加する"
                                 labelFontSize="8px"
                                 labelPlacement="end"
-
                             /> */}
                         {/* </FormGroup> */}
                         {followers.length !== 0 &&
@@ -545,6 +543,7 @@ export default function SimplePaper({ messages }) {
                     </Grid>
                     <Grid item >
                         <h6>{`state:${state}`}{`${sanka}`}</h6>
+                        <RefreshIcon onClick={load} />
                     </Grid>
                 </Grid>
                 {messages.sita === true &&

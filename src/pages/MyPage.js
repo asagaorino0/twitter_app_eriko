@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import MyPro from './MyPro';
 import MyStar from './MyStar';
 import MySitar from './MySitar';
 import MyLoad from './MyLoad';
@@ -69,6 +70,20 @@ const MyPage = () => {
             </Button>
                 </Typography>
             </Toolbar>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                >
+                    <Typography className={classes.heading} variant="button" onClick={starList}>
+                        アカウント設定
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <MyPro />
+                </AccordionDetails>
+            </Accordion>
             <Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

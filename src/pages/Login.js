@@ -24,7 +24,6 @@ const Login = () => {
         root: {
             gridRow: 2,
             margin: '26px',
-            textAlign: 'left',
         },
         form: {
             width: '100%', // Fix IE 11 issue.
@@ -148,7 +147,7 @@ const Login = () => {
                         googleでLogin
                          </Button>
                     {/* <MyPage /> */}
-                    {/* <MyPro /> */}
+                    <MyPro />
                 </div>
             </div>
         </div>

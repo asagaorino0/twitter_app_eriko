@@ -83,6 +83,10 @@ const CreateUser = () => {
                         setUser(doc.data())
                     })
                     console.log("user", `${user}`)
+
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
                 })
     }
 
@@ -95,21 +99,23 @@ const CreateUser = () => {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             }, { merge: true }//←上書きされないおまじない
             )
+        // history.push('/MyPage')
     }
-    const reInsta = () => {
+    const handleClick = () => {
         firebase
             .firestore()
             .collection('users').doc(`${name}`).set({
-                insta: `${insta}`,
+                nameY: `${nameY}`,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             }, { merge: true }//←上書きされないおまじない
             )
+        // history.push('/MyPage')
     }
 
     return (
         // <div>
         <div className={classes.root}>
-            {/* <h2>アカウントの設定</h2> */}
+            <h2>アカウントの設定</h2>
             <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                 <Grid item >
                     <Typography>
@@ -122,21 +128,26 @@ const CreateUser = () => {
                 </Grid>
                 <Grid item >
                     <Typography>
-                        {`name：${nName}`}
+                        {`ニックネーム：${nName}`}
                     </Typography>
                     <Typography>
-                        {`${user.nameY}`.length !== 0 &&
-                            `屋号：${user.nameY}`
-                        }
-                        {`${user.insta}` !== "" &&
-                            <InstagramIcon alt="insta" />
+                        {`屋号：${user.nameY}`}
+                        {`${user.insta}`.length !== 0 &&
+                            <InstagramIcon alt="insta" fontSize="large" color="disabled" />
                         }
                     </Typography>
                 </Grid>
             </Grid>
             {/* <Grid container direction="row" justify="flex-start" alignItems="flex-end" > */}
             <Typography container direction="row" >
-                <TextField required id="standard-required"
+                <TextField id="nameY"
+                    fullWidth
+                    label="屋号"
+                    defaultValue={`${user.nameY} `}
+                    value={nameY}
+                    onChange={e => setNameY(e.target.value)}
+                />
+                <TextField id="nameY"
                     fullWidth
                     label="屋号"
                     defaultValue={`${user.nameY} `}
@@ -149,27 +160,14 @@ const CreateUser = () => {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+
                     onClick={reNameY}
                 >
                     変更</Button>
             </Typography>
-            <Typography container direction="row" >
-                <TextField required id="standard-required"
-                    fullWidth
-                    label="insta"
-                    defaultValue={`${user.insta} `}
-                    value={insta}
-                    onChange={e => setInsta(e.target.value)}
-                />
-                <Button
-                    type="submit"
-                    disabled={insta === ''}
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={reInsta}
-                >
-                    変更</Button>
+            {/* </ Grid> */}
+            <Typography>
+                {/* <TextField id="password" fullWidth label="password" value={password} onChange={e => setPassword(e.target.value)} /> */}
             </Typography>
             <Typography>
                 <Button
@@ -178,6 +176,7 @@ const CreateUser = () => {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    // disabled={password === ''}
                     onClick={myProfile}
                 >
                     更新</Button>
