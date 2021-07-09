@@ -117,7 +117,7 @@ const EventNow = () => {
                     .map((messages, index) => {
                         return (
                             // <StarPaper messages={messages} key={`${messages.id} `} />
-                            < Paper onClick={tuuchiClick} className={classes.paper} >
+                            < Paper onClick={initializeApp} className={classes.paper} >
                                 <Grid container wrap="nowrap" spacing={1} >
                                     <Grid item style={{ cursor: 'pointer' }}>
                                         <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
