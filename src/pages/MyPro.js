@@ -70,7 +70,6 @@ const CreateUser = () => {
                         console.log(doc.id, " => ", doc.data())
                         setUser(doc.data())
                     })
-                    // console.log("user", `${user}`)
                 })
     }
     const myPage = () => {
@@ -136,7 +135,7 @@ const CreateUser = () => {
                 </Grid>
                 <Grid item >
                     <Typography>
-                        {`ｱｶｳﾝﾄ：${nName}`}
+                        {`username：${nName}`}
                     </Typography>
                     <Typography>
                         {`${user.nameY}`.length !== 0 &&
@@ -145,11 +144,6 @@ const CreateUser = () => {
                     </Typography>
                     <Typography>
                         {`${user.insta}` !== "" &&
-                            // <Link
-                            // href={user.insta} 
-                            // underline="none"
-                            // target="_blank"
-                            // >
                             <a
                                 href={user.insta}
                                 underline="none"
@@ -158,7 +152,6 @@ const CreateUser = () => {
                                 <InstagramIcon alt="insta" />
                                 {user.insta}
                             </a>
-                            /* </Link> */
                         }
                     </Typography>
                     <Typography>
@@ -197,7 +190,7 @@ const CreateUser = () => {
                 <Typography container direction="row" >
                     <TextField required id="standard-required"
                         // fullWidth
-                        label="氏名"
+                        label="氏名（非公開）"
                         defaultValue={`${user.namae} `}
                         value={namae}
                         onChange={e => setNamae(e.target.value)}

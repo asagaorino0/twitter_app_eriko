@@ -277,8 +277,8 @@ export default function SimplePaper({ messages }) {
                     )
                     // console.log("Document written with ID: "`${messages.id}`);
                     db.collection("users").doc(`${name}`).collection("sitagaki").doc(`${messages.id}`).delete()
-
-                    history.push('/Main')
+                    history.push(`/EventTuuchi/${messages.id}`);
+                    // history.push('/Main')
                 })
     }
     const sitarId = async () => {

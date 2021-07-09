@@ -39,7 +39,7 @@ const MySitar = () => {
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
-    window.onload = function (e) {
+    useEffect(() => {
         setNName("おりのえりこ")
         setName("Ue990787da85bbd95eae9595867add9ba")
         setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
@@ -48,7 +48,7 @@ const MySitar = () => {
             .collection("users")
             .doc("Ue990787da85bbd95eae9595867add9ba")
             .collection("sitagaki")
-            .orderBy("timestamp", "desc")
+            .orderBy("nichi", "desc")
             .onSnapshot((snapshot) => {
                 const sitagaki = snapshot.docs.map((doc) => {
                     return doc.id &&
@@ -58,7 +58,8 @@ const MySitar = () => {
                 console.log(`${name}`)
 
             })
-    }
+    }, []
+    );
 
     const useStyles = makeStyles({
         root: {

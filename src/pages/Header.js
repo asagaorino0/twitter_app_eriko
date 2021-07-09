@@ -242,7 +242,7 @@ const Header = () => {
     });
     const classes = useStyles();
 
-    window.onload = function (e) {
+    useEffect(() => {
         if (liff.isLoggedIn()) {
             liff.getProfile()
                 .then(profile => {
@@ -253,7 +253,8 @@ const Header = () => {
                 })
         }
         history.push(`/Main`)
-    }
+    }, []
+    );
 
     const sendMessage1 = function (e) {
         liff.shareTargetPicker([{

@@ -54,7 +54,6 @@ const MyLoad = () => {
             })
     }, []
     );
-
     const useStyles = makeStyles({
         root: {
             gridRow: 2,
@@ -62,6 +61,7 @@ const MyLoad = () => {
         },
     });
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
             {messages.length !== 0 &&
