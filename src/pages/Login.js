@@ -59,7 +59,8 @@ const Login = () => {
         // ログインチェック
         if (liff.isLoggedIn()) {
             //ログイン済
-            onload()
+            // onload()
+            tuuchiOnload()
         } else {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
@@ -72,6 +73,12 @@ const Login = () => {
     const lineClick = function () {
         liff.login();
         // window.location.href = loginUrl;
+    };
+    const tuuchiClick = function () {
+        liff.login();
+        // window.location.href = loginUrl;
+        history.push(`/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY`)
+
     };
 
 
@@ -97,7 +104,28 @@ const Login = () => {
                 })
         }
     }
-
+    const tuuchiOnload = function (e) {
+        if (liff.isLoggedIn()) {
+            liff.getProfile()
+                .then(profile => {
+                    setNName(profile.displayName)
+                    setName(profile.userId)
+                    setAvatar(profile.pictureUrl)
+                    console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+                    // firebase.firestore().settings({
+                    //     ignoreUndefinedProperties: true,
+                    // })
+                    db.collection('users').doc(`${profile.userId}`).set({
+                        name: `${profile.userId}`,
+                        nName: `${profile.displayName}`,
+                        avatar: `${profile.pictureUrl}`,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    }, { merge: true }//←上書きされないおまじない
+                    )
+                    history.push(`/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY`)
+                })
+        }
+    }
     const googleClick = () => {
         setNName("おりのえりこ")
         setName("Ue990787da85bbd95eae9595867add9ba")
@@ -127,38 +155,40 @@ const Login = () => {
                             </Button>
                     </Typography>
                 </div>
-                {/* 今だけ！期間限定 */}
-                <div class="line-it-button" data-lang="ja" data-type="share-a" data-ver="3" data-url="https://social-plugins.line.me/ja/how_to_install#lineitbutton" data-color="default" data-size="small" data-count="false" style={{ display: 'none' }}></div>
-                <script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
-
-                <div>
-                    {/* <Link
-                        href="https://api-data.line.me/v2/bot/audienceGroup/upload/byUe;"
-                        underline="none"
-                        target="_blank"
-                    ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
-                    </Link> */}
-                </div>
-                <div>
-                    {/* <Link
+            </div>
+            <div>
+                {/* <Link
                         href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
                         underline="none"
                         target="_blank"
                     ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
                     </Link> */}
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        onClick={googleClick}
-                        color="primary"
-                    >
-                        googleでLogin
+                <Button
+                    variant="contained"
+                    fullWidth
+                    onClick={googleClick}
+                    color="primary"
+                >
+                    googleでLogin
                          </Button>
-                    {/* <MyPage /> */}
-                    <MyPro />
-                </div>
+                {/* {`${user.insta}` !== "" && */}
+                <a
+                    // href={user.insta}
+                    href="https://twitter-app-eriko.web.app/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY"
+                    underline="none"
+                    target="_blank"
+                    onClick={tuuchiClick}
+                >
+                    kousin
+                                {/* {user.insta} */}
+                </a>
+                {/* } */}
+
+                {/* <MyPage /> */}
+                {/* <MyPro /> */}
             </div>
         </div>
+
 
     );
 };
