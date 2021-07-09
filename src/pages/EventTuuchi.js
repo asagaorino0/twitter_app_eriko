@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import StarPaper from './StarPaper'
 
 const EventNow = () => {
@@ -31,6 +32,9 @@ const EventNow = () => {
         },
     });
     const classes = useStyles();
+    const back = () => {
+        history.push('/Main')
+    }
 
     return (
         <div className={classes.root}>
@@ -40,10 +44,9 @@ const EventNow = () => {
                     .map((messages, index) => { */}
             {/* return ( */}
             <StarPaper messages={messages} />
-
-            {/* )
-                    })
-            } */}
+            <Button variant="contained" onClick={back}>
+                戻る
+            </Button>
         </div>
     );
 };

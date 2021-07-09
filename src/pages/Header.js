@@ -30,6 +30,7 @@ const Header = () => {
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
     const [nichi, setNichi] = useState('');
+    const [limit, setLimit] = useState('');
     const [zi, setZi] = useState('');
     const [basyo, setBasyo] = useState('');
     const [url, setUrl] = useState('');
@@ -43,7 +44,13 @@ const Header = () => {
     const h = ("00" + date.getHours()).slice(-2)
     const m = ("00" + date.getMinutes()).slice(-2)
     const s = ("00" + date.getSeconds()).slice(-2)
-    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const now = M + '月' + D + '日 ' + h + ':' + m
+    const news = (Y + M + D) * 1
+    var vYear = parseInt(`${nichi}`.substr(0, 4), 10);
+    var vMonth = parseInt(`${nichi}`.substr(5, 2), 10);
+    var vDay = parseInt(`${nichi}`.substr(8, 2), 10);
+    var adate = (vYear * 10000 + vMonth * 100 + vDay);
+
 
     // // 現在ログインしているユーザーを取得する
     // useEffect(() => {
@@ -77,6 +84,11 @@ const Header = () => {
         history.push('/MyPage')
     }
     const handleCreate = async () => {
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
         await
             db.collection("messages").add({
                 name: `${name}`,
@@ -90,6 +102,8 @@ const Header = () => {
                 url: `${url}`,
                 src: `${src}`,
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
                 star: 0,
                 myPage: false,
                 like: false,
@@ -121,6 +135,8 @@ const Header = () => {
                         url: `${url}`,
                         src: `${src}`,
                         time: now,
+                        news: `${news}`,
+                        limit: `${limit}`,
                         star: 0,
                         myPage: true,
                         like: false,
@@ -148,6 +164,8 @@ const Header = () => {
                 url: `${url}`,
                 src: `${src}`,
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
                 star: 0,
                 myPage: true,
                 like: false,

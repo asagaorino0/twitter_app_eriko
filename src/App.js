@@ -14,6 +14,7 @@ import MySitar from './pages/MySitar';
 import MyLoad from './pages/MyLoad';
 import EventNow from './pages/EventNow';
 import EventTuuchi from './pages/EventTuuchi';
+import InfoList from './pages/InfoList';
 // import CreateUser from './pages/CreateUser'
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
             <Route exact path='/Main/' component={Main} />
             <Route exact path='/EventNow/' component={EventNow} />
             <Route exact path="/" component={Login} />
+            <Route exact path="/InfoList/" component={InfoList} />
             <Route exact path="/EventTuuchi/:messagesId" component={EventTuuchi} />
             <Route exact path="/MyPage/" component={MyPage} />
             <Route exact path="/MyStar/" component={MyStar} />

@@ -1,25 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import firebase from "firebase/app";
+import { storage } from "../config/firebase";
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 import DeleteIcon from '@material-ui/icons/Delete';
-import firebase from "firebase/app";
 import lineLogo from '../img/square-default.png';
-import PersonIcon from '@material-ui/icons/Person';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import InstagramIcon from '@material-ui/icons/Instagram';
-// import PanToolIcon from '@material-ui/icons/PanTool';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import TouchAppIcon from '@material-ui/icons/TouchApp';
-import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 import RefreshIcon from '@material-ui/icons/Refresh'
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-// import Switch from '@material-ui/core/Switch';
-// import FormGroup from '@material-ui/core/FormGroup';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Follower from './Follower'
 import TextField from '@material-ui/core/TextField';
 import Menu from '@material-ui/core/Menu';
@@ -29,12 +20,21 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { Typography, Button } from "@material-ui/core";
 import { useDropzone } from "react-dropzone";
-import { storage } from "../config/firebase";
 import FolderIcon from '@material-ui/icons/Folder';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import QueueIcon from '@material-ui/icons/Queue';
 import liff from '@line/liff';
+// import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
+// import PanToolIcon from '@material-ui/icons/PanTool';
+// import Avatar from '@material-ui/core/Avatar';
+// import Switch from '@material-ui/core/Switch';
+// import FormGroup from '@material-ui/core/FormGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import PersonIcon from '@material-ui/icons/Person';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,10 +87,11 @@ export default function SimplePaper({ messages }) {
     const [user, setUser] = useState([]);
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
+    const [followedId, setFollowedId] = useState([]);
     // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
     // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
-    const [followedId, setFollowedId] = useState([]);
+
 
     // // 現在ログインしているユーザーを取得する
     // useEffect(() => {
@@ -482,7 +483,7 @@ export default function SimplePaper({ messages }) {
                     </Typography>
                     {`${messages.nichi}`.length !== 0 &&
                         <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
-                            年月日：{messages.nichi}
+                            開催日：{messages.nichi}
                         </Typography>
                     }
                     {`${messages.zi}`.length !== 0 &&
@@ -634,7 +635,7 @@ export default function SimplePaper({ messages }) {
 
                             <MenuItem>
                                 <TextField required id="standard-required"
-                                    label="年月日"
+                                    label="開催日"
                                     // type="datetime-local"
                                     defaultValue={messages.nichi}
                                     fullWidth={true}

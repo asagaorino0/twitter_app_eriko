@@ -9,8 +9,8 @@ import logo from '../img/0730.jpg';
 import lineLogo from '../img/square-default.png';
 import liff from '@line/liff';
 import { Link } from "@material-ui/core";
-import MyPro from './MyPro';
-import MyPage from './MyPage';
+import InfoList from './InfoList';
+
 // import { get } from '@line/liff/dist/lib/store/';
 
 const Login = () => {
@@ -54,13 +54,12 @@ const Login = () => {
                 initializeApp();
             })
     };
-
     function initializeApp() {
         // ログインチェック
         if (liff.isLoggedIn()) {
             //ログイン済
             // onload()
-            tuuchiOnload()
+            onload()
         } else {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？");
@@ -74,14 +73,6 @@ const Login = () => {
         liff.login();
         // window.location.href = loginUrl;
     };
-    const tuuchiClick = function () {
-        liff.login();
-        // window.location.href = loginUrl;
-        history.push(`/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY`)
-
-    };
-
-
     const onload = function (e) {
         if (liff.isLoggedIn()) {
             liff.getProfile()
@@ -104,28 +95,7 @@ const Login = () => {
                 })
         }
     }
-    const tuuchiOnload = function (e) {
-        if (liff.isLoggedIn()) {
-            liff.getProfile()
-                .then(profile => {
-                    setNName(profile.displayName)
-                    setName(profile.userId)
-                    setAvatar(profile.pictureUrl)
-                    console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
-                    // firebase.firestore().settings({
-                    //     ignoreUndefinedProperties: true,
-                    // })
-                    db.collection('users').doc(`${profile.userId}`).set({
-                        name: `${profile.userId}`,
-                        nName: `${profile.displayName}`,
-                        avatar: `${profile.pictureUrl}`,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    }, { merge: true }//←上書きされないおまじない
-                    )
-                    history.push(`/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY`)
-                })
-        }
-    }
+
     const googleClick = () => {
         setNName("おりのえりこ")
         setName("Ue990787da85bbd95eae9595867add9ba")
@@ -170,26 +140,11 @@ const Login = () => {
                     color="primary"
                 >
                     googleでLogin
-                         </Button>
-                {/* {`${user.insta}` !== "" && */}
-                <a
-                    // href={user.insta}
-                    href="https://twitter-app-eriko.web.app/EventTuuchi/3Ht2EaXo5IwWIuMEUEnY"
-                    underline="none"
-                    target="_blank"
-                    onClick={tuuchiClick}
-                >
-                    kousin
-                                {/* {user.insta} */}
-                </a>
-                {/* } */}
-
+                 </Button>
                 {/* <MyPage /> */}
-                {/* <MyPro /> */}
+                <InfoList />
             </div>
         </div>
-
-
     );
 };
 
