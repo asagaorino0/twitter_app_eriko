@@ -109,7 +109,7 @@ const EventNow = () => {
 
     return (
         <div className={classes.root}>
-            it's New!
+            it's new!
             {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.limit > today - 7)
