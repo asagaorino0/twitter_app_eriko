@@ -69,6 +69,7 @@ const Main = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                         工事中！
+                     <EventNow />
                     </AccordionDetails>
                 </Accordion>
                 {/* <Accordion>

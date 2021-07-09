@@ -46,7 +46,7 @@ const EventNow = () => {
             {/* return ( */}
             <StarPaper messages={messages} />
             <Button variant="contained" onClick={back}>
-                募集中のイベント
+                募集中のイベント一覧へ
             </Button>
         </div>
     );

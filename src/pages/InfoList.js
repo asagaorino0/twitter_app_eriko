@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
+import InfoPaper from './InfoPaper'
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Typography, Button } from "@material-ui/core";
 import liff from '@line/liff';
 import { useHistory } from 'react-router-dom';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
-
-const EventNow = () => {
+const InfoList = () => {
     const db = firebase.firestore();
     const history = useHistory()
     const myLiffId = "1656149559-xXM4l4Gp"
@@ -40,6 +42,7 @@ const EventNow = () => {
                         doc.data()
                 });
                 setMessages(messages);
+                // console.log(messages)
             })
     }, []
     );
@@ -60,9 +63,12 @@ const EventNow = () => {
         },
     });
     const classes = useStyles();
-    const tuuchiClick = function () {
-        liff.login();
-    };
+    const [anchorMl, setAnchorMl] = React.useState(null);
+
+    // const tuuchiClick = function () {
+    //     liff.login();
+    // };
+
     // window.onload = function (e) {
     //     liff
     //         .init({ liffId: myLiffId })
@@ -72,12 +78,9 @@ const EventNow = () => {
     //         })
     // };
     function initializeApp() {
-        setMessagesId(`${messages.id}`)
-        console.log(`${messages.id}`)
         // ログインチェック
         if (liff.isLoggedIn()) {
-            //ログイン済
-            // onload()
+            // ログイン済
             tuuchiOnload()
         } else {
             // 未ログイン
@@ -89,24 +92,44 @@ const EventNow = () => {
         }
     }
     const tuuchiOnload = function (e) {
-        if (liff.isLoggedIn()) {
-            liff.getProfile()
-                .then(profile => {
-                    setNName(profile.displayName)
-                    setName(profile.userId)
-                    setAvatar(profile.pictureUrl)
-                    console.log("{infilist}", `${nName}`, `${avatar}`, `${name}`);
-                    db.collection('users').doc(`${profile.userId}`).set({
-                        name: `${profile.userId}`,
-                        nName: `${profile.displayName}`,
-                        avatar: `${profile.pictureUrl}`,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    }, { merge: true }//←上書きされないおまじない
-                    )
-                    history.push(`/EventTuuchi/${messagesId}`)
-                })
-        }
+        // if (liff.isLoggedIn()) {
+        //     liff.getProfile()
+        //         .then(profile => {
+        //             setNName(profile.displayName)
+        //             setName(profile.userId)
+        //             setAvatar(profile.pictureUrl)
+        //             console.log("{infolist}", `${nName}`, `${avatar}`, `${name}`);
+        //             db.collection('users').doc(`${profile.userId}`).set({
+        //                 name: `${profile.userId}`,
+        //                 nName: `${profile.displayName}`,
+        //                 avatar: `${profile.pictureUrl}`,
+        //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        //             }, { merge: true }//←上書きされないおまじない
+        //             )
+        handleClick()
+        //         })
+        // }
     }
+    const handleClick = (event) => {
+        setAnchorMl(event.currentTarget);
+        console.log(event.currentTarget)
+        // firebase
+        //     .firestore()
+        //     .collection("messages")
+        //     .orderBy("timestamp", "desc")
+        //     .onSnapshot((snapshot) => {
+        //         const messages = snapshot.docs.map((doc) => {
+        //             return doc.id &&
+        //                 doc.data()
+        //         });
+        //         setMessages(messages);
+        console.log(messages.id)
+        // history.push(`/EventTuuchi/${messagesId}`)
+        // })
+    };
+    // const handleClose = () => {
+    //     setAnchorMl(null);
+    // };
 
     return (
         <div className={classes.root}>
@@ -117,34 +140,12 @@ const EventNow = () => {
                     .filter((messages) => messages.news > today - 3)
                     .map((messages, index) => {
                         return (
-                            // <StarPaper messages={messages} key={`${messages.id} `} />
-                            < Paper onClick={initializeApp} className={classes.paper} >
-                                <Grid container wrap="nowrap" spacing={1} >
-                                    <Grid item style={{ cursor: 'pointer' }}>
-                                        <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
-                                    </Grid>
-                                    <Grid item xs >
-                                        <Typography style={{ cursor: 'pointer' }} variant="h6" component="h6" >
-                                            {messages.event}
-                                        </Typography>
-                                        {`${messages.nichi}`.length !== 0 &&
-                                            <Typography style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
-                                                開催日：{messages.nichi}
-                                            </Typography>
-                                        }
-                                        <Typography style={{ cursor: 'pointer' }} variant="caption" color="textSecondary">
-                                            {messages.nName}:
-                                        </Typography>
-                                        <Typography style={{ cursor: 'pointer' }} variant="caption" color="textSecondary">
-                                            {messages.time}更新
-                                    </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
+                            <InfoPaper messages={messages} key={`${messages.id} `} />
+
                         )
                     })
             }
         </div>
     );
 };
-export default EventNow;
+export default InfoList;

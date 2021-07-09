@@ -420,6 +420,7 @@ export default function SimplePaper({ messages }) {
     const [anchorMl, setAnchorMl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        // console.log(event.currentTarget)
         firebase
             .firestore()
             .collection("users")
@@ -427,8 +428,9 @@ export default function SimplePaper({ messages }) {
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.id, " => ", doc.data())
+                    // console.log(doc.id, " => ", doc.data())
                     setUser(doc.data())
+                    // console.log(`${messages.id}`)
                 })
             })
     };
