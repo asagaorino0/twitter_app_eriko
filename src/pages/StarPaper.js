@@ -67,7 +67,6 @@ export default function SimplePaper({ messages }) {
     const history = useHistory()
     const db = firebase.firestore();
     const [nichi, setNichi] = useState('');
-
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
@@ -89,7 +88,7 @@ export default function SimplePaper({ messages }) {
     const D = ("00" + date.getDate()).slice(-2)
     const h = ("00" + date.getHours()).slice(-2)
     const m = ("00" + date.getMinutes()).slice(-2)
-    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const now = M + '月' + D + '日 ' + h + ':' + m
     const news = (Y + M + D) * 1
     var vYear = parseInt(`${nichi}`.substr(0, 4), 10);
     var vMonth = parseInt(`${nichi}`.substr(5, 2), 10);
@@ -100,74 +99,74 @@ export default function SimplePaper({ messages }) {
     // const [setFollowed] = useState('');
 
 
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             firebase
-    //                 .firestore()
-    //                 .collection("messages")
-    //                 .doc(messages.id)
-    //                 .collection('follower')
-    //                 .orderBy("timestamp", "desc")
-    //                 .onSnapshot((snapshot) => {
-    //                     const followedId = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data().uid
-    //                     });
-    //                     setFollowedId(followedId)
-    //                     setState(followedId.includes(`${profile.userId}`))
-    //                 })
-    //             firebase
-    //                 .firestore()
-    //                 .collection("users")
-    //                 .onSnapshot((snapshot) => {
-    //                     const users = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data()
-    //                     });
-    //                     setUsers(users)
-    //                     console.log(users)
-    //                 })
-    //         })
-    // }, []
-    // );
     // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        firebase
-            .firestore()
-            .collection("messages")
-            .doc(messages.id)
-            .collection('follower')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const followedId = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data().uid
-                });
-                setFollowedId(followedId)
-                setState(followedId.includes(`${name}`))
-            })
-        firebase
-            .firestore()
-            .collection("users")
-            .onSnapshot((snapshot) => {
-                const users = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setUsers(users)
-                load()
-                // console.log(users)
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                firebase
+                    .firestore()
+                    .collection("messages")
+                    .doc(messages.id)
+                    .collection('follower')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followedId = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data().uid
+                        });
+                        setFollowedId(followedId)
+                        setState(followedId.includes(`${profile.userId}`))
+                    })
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .onSnapshot((snapshot) => {
+                        const users = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUsers(users)
+                        console.log(users)
+                    })
             })
     }, []
     );
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     firebase
+    //         .firestore()
+    //         .collection("messages")
+    //         .doc(messages.id)
+    //         .collection('follower')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const followedId = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data().uid
+    //             });
+    //             setFollowedId(followedId)
+    //             setState(followedId.includes(`${name}`))
+    //         })
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .onSnapshot((snapshot) => {
+    //             const users = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setUsers(users)
+    //             load()
+    //             // console.log(users)
+    //         })
+    // }, []
+    // );
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
@@ -683,7 +682,7 @@ export default function SimplePaper({ messages }) {
                                 <TextField
                                     label=""
                                     type="date"
-                                    defaultValue=""
+                                    defaultValue={messages.nichi}
                                     fullWidth={true}
                                     onChange={(e) => setNichi(e.target.value)}
                                     value={nichi}
@@ -693,7 +692,7 @@ export default function SimplePaper({ messages }) {
                                 <TextField
                                     label=""
                                     type="time"
-                                    defaultValue=""
+                                    defaultValue={messages.zi}
                                     fullWidth={true}
                                     onChange={(e) => setZi(e.target.value)}
                                     value={zi}

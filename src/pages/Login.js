@@ -62,7 +62,7 @@ const Login = () => {
             onload()
         } else {
             // 未ログイン
-            let result = window.confirm("LINE Loginしますか？");
+            let result = window.confirm("LINE Loginしますか？新着情報を確認する場合はキャンセルしてください。");
             if (result) {
                 // liff.login();
                 window.location.href = loginUrl;
@@ -127,20 +127,14 @@ const Login = () => {
                 </div>
             </div>
             <div>
-                {/* <Link
-                        href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
-                        underline="none"
-                        target="_blank"
-                    ><img src={lineLogo} size="small" alt="LINEメッセージを送る" />
-                    </Link> */}
-                <Button
+                {/* <Button
                     variant="contained"
                     fullWidth
                     onClick={googleClick}
                     color="primary"
                 >
                     googleでLogin
-                 </Button>
+                 </Button> */}
                 {/* <MyPage /> */}
                 <InfoList />
             </div>

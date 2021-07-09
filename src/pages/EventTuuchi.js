@@ -36,6 +36,9 @@ const EventNow = () => {
     const back = () => {
         history.push('/Main')
     }
+    const signOut = () => {
+        history.push('/')
+    }
 
     return (
         <div className={classes.root}>
@@ -45,6 +48,10 @@ const EventNow = () => {
                     .map((messages, index) => { */}
             {/* return ( */}
             <StarPaper messages={messages} />
+
+            <Button variant="contained" onClick={signOut}>
+                ←
+            </Button>
             <Button variant="contained" onClick={back}>
                 募集中のイベント一覧へ
             </Button>

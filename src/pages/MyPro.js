@@ -38,25 +38,25 @@ const CreateUser = () => {
         },
     }));
     const classes = useStyles();
-    // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             myProfile()
-    //         })
-    // }, []
-    // );
+    // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        myProfile()
-        // console.log(name, nName)
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                myProfile()
+            })
     }, []
     );
+    // useEffect(() => {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     myProfile()
+    //     // console.log(name, nName)
+    // }, []
+    // );
 
     const myProfile = async () => {
         await

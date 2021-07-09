@@ -3,11 +3,11 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import { makeStyles } from '@material-ui/core/styles';
 import InfoPaper from './InfoPaper'
+import liff from '@line/liff';
+import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { Typography, Button } from "@material-ui/core";
-import liff from '@line/liff';
-import { useHistory } from 'react-router-dom';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -137,7 +137,7 @@ const InfoList = () => {
             {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.limit > today - 7)
-                    .filter((messages) => messages.news > today - 3)
+                    .filter((messages) => messages.news > today - 2)
                     .map((messages, index) => {
                         return (
                             <InfoPaper messages={messages} key={`${messages.id} `} />
