@@ -52,7 +52,8 @@ const Main = () => {
                     </Typography>
                     </AccordionSummary>
                     <AccordionDetails> */}
-                <EventNow />
+                <InfoList />
+                {/* <EventNow /> */}
                 {/* </AccordionDetails>
                 </Accordion> */}
                 <Accordion>
