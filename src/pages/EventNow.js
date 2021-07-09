@@ -27,12 +27,22 @@ const EventNow = () => {
         },
     });
     const classes = useStyles();
+    const date = new Date()
+    const Y = date.getFullYear()
+    const M = ("00" + (date.getMonth() + 1)).slice(-2)
+    const D = ("00" + date.getDate()).slice(-2)
+    const h = ("00" + date.getHours()).slice(-2)
+    const m = ("00" + date.getMinutes()).slice(-2)
+    const s = ("00" + date.getSeconds()).slice(-2)
+    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const today = (Y + M + D) * 1
 
     return (
         <div className={classes.root}>
             {messages.length !== 0 &&
                 messages
-                    .filter((messages) => messages.myPage === false)
+                    .filter((messages) => messages.limit > today)
+                    //   .filter((messages) => messages.news > today - 3)
                     .map((messages, index) => {
                         return (
                             <StarPaper messages={messages} key={`${messages.id} `} />

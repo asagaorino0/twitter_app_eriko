@@ -66,19 +66,14 @@ export default function SimplePaper({ messages }) {
     const classes = useStyles();
     const history = useHistory()
     const db = firebase.firestore();
-    const date = new Date()
-    const Y = date.getFullYear()
-    const M = ("00" + (date.getMonth() + 1)).slice(-2)
-    const D = ("00" + date.getDate()).slice(-2)
-    const h = ("00" + date.getHours()).slice(-2)
-    const m = ("00" + date.getMinutes()).slice(-2)
-    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const [nichi, setNichi] = useState('');
+
     const [name, setName] = useState('');
     const [nName, setNName] = useState('');
     const [avatar, setAvatar] = useState('');
     const [url, setUrl] = useState(`${messages.url}`);
     const [event, setEvent] = useState(`${messages.event}`);
-    const [nichi, setNichi] = useState('');
+    const [limit, setLimit] = useState('');
     const [zi, setZi] = useState('');
     const [basyo, setBasyo] = useState('');
     const [message, setMessage] = useState(`${messages.message}`);
@@ -88,6 +83,18 @@ export default function SimplePaper({ messages }) {
     const [sanka, setSanka] = useState('');
     const [state, setState] = useState('');
     const [followedId, setFollowedId] = useState([]);
+    const date = new Date()
+    const Y = date.getFullYear()
+    const M = ("00" + (date.getMonth() + 1)).slice(-2)
+    const D = ("00" + date.getDate()).slice(-2)
+    const h = ("00" + date.getHours()).slice(-2)
+    const m = ("00" + date.getMinutes()).slice(-2)
+    const now = Y + '年' + M + '月' + D + '日 ' + h + ':' + m
+    const news = (Y + M + D) * 1
+    var vYear = parseInt(`${nichi}`.substr(0, 4), 10);
+    var vMonth = parseInt(`${nichi}`.substr(5, 2), 10);
+    var vDay = parseInt(`${nichi}`.substr(8, 2), 10);
+    var adate = (vYear * 10000 + vMonth * 100 + vDay);
     // const [checkedsanka, setCheckedSanka] = React.useState(`${state}`);
     // const [checkedsanka, setCheckedSanka] = React.useState(false);
     // const [setFollowed] = useState('');
@@ -182,6 +189,8 @@ export default function SimplePaper({ messages }) {
                 load: true,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
             }, { merge: true }//←上書きされないおまじない
             )
                 .then((docRef) => {
@@ -203,6 +212,11 @@ export default function SimplePaper({ messages }) {
             db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`).delete()
     };
     const copyId = async () => {
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
         await
             db.collection("users").doc(`${name}`).collection("sitagaki").add({
                 name: `${name}`,
@@ -216,6 +230,8 @@ export default function SimplePaper({ messages }) {
                 src: messages.src,
                 url: messages.url,
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
                 myPage: true,
                 like: messages.like,
                 sita: true,
@@ -234,6 +250,11 @@ export default function SimplePaper({ messages }) {
                 })
     }
     const loadId = async () => {
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
         await
             db.collection("users").doc(`${name}`).collection("loadsita").doc(`${messages.id}`).set({
                 id: messages.id,
@@ -247,6 +268,8 @@ export default function SimplePaper({ messages }) {
                 src: messages.src,
                 avatar: messages.avatar,
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
                 url: messages.url,
                 like: messages.like,
                 sita: false,
@@ -267,6 +290,9 @@ export default function SimplePaper({ messages }) {
                         basyo: messages.basyo,
                         src: messages.src,
                         avatar: messages.avatar,
+                        time: now,
+                        news: `${news}`,
+                        limit: `${limit}`,
                         time: now,
                         url: messages.url,
                         like: messages.like,
@@ -292,6 +318,11 @@ export default function SimplePaper({ messages }) {
         }
         catch (error) {
         }
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
         await
             db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
                 id: messages.id,
@@ -307,6 +338,8 @@ export default function SimplePaper({ messages }) {
                 // sita:true,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 time: now,
+                news: `${news}`,
+                limit: `${limit}`,
             }, { merge: true }//←上書きされないおまじない
             )
                 .then((docRef) => {
@@ -351,32 +384,40 @@ export default function SimplePaper({ messages }) {
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         }, { merge: true }//←上書きされないおまじない
         )
-        db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
-            .set({
-                id: messages.id,
-                event: messages.event,
-                name: `${name}`,
-                nName: messages.nName,
-                message: messages.message,
-                nichi: messages.nichi,
-                zi: messages.zi,
-                basyo: messages.basyo,
-                src: messages.src,
-                avatar: messages.avatar,
-                time: now,
-                url: messages.url,
-                myPage: true,
-                sita: false,
-                like: true,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            })
-            .then((docRef) => {
-                setSanka("参加する")
-                console.log(followers.includes(`${name}`))
-                console.log("name", `${name}`)
-                setState(followers.includes(`${name}`))
-                // console.log("Document written with ID: ")
-            })
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
+        await
+            db.collection("users").doc(`${name}`).collection("likes").doc(`${messages.id}`)
+                .set({
+                    id: messages.id,
+                    event: messages.event,
+                    name: `${name}`,
+                    nName: messages.nName,
+                    message: messages.message,
+                    nichi: messages.nichi,
+                    zi: messages.zi,
+                    basyo: messages.basyo,
+                    src: messages.src,
+                    avatar: messages.avatar,
+                    time: now,
+                    news: `${news}`,
+                    limit: `${limit}`,
+                    url: messages.url,
+                    myPage: true,
+                    sita: false,
+                    like: true,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                })
+                .then((docRef) => {
+                    setSanka("参加する")
+                    console.log(followers.includes(`${name}`))
+                    console.log("name", `${name}`)
+                    setState(followers.includes(`${name}`))
+                    // console.log("Document written with ID: ")
+                })
         load()
     }
     useEffect(() => {
@@ -473,6 +514,8 @@ export default function SimplePaper({ messages }) {
         };
     };
 
+    const jyoho = `https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app&text=更新情報：${messages.event}`
+
     return (
         < Paper className={classes.paper} >
             <Grid container wrap="nowrap" spacing={1} >
@@ -553,7 +596,7 @@ export default function SimplePaper({ messages }) {
                     <Grid item>
                         <div>
                             <Link
-                                href="https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app"
+                                href={jyoho}
                                 underline="none"
                                 target="_blank"
                             ><img src={lineLogo} size="small" alt="LINEメッセージを送る" style={{ width: '25px', height: '25px' }} />
@@ -605,8 +648,9 @@ export default function SimplePaper({ messages }) {
                         </MenuItem>
                     }
                 </Menu>
-            </div>
-            {messages.myPage === true &&
+            </div >
+            {
+                messages.myPage === true &&
                 <div>
                     {messages.like !== true &&
                         <Menu
@@ -636,20 +680,20 @@ export default function SimplePaper({ messages }) {
                             </MenuItem>
 
                             <MenuItem>
-                                <TextField required id="standard-required"
-                                    label="開催日"
-                                    // type="datetime-local"
-                                    defaultValue={messages.nichi}
+                                <TextField
+                                    label=""
+                                    type="date"
+                                    defaultValue=""
                                     fullWidth={true}
                                     onChange={(e) => setNichi(e.target.value)}
                                     value={nichi}
                                 />
                             </MenuItem>
                             <MenuItem>
-                                <TextField required id="standard-required"
-                                    label="時間"
-                                    // type="datetime-local"
-                                    defaultValue={messages.zi}
+                                <TextField
+                                    label=""
+                                    type="time"
+                                    defaultValue=""
                                     fullWidth={true}
                                     onChange={(e) => setZi(e.target.value)}
                                     value={zi}
@@ -730,7 +774,8 @@ export default function SimplePaper({ messages }) {
                         </Menu>
                     }
 
-                </div>}
+                </div>
+            }
 
             {/* {messages.myPage !== true &&
                 <div>

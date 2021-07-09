@@ -34,7 +34,7 @@ const Login = () => {
         },
         green: {
             color: '#ffffff',
-            backgroundColor: '#00b900',
+            backgroundColor: '#06c775',
         },
     }));
     const classes = useStyles();
