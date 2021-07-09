@@ -14,6 +14,7 @@ const EventNow = () => {
     const history = useHistory()
     const myLiffId = "1656149559-xXM4l4Gp"
     const [messages, setMessages] = useState('');
+    const [messagesId, setMessagesId] = useState('');
     const [avatar, setAvatar] = useState('');
     const [nName, setNName] = useState('');
     const [name, setName] = useState('');
@@ -100,7 +101,8 @@ const EventNow = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
-                    history.push(`/EventTuuchi/${messages.id}`)
+                    setMessagesId(`${messages.id}`)
+                    history.push(`/EventTuuchi/${messagesId}`)
                 })
         }
     }

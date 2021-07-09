@@ -11,6 +11,7 @@ const EventNow = () => {
     const history = useHistory()
     const { messagesId } = useParams();
     useEffect(() => {
+        console.log(messagesId)
         firebase
             .firestore()
             .collection("messages")
@@ -45,7 +46,7 @@ const EventNow = () => {
             {/* return ( */}
             <StarPaper messages={messages} />
             <Button variant="contained" onClick={back}>
-                戻る
+                募集中のイベント
             </Button>
         </div>
     );
