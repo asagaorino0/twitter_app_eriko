@@ -63,15 +63,17 @@ const EventNow = () => {
     const tuuchiClick = function () {
         liff.login();
     };
-    window.onload = function (e) {
-        liff
-            .init({ liffId: myLiffId })
-            .then(() => {
-                // 初期化完了
-                initializeApp();
-            })
-    };
+    // window.onload = function (e) {
+    //     liff
+    //         .init({ liffId: myLiffId })
+    //         .then(() => {
+    //             // 初期化完了
+    //             initializeApp();
+    //         })
+    // };
     function initializeApp() {
+        setMessagesId(`${messages.id}`)
+        console.log(`${messages.id}`)
         // ログインチェック
         if (liff.isLoggedIn()) {
             //ログイン済
@@ -93,7 +95,7 @@ const EventNow = () => {
                     setNName(profile.displayName)
                     setName(profile.userId)
                     setAvatar(profile.pictureUrl)
-                    console.log("{login}", `${nName}`, `${avatar}`, `${name}`);
+                    console.log("{infilist}", `${nName}`, `${avatar}`, `${name}`);
                     db.collection('users').doc(`${profile.userId}`).set({
                         name: `${profile.userId}`,
                         nName: `${profile.displayName}`,
@@ -101,7 +103,6 @@ const EventNow = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
-                    setMessagesId(`${messages.id}`)
                     history.push(`/EventTuuchi/${messagesId}`)
                 })
         }
