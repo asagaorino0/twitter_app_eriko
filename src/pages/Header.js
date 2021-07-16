@@ -156,7 +156,7 @@ const Header = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
-                    window.alert("投稿しました。ありがとうございます😘");
+                    window.alert("投稿しました。ありがとうございます😊");
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
@@ -200,6 +200,7 @@ const Header = () => {
                     }, { merge: true }//←上書きされないおまじない
                     )
                 })
+        window.alert("下書き保存しました😊");
     }
 
     const [myFiles, setMyFiles] = useState([]);

@@ -254,11 +254,6 @@ export default function SimplePaper({ messages }) {
                 })
     }
     const loadId = async () => {
-        if (`${nichi}` === "") {
-            setLimit(99999999)
-        } else {
-            setLimit(adate)
-        }
         await
             db.collection("users").doc(`${name}`).collection("loadsita").doc(`${messages.id}`).set({
                 id: messages.id,
@@ -273,7 +268,7 @@ export default function SimplePaper({ messages }) {
                 avatar: messages.avatar,
                 time: now,
                 news: `${news}`,
-                limit: `${limit}`,
+                limit: messages.limit,
                 url: messages.url,
                 like: messages.like,
                 sita: false,
@@ -283,41 +278,63 @@ export default function SimplePaper({ messages }) {
             }, { merge: true }//←上書きされないおまじない
             )
                 .then((docRef) => {
-                    db.collection("messages").doc(messages.id).set({
-                        id: messages.id,
-                        event: messages.event,
-                        name: `${name}`,
-                        nName: messages.nName,
-                        message: messages.message,
-                        nichi: messages.nichi,
-                        zi: messages.zi,
-                        basyo: messages.basyo,
-                        src: messages.src,
-                        avatar: messages.avatar,
-                        time: now,
-                        news: `${news}`,
-                        limit: `${limit}`,
-                        time: now,
-                        url: messages.url,
-                        like: messages.like,
-                        sita: false,
-                        load: true,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        myPage: false,
-                    }, { merge: true }//←上書きされないおまじない
-                    )
+                    if (`${nichi}` === "") {
+                        db.collection("messages").doc(messages.id).set({
+                            id: messages.id,
+                            event: messages.event,
+                            name: `${name}`,
+                            nName: messages.nName,
+                            message: messages.message,
+                            nichi: messages.nichi,
+                            zi: messages.zi,
+                            basyo: messages.basyo,
+                            src: messages.src,
+                            avatar: messages.avatar,
+                            time: now,
+                            news: `${news}`,
+                            limit: "99999999",
+                            time: now,
+                            url: messages.url,
+                            like: messages.like,
+                            sita: false,
+                            load: true,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            myPage: false,
+                        }, { merge: true }//←上書きされないおまじない
+                        )
+                    } else {
+                        db.collection("messages").doc(messages.id).set({
+                            id: messages.id,
+                            event: messages.event,
+                            name: `${name}`,
+                            nName: messages.nName,
+                            message: messages.message,
+                            nichi: messages.nichi,
+                            zi: messages.zi,
+                            basyo: messages.basyo,
+                            src: messages.src,
+                            avatar: messages.avatar,
+                            time: now,
+                            news: `${news}`,
+                            limit: `${adate}`,
+                            time: now,
+                            url: messages.url,
+                            like: messages.like,
+                            sita: false,
+                            load: true,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            myPage: false,
+                        }, { merge: true }//←上書きされないおまじない
+                        )
+                    }
                     // console.log("Document written with ID: "`${messages.id}`);
+                    window.alert("投稿しました。ありがとうございます😊");
                     db.collection("users").doc(`${name}`).collection("sitagaki").doc(`${messages.id}`).delete()
                     history.push(`/EventTuuchi/${messages.id}`);
                     // history.push('/Main')
                 })
     }
     const sitarId = async () => {
-        if (`${nichi}` === "") {
-            setLimit(99999999)
-        } else {
-            setLimit(adate)
-        }
         try {
             // アップロード処理
             const uploadTask = storage
@@ -326,11 +343,6 @@ export default function SimplePaper({ messages }) {
             uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED);
         }
         catch (error) {
-        }
-        if (`${nichi}` === "") {
-            setLimit(99999999)
-        } else {
-            setLimit(adate)
         }
         await
             db.collection("users").doc(`${messages.name}`).collection("sitagaki").doc(`${messages.id}`).set({
@@ -413,7 +425,7 @@ export default function SimplePaper({ messages }) {
                     avatar: messages.avatar,
                     time: now,
                     news: `${news}`,
-                    limit: `${limit}`,
+                    limit: messages.limit,
                     url: messages.url,
                     myPage: true,
                     sita: false,
@@ -713,7 +725,7 @@ export default function SimplePaper({ messages }) {
 
                             <MenuItem>
                                 <TextField
-                                    label=""
+                                    label="月日"
                                     type="date"
                                     defaultValue={messages.nichi}
                                     fullWidth={true}
@@ -723,7 +735,7 @@ export default function SimplePaper({ messages }) {
                             </MenuItem>
                             <MenuItem>
                                 <TextField
-                                    label=""
+                                    label="時間"
                                     type="time"
                                     defaultValue={messages.zi}
                                     fullWidth={true}
@@ -751,22 +763,22 @@ export default function SimplePaper({ messages }) {
                             </MenuItem>
                             <Card>
                                 <CardContent>
-                                    <div {...getRootProps()}>
-                                        <input {...getInputProps()}
-                                        />
-                                        {myFiles.length === 0 ? (
-                                            <FolderIcon />
-                                        ) : (
-                                            <div style={{ width: '180px', height: '180px' }}>
-                                                {myFiles.map((file) => (
-                                                    <React.Fragment key={file.name}>
-                                                        {src && <img src={src} />}
-                                                    </React.Fragment>
-                                                )
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
+                                    ファイルの添付は工事中です。
+                        {/* <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            {myFiles.length === 0 ? (
+                                <FolderIcon />
+                            ) : (
+                                <div style={{ width: '180px', height: '180px' }}>
+                                    {myFiles.map((file) => (
+                                        <React.Fragment key={file.name}>
+                                            {src && <img src={src} />}
+                                        </React.Fragment>
+                                    )
+                                    )}
+                                </div>
+                            )}
+                        </div> */}
                                 </CardContent>
                             </Card>
                             <MenuItem onClick={handleClose}>
