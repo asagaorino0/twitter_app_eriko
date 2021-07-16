@@ -530,6 +530,9 @@ export default function SimplePaper({ messages }) {
                     <Typography onClick={handleMessage} className={classes.event} variant="h6" component="h6" >
                         {messages.event}
                     </Typography>
+                    <Typography onClick={handleMessage} className={classes.event} color="textSecondary">
+                        {messages.message}
+                    </Typography>
                     {`${messages.nichi}`.length !== 0 &&
                         <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                             開催日：{messages.nichi}
@@ -545,9 +548,7 @@ export default function SimplePaper({ messages }) {
                             場所：{messages.basyo}
                         </Typography>
                     }
-                    <Typography onClick={handleMessage} className={classes.event} color="textSecondary">
-                        {messages.message}
-                    </Typography>
+
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         <img src={messages.src} alt="" style={{ width: '80px', height: 'auto' }} />
                     </Typography>
@@ -580,7 +581,10 @@ export default function SimplePaper({ messages }) {
                         }
                     </Grid>
                     <Grid item >
-                        <h6>{`state:${state}`}{`${sanka}`}</h6>
+                        {
+                            followers.includes(`${name}`) === true &&
+                            <h6>state:参加する</h6>
+                        }
                         <RefreshIcon onClick={load} />
                     </Grid>
                 </Grid>
