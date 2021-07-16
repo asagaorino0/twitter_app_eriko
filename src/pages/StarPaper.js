@@ -560,7 +560,7 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <FavoriteBorder className={classes.green} fontSize="large" onClick={starId} />
+                            <FavoriteBorder className={classes.pink} onClick={starId} />
                         }
                         {state === true &&
                             <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />
