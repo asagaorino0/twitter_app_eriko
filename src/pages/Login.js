@@ -24,6 +24,7 @@ const Login = () => {
         root: {
             gridRow: 2,
             margin: '26px',
+            maxWidth: 400,
         },
         form: {
             width: '100%', // Fix IE 11 issue.
@@ -64,8 +65,8 @@ const Login = () => {
             // 未ログイン
             let result = window.confirm("LINE Loginしますか？新着情報を確認する場合はキャンセルしてください。");
             if (result) {
-                // liff.login();
-                window.location.href = loginUrl;
+                liff.login();
+                // window.location.href = loginUrl;
             }
         }
     }
@@ -105,11 +106,11 @@ const Login = () => {
     }
 
     return (
-        <div className={classes.root}>
-            {/*  <div className={classes.paper}> */}
+        // <div className={classes.root}>
+        <div className={classes.paper}>
             <img src={logo} style={{ borderRadius: '50%', width: '60px', height: '60px' }} alt="logo" />
             <div>
-                <span className={styles.value}>konoyubi</span>
+                <span className={styles.value} style={{ maxWidth: '350' }}>konoyubi</span>
                 <Typography component="h6" variant="h6">
                     介護✕美容のつながるアプリ
                 </Typography>

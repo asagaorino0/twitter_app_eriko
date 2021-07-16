@@ -450,13 +450,11 @@ const Header = () => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
-
                         <TextField
                             label="イベント名"
                             fullWidth={true}
                             onChange={(e) => setEvent(e.target.value)}
                             value={event}
-
                         />
                         <TextField
                             label=""

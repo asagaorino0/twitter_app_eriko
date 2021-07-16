@@ -9,7 +9,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import lineLogo from '../img/square-default.png';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import TouchAppIcon from '@material-ui/icons/TouchApp';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+// import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Follower from './Follower'
 import TextField from '@material-ui/core/TextField';
@@ -559,7 +560,7 @@ export default function SimplePaper({ messages }) {
                     }
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                         {state === false &&
-                            <TouchAppIcon className={classes.green} fontSize="large" onClick={starId} />
+                            <FavoriteBorder className={classes.green} fontSize="large" onClick={starId} />
                         }
                         {state === true &&
                             <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />

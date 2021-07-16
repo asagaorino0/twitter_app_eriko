@@ -231,7 +231,7 @@ const CreateUser = () => {
                 <Typography container direction="row" >
                     <TextField required id="standard-required"
                         // fullWidth
-                        label="100万分の1の私"
+                        label="100万分の1の私とか．．"
                         defaultValue={`${user.bunno1} `}
                         value={bunno1}
                         onChange={e => setBunno1(e.target.value)}
