@@ -575,16 +575,16 @@ export default function SimplePaper({ messages }) {
                                 return (
                                     <div>
                                         <Follower followers={followers} key={followers.id} />
+                                        {
+                                            followers.includes(`${name}`) === true &&
+                                            <h6>state:参加する</h6>
+                                        }
                                     </div>
                                 )
                             })
                         }
                     </Grid>
                     <Grid item >
-                        {
-                            followers.includes(`${name}`) === true &&
-                            <h6>state:参加する</h6>
-                        }
                         <RefreshIcon onClick={load} />
                     </Grid>
                 </Grid>
