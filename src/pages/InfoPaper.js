@@ -35,7 +35,7 @@ export default function SimplePaper({ messages }) {
             margin: '20px',
         },
         paper: {
-            maxWidth: 400,
+            maxWidth: 500,
             alignItems: 'center',
             margin: '5px 0px 5px 0px ',
             padding: '12px',
@@ -67,7 +67,7 @@ export default function SimplePaper({ messages }) {
                     <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
                 </Grid>
                 <Grid item xs >
-                    <Typography onClick={handleClick} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
+                    <Typography onClick={handleClick} style={{ cursor: 'pointer', textAlign: 'justify' }} variant="h6" component="h6" >
                         {messages.event}
                     </Typography>
                     {`${messages.nichi}`.length !== 0 &&
