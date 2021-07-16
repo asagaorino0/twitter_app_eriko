@@ -313,7 +313,11 @@ export default function SimplePaper({ messages }) {
                 })
     }
     const sitarId = async () => {
-        console.log(followers.toString())
+        if (`${nichi}` === "") {
+            setLimit(99999999)
+        } else {
+            setLimit(adate)
+        }
         try {
             // アップロード処理
             const uploadTask = storage
