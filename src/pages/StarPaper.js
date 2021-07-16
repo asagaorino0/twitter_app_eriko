@@ -9,8 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import lineLogo from '../img/square-default.png';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-// import TouchAppIcon from '@material-ui/icons/TouchApp';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import Follower from './Follower'
 import TextField from '@material-ui/core/TextField';
@@ -26,6 +25,7 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import QueueIcon from '@material-ui/icons/Queue';
 import liff from '@line/liff';
+// import TouchAppIcon from '@material-ui/icons/TouchApp';
 // import TouchAppOutlinedIcon from '@material-ui/icons/TouchAppOutlined';
 // import PanToolIcon from '@material-ui/icons/PanTool';
 // import Avatar from '@material-ui/core/Avatar';
@@ -104,74 +104,74 @@ export default function SimplePaper({ messages }) {
     // const [setFollowed] = useState('');
 
 
-    // 現在ログインしているユーザーを取得する
-    useEffect(() => {
-        liff.getProfile()
-            .then(profile => {
-                setNName(profile.displayName)
-                setName(profile.userId)
-                setAvatar(profile.pictureUrl)
-                firebase
-                    .firestore()
-                    .collection("messages")
-                    .doc(messages.id)
-                    .collection('follower')
-                    .orderBy("timestamp", "desc")
-                    .onSnapshot((snapshot) => {
-                        const followedId = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data().uid
-                        });
-                        setFollowedId(followedId)
-                        setState(followedId.includes(`${profile.userId}`))
-                    })
-                firebase
-                    .firestore()
-                    .collection("users")
-                    .onSnapshot((snapshot) => {
-                        const users = snapshot.docs.map((doc) => {
-                            return doc.id &&
-                                doc.data()
-                        });
-                        setUsers(users)
-                        console.log(users)
-                    })
-            })
-    }, []
-    );
     // // 現在ログインしているユーザーを取得する
     // useEffect(() => {
-    //     setNName("おりのえりこ")
-    //     setName("Ue990787da85bbd95eae9595867add9ba")
-    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-    //     firebase
-    //         .firestore()
-    //         .collection("messages")
-    //         .doc(messages.id)
-    //         .collection('follower')
-    //         .orderBy("timestamp", "desc")
-    //         .onSnapshot((snapshot) => {
-    //             const followedId = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data().uid
-    //             });
-    //             setFollowedId(followedId)
-    //             setState(followedId.includes(`${name}`))
-    //         })
-    //     firebase
-    //         .firestore()
-    //         .collection("users")
-    //         .onSnapshot((snapshot) => {
-    //             const users = snapshot.docs.map((doc) => {
-    //                 return doc.id &&
-    //                     doc.data()
-    //             });
-    //             setUsers(users)
-    //             load()
-    //             // console.log(users)
+    //     liff.getProfile()
+    //         .then(profile => {
+    //             setNName(profile.displayName)
+    //             setName(profile.userId)
+    //             setAvatar(profile.pictureUrl)
+    //             firebase
+    //                 .firestore()
+    //                 .collection("messages")
+    //                 .doc(messages.id)
+    //                 .collection('follower')
+    //                 .orderBy("timestamp", "desc")
+    //                 .onSnapshot((snapshot) => {
+    //                     const followedId = snapshot.docs.map((doc) => {
+    //                         return doc.id &&
+    //                             doc.data().uid
+    //                     });
+    //                     setFollowedId(followedId)
+    //                     setState(followedId.includes(`${profile.userId}`))
+    //                 })
+    //             firebase
+    //                 .firestore()
+    //                 .collection("users")
+    //                 .onSnapshot((snapshot) => {
+    //                     const users = snapshot.docs.map((doc) => {
+    //                         return doc.id &&
+    //                             doc.data()
+    //                     });
+    //                     setUsers(users)
+    //                     console.log(users)
+    //                 })
     //         })
     // }, []
     // );
+    // // 現在ログインしているユーザーを取得する
+    useEffect(() => {
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        firebase
+            .firestore()
+            .collection("messages")
+            .doc(messages.id)
+            .collection('follower')
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+                const followedId = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data().uid
+                });
+                setFollowedId(followedId)
+                setState(followedId.includes(`${name}`))
+            })
+        firebase
+            .firestore()
+            .collection("users")
+            .onSnapshot((snapshot) => {
+                const users = snapshot.docs.map((doc) => {
+                    return doc.id &&
+                        doc.data()
+                });
+                setUsers(users)
+                load()
+                // console.log(users)
+            })
+    }, []
+    );
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
@@ -563,23 +563,53 @@ export default function SimplePaper({ messages }) {
                             <h6>関連url:{messages.url}</h6>
                         </Link>
                     }
-                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                    {/* <Grid container direction="row" justify="flex-start" alignItems="flex-start" > */}
+                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
                         {state === false &&
                             <FavoriteBorder className={classes.pink} fontSize="large" onClick={starId} />
                         }
                         {state === true &&
                             <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />
                         }
+                        :sannkasimasu
+                    </Typography>
+                    {/* <Grid container direction="row" justify="flex-start" alignItems="flex-start" > */}
+                    {/* <Grid className={classes.pos}> */}
+                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                        <Grid item >
+                            {followers.length !== 0 &&
+                                followers.map((followers, index) => {
+                                    return (
+                                        // <div direction="row" style={{ alignContent: "flex-start" }}>
+                                        <div>
+                                            <Follower followers={followers} key={followers.id} />
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Grid>
+                    </Grid>
+                    {/* </Grid> */}
+                    <Grid container display='flex' flexWrap='wrap'>
                         {followers.length !== 0 &&
                             followers.map((followers, index) => {
                                 return (
-                                    <div>
+                                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                                         <Follower followers={followers} key={followers.id} />
-                                        {
-                                            followers.includes(`${name}`) === true &&
-                                            <h6>state:参加する</h6>
-                                        }
-                                    </div>
+                                        {`${followers.followerName}`}
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                        {followers.length !== 0 &&
+                            followers.map((followers, index) => {
+                                return (
+                                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                                        <Follower followers={followers} key={followers.id} />
+                                        {`${followers.followerName}`}
+                                    </Grid>
                                 )
                             })
                         }
