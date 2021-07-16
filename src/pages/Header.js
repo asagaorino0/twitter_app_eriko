@@ -419,7 +419,7 @@ const Header = () => {
                     alt=""
                     style={{ borderRadius: '50%', width: '40px', height: '40px' }}
                 />
-                <h5>{`${nName}さん！ようこそ！！`}</h5>
+                <h5 style={{ textAlign: 'justify' }}>{`${nName}さん！ようこそ！！`}</h5>
                 <br />
                 <Button variant="outlined" color="primary" onClick={myPage}>
                     MyPage
@@ -446,7 +446,7 @@ const Header = () => {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={classes.heading} variant="button" >イベントの募集</Typography>
+                    <Typography className={classes.heading} variant="button" >イベントの募集【新規投稿できます】</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
