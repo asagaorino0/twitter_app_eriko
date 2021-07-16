@@ -35,7 +35,7 @@ export default function SimplePaper({ messages }) {
             margin: '20px',
         },
         paper: {
-            maxWidth: 500,
+            maxWidth: 400,
             alignItems: 'center',
             margin: '5px 0px 5px 0px ',
             padding: '12px',

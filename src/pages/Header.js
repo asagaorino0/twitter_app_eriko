@@ -103,7 +103,6 @@ const Header = () => {
                 src: `${src}`,
                 time: now,
                 news: `${news}`,
-                limit: `${limit}`,
                 star: 0,
                 myPage: false,
                 like: false,
@@ -120,6 +119,7 @@ const Header = () => {
                     setClickable(false);
                     db.collection("messages").doc(docref.id).set({
                         id: docref.id,
+                        limit: `${limit}`,
                     }, { merge: true }//←上書きされないおまじない
                     )
                     db.collection("users").doc(`${name}`).collection('loadsita').doc(docref.id).set({
