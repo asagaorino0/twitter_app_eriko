@@ -496,7 +496,8 @@ const Header = () => {
                 </AccordionDetails>
                 <Card>
                     <CardContent>
-                        <div {...getRootProps()}>
+                        ファイルを添付は工事中です。
+                        {/* <div {...getRootProps()}>
                             <input {...getInputProps()} />
                             {myFiles.length === 0 ? (
                                 <FolderIcon />
@@ -510,7 +511,7 @@ const Header = () => {
                                     )}
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                         {event.length !== 0 && (
                             <Toolbar >
                                 {/* <SendIcon onClick={handleCreate} /> */}
