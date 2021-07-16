@@ -518,7 +518,7 @@ export default function SimplePaper({ messages }) {
         };
     };
 
-    const jyoho = `https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app&text=${messages.event}からメッセージ`
+    const jyoho = `https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app&text=[${messages.event}]のメッセージ`
 
     return (
         < Paper className={classes.paper} >
@@ -545,7 +545,7 @@ export default function SimplePaper({ messages }) {
                             場所：{messages.basyo}
                         </Typography>
                     }
-                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
+                    <Typography onClick={handleMessage} className={classes.event} color="textSecondary">
                         {messages.message}
                     </Typography>
                     <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
