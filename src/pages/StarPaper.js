@@ -32,10 +32,10 @@ import liff from '@line/liff';
 // import Switch from '@material-ui/core/Switch';
 // import FormGroup from '@material-ui/core/FormGroup';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import PersonIcon from '@material-ui/icons/Person';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+// import StarIcon from '@material-ui/icons/Star';
+// import StarBorderIcon from '@material-ui/icons/StarBorder';
+// import PersonIcon from '@material-ui/icons/Person';
+// import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,73 +105,73 @@ export default function SimplePaper({ messages }) {
 
 
     // // 現在ログインしているユーザーを取得する
-    // useEffect(() => {
-    //     liff.getProfile()
-    //         .then(profile => {
-    //             setNName(profile.displayName)
-    //             setName(profile.userId)
-    //             setAvatar(profile.pictureUrl)
-    //             firebase
-    //                 .firestore()
-    //                 .collection("messages")
-    //                 .doc(messages.id)
-    //                 .collection('follower')
-    //                 .orderBy("timestamp", "desc")
-    //                 .onSnapshot((snapshot) => {
-    //                     const followedId = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data().uid
-    //                     });
-    //                     setFollowedId(followedId)
-    //                     setState(followedId.includes(`${profile.userId}`))
-    //                 })
-    //             firebase
-    //                 .firestore()
-    //                 .collection("users")
-    //                 .onSnapshot((snapshot) => {
-    //                     const users = snapshot.docs.map((doc) => {
-    //                         return doc.id &&
-    //                             doc.data()
-    //                     });
-    //                     setUsers(users)
-    //                     console.log(users)
-    //                 })
-    //         })
-    // }, []
-    // );
-    // // 現在ログインしているユーザーを取得する
     useEffect(() => {
-        setNName("おりのえりこ")
-        setName("Ue990787da85bbd95eae9595867add9ba")
-        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-        firebase
-            .firestore()
-            .collection("messages")
-            .doc(messages.id)
-            .collection('follower')
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-                const followedId = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data().uid
-                });
-                setFollowedId(followedId)
-                setState(followedId.includes(`${name}`))
-            })
-        firebase
-            .firestore()
-            .collection("users")
-            .onSnapshot((snapshot) => {
-                const users = snapshot.docs.map((doc) => {
-                    return doc.id &&
-                        doc.data()
-                });
-                setUsers(users)
-                load()
-                // console.log(users)
+        liff.getProfile()
+            .then(profile => {
+                setNName(profile.displayName)
+                setName(profile.userId)
+                setAvatar(profile.pictureUrl)
+                firebase
+                    .firestore()
+                    .collection("messages")
+                    .doc(messages.id)
+                    .collection('follower')
+                    .orderBy("timestamp", "desc")
+                    .onSnapshot((snapshot) => {
+                        const followedId = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data().uid
+                        });
+                        setFollowedId(followedId)
+                        setState(followedId.includes(`${profile.userId}`))
+                    })
+                firebase
+                    .firestore()
+                    .collection("users")
+                    .onSnapshot((snapshot) => {
+                        const users = snapshot.docs.map((doc) => {
+                            return doc.id &&
+                                doc.data()
+                        });
+                        setUsers(users)
+                        console.log(users)
+                    })
             })
     }, []
     );
+    // // 現在ログインしているユーザーを取得する
+    // useEffect(() => {
+    //     setNName("おりのえりこ")
+    //     setName("Ue990787da85bbd95eae9595867add9ba")
+    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+    //     firebase
+    //         .firestore()
+    //         .collection("messages")
+    //         .doc(messages.id)
+    //         .collection('follower')
+    //         .orderBy("timestamp", "desc")
+    //         .onSnapshot((snapshot) => {
+    //             const followedId = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data().uid
+    //             });
+    //             setFollowedId(followedId)
+    //             setState(followedId.includes(`${name}`))
+    //         })
+    //     firebase
+    //         .firestore()
+    //         .collection("users")
+    //         .onSnapshot((snapshot) => {
+    //             const users = snapshot.docs.map((doc) => {
+    //                 return doc.id &&
+    //                     doc.data()
+    //             });
+    //             setUsers(users)
+    //             load()
+    //             // console.log(users)
+    //         })
+    // }, []
+    // );
     const likeSitarId = async () => {
         console.log('messages:', messages.id)
         await
@@ -313,6 +313,7 @@ export default function SimplePaper({ messages }) {
                 })
     }
     const sitarId = async () => {
+        console.log(followers.toString())
         try {
             // アップロード処理
             const uploadTask = storage
@@ -563,59 +564,48 @@ export default function SimplePaper({ messages }) {
                             <h6>関連url:{messages.url}</h6>
                         </Link>
                     }
-                    {/* <Grid container direction="row" justify="flex-start" alignItems="flex-start" > */}
-                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.pos} color="textSecondary">
-                        {state === false &&
-                            <FavoriteBorder className={classes.pink} fontSize="large" onClick={starId} />
-                        }
-                        {state === true &&
-                            <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />
-                        }
-                        :sannkasimasu
-                    </Typography>
-                    {/* <Grid container direction="row" justify="flex-start" alignItems="flex-start" > */}
-                    {/* <Grid className={classes.pos}> */}
+                    <Grid container direction="row" justify="flex-start" alignItems="flex-start" >
+                        <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} className={classes.event} variant="caption" color="textSecondary">
+                            {state === false &&
+                                <div style={{ whiteSpace: 'pre-line' }} justify="flex-start" alignItems="flex-start">
+                                    <FavoriteBorder className={classes.pink} fontSize="large" onClick={starId} />
+                                    {"ドキドキ\n" + "参加者リスト"}
+                                </div>
+                            }
+                            {state === true &&
+                                <div style={{ whiteSpace: 'pre-line' }} justify="flex-start" alignItems="flex-start">
+                                    <FavoriteIcon className={classes.pink} fontSize="large" onClick={stardel} />
+                                    {"　\n" + "参加者リスト"}
+                                </div>
+                            }
+
+                        </Typography>
+                    </Grid>
                     <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        <Grid item >
+                        <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
                             {followers.length !== 0 &&
                                 followers.map((followers, index) => {
                                     return (
-                                        // <div direction="row" style={{ alignContent: "flex-start" }}>
                                         <div>
-                                            <Follower followers={followers} key={followers.id} />
+                                            <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
+                                                <Follower followers={followers} key={followers.id} />
+                                                <Typography onClick={handleClick} style={{ cursor: 'pointer' }} variant="caption" >
+                                                    {`${followers.followerName}`}
+                                                </Typography>
+                                            </Grid>
                                         </div>
                                     )
                                 })
                             }
+                            {followers.toString() === 'false' &&
+
+                                <div>
+                                    {/* <div style={{ whiteSpace: 'pre-line' }} justify="flex-start" alignItems="flex-start"> */}
+                                            参加者絶賛募集中！
+                                        </div>
+
+                            }
                         </Grid>
-                    </Grid>
-                    {/* </Grid> */}
-                    <Grid container display='flex' flexWrap='wrap'>
-                        {followers.length !== 0 &&
-                            followers.map((followers, index) => {
-                                return (
-                                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                                        <Follower followers={followers} key={followers.id} />
-                                        {`${followers.followerName}`}
-                                    </Grid>
-                                )
-                            })
-                        }
-                    </Grid>
-                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                        {followers.length !== 0 &&
-                            followers.map((followers, index) => {
-                                return (
-                                    <Grid container direction="row" justify="flex-start" alignItems="flex-end" >
-                                        <Follower followers={followers} key={followers.id} />
-                                        {`${followers.followerName}`}
-                                    </Grid>
-                                )
-                            })
-                        }
-                    </Grid>
-                    <Grid item >
-                        <RefreshIcon onClick={load} />
                     </Grid>
                 </Grid>
                 {messages.sita === true &&
