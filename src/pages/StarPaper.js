@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
         color: '#00b900',
         // color: '#06c775',
     },
+    event: {
+        cursor: 'pointer',
+        textAlign: 'justify'
+    }
 }));
 
 export default function SimplePaper({ messages }) {
@@ -514,7 +518,7 @@ export default function SimplePaper({ messages }) {
         };
     };
 
-    const jyoho = `https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app&text=更新情報：${messages.event}`
+    const jyoho = `https://social-plugins.line.me/lineit/share?url=https://twitter-app-eriko.web.app&text=${messages.event}からメッセージ`
 
     return (
         < Paper className={classes.paper} >
@@ -523,7 +527,7 @@ export default function SimplePaper({ messages }) {
                     <img src={messages.avatar} alt="" style={{ borderRadius: '50%', width: '40px', height: '40px' }} onClick={handleClick} />
                 </Grid>
                 <Grid item xs >
-                    <Typography onClick={handleMessage} style={{ cursor: 'pointer' }} variant="h6" component="h6" >
+                    <Typography onClick={handleMessage} className={classes.event} variant="h6" component="h6" >
                         {messages.event}
                     </Typography>
                     {`${messages.nichi}`.length !== 0 &&
