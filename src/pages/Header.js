@@ -30,6 +30,7 @@ const Header = () => {
     const [message, setMessage] = useState('');
     const [event, setEvent] = useState('');
     const [nichi, setNichi] = useState('');
+    // const [adate, setAdate] = useState('');
     const [limit, setLimit] = useState('');
     const [zi, setZi] = useState('');
     const [basyo, setBasyo] = useState('');
@@ -49,8 +50,7 @@ const Header = () => {
     var vYear = parseInt(`${nichi}`.substr(0, 4), 10);
     var vMonth = parseInt(`${nichi}`.substr(5, 2), 10);
     var vDay = parseInt(`${nichi}`.substr(8, 2), 10);
-    var adate = (vYear * 10000 + vMonth * 100 + vDay);
-
+    const adate = (vYear * 10000 + vMonth * 100 + vDay);
 
     // // 現在ログインしているユーザーを取得する
     useEffect(() => {
@@ -84,10 +84,10 @@ const Header = () => {
         history.push('/MyPage')
     }
     const handleCreate = async () => {
-        if (`${nichi}` === "") {
+        if (`${adate}`.toString() === "NaN") {
             setLimit(99999999)
         } else {
-            setLimit(adate)
+            setLimit(`${adate}`)
         }
         await
             db.collection("messages").add({
@@ -96,6 +96,7 @@ const Header = () => {
                 nName: `${nName}`,
                 event: `${event}`,
                 nichi: `${nichi}`,
+                limit: `${limit}`,
                 zi: `${zi}`,
                 basyo: `${basyo}`,
                 message,
@@ -117,11 +118,21 @@ const Header = () => {
                     setUrl("");
                     setMyFiles([]);
                     setClickable(false);
-                    db.collection("messages").doc(docref.id).set({
-                        id: docref.id,
-                        limit: `${limit}`,
-                    }, { merge: true }//←上書きされないおまじない
-                    )
+                    if (`${nichi}` === "") {
+                        db.collection("messages").doc(docref.id).set({
+                            id: docref.id,
+                            limit: "99999999",
+                        }, { merge: true }//←上書きされないおまじない
+                        )
+                    } else {
+                        db.collection("messages").doc(docref.id).set({
+                            id: docref.id,
+                            limit: `${adate}`,
+                        }, { merge: true }//←上書きされないおまじない
+                        )
+                    }
+                    console.log("adate:", `${adate}`.toString());
+                    console.log("limit:", `${limit}`);
                     db.collection("users").doc(`${name}`).collection('loadsita').doc(docref.id).set({
                         id: docref.id,
                         name: `${name}`,
@@ -145,6 +156,7 @@ const Header = () => {
                         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     }, { merge: true }//←上書きされないおまじない
                     )
+                    window.alert("投稿しました。ありがとうございます😘");
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
@@ -347,70 +359,6 @@ const Header = () => {
             });
     }
 
-    // function sendMessage4() {
-    //     liff.sendMessages([{
-    //         'type': 'text',
-    //         'text': 'Hello, World!'
-    //     }]).then(function () {
-    //         liff.closeWindow();
-    //     }).catch(function (error) {
-    //         // "user doesn't grant required permissions yet." が発生している
-    //         window.alert('Failed to send message ' + error);
-    //     });
-    // }
-    //使えないやつ
-    // const line = require('@line/bot-sdk');
-    // const client = new line.Client({
-    //     channelAccessToken: 'RyGBqiciaprN0e4/UWor9L4kgra7M560lqinnyXyu6LWwnSNI5O7ZA2Ug4MHnpoViLyk0pwZfJ5bCdOVWNUmlM7PKtJPbIq1cevZtPmVuPsv0nKutgL8prDWKGc6NDnQgYosP8BwHh3Ss6ZRG+2tfwdB04t89/1O/w1cDnyilFU='
-
-    // });
-    // const message1 = {
-    //     type: 'text',
-    //     text: 'Hello,'
-    // };
-    // const message2 = {
-    //     type: 'text',
-    //     text: 'World!'
-    // };
-    // const sendMessage4 = function (req, res) {
-    //     // res.statusCode = 200;
-    //     res.setHeader('Access-Control-Allow-Origin', 'https://twitter-app-eriko.web.app')
-    //     res.end();
-    //     client.multicast(['U585f9b381deecf0fd66404a2325e517e', '', ''],
-    //         [message1, message2]
-    //     )
-    // }
-    //使えないやつ
-    // const sendMessage4 = function (e) {
-    //     if (liff.isApiAvailable('shareTargetPicker')) {
-    //         liff.shareTargetPicker([{
-    //             'type': 'text',
-    //             'text': 'Hello, World!'
-    //         }]).then(
-    //             //shareTargetPickerの取得に成功　　　　　　　
-    //             document.getElementById('shareTargetPickerMessage').textContent = "Share target picker was launched."
-    //         ).catch(function (res) {
-    //             //「シェアターゲットピッカー」が有効になっているが取得に失敗した場合 
-    //             document.getElementById('shareTargetPickerMessage').textContent = "Failed to launch share target picker.";
-    //         });
-    //     } else {
-    //         //「シェアターゲットピッカー」が無効になっている場合
-    //         document.getElementById('shareTargetPickerMessage').innerHTML = "<div>Share target picker unavailable.<div><div>This is possibly because you haven't enabled the share target picker on <a href='https://developers.line.biz/console/'>LINE Developers Console</a>.</div>";
-    //     }
-    // }
-    //使えないやつ
-    // const text = "I sent test message!"
-    // function sendMessage5() {
-    //     liff.sendMessages(
-    //         [{ type: "text", text }]
-    //     ).then(function () {
-    //         window.alert('Message sent');
-    //     }).catch(function (error) {
-    //         window.alert('Error sending message: ' + error);
-    //     });
-    // }
-
-
     return (
         <div className={classes.root}>
             <Toolbar>
@@ -457,7 +405,7 @@ const Header = () => {
                             value={event}
                         />
                         <TextField
-                            label=""
+                            label="　　　　　　月日"
                             type="date"
                             defaultValue=""
                             fullWidth={true}
@@ -465,7 +413,7 @@ const Header = () => {
                             value={nichi}
                         />
                         <TextField
-                            label=""
+                            label="　　　　　　時間"
                             type="time"
                             defaultValue=""
                             fullWidth={true}
@@ -496,7 +444,7 @@ const Header = () => {
                 </AccordionDetails>
                 <Card>
                     <CardContent>
-                        ファイルを添付は工事中です。
+                        ファイルの添付は工事中です。
                         {/* <div {...getRootProps()}>
                             <input {...getInputProps()} />
                             {myFiles.length === 0 ? (

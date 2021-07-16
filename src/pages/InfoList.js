@@ -65,18 +65,6 @@ const InfoList = () => {
     const classes = useStyles();
     const [anchorMl, setAnchorMl] = React.useState(null);
 
-    // const tuuchiClick = function () {
-    //     liff.login();
-    // };
-
-    // window.onload = function (e) {
-    //     liff
-    //         .init({ liffId: myLiffId })
-    //         .then(() => {
-    //             // 初期化完了
-    //             initializeApp();
-    //         })
-    // };
     function initializeApp() {
         // ログインチェック
         if (liff.isLoggedIn()) {
@@ -92,44 +80,13 @@ const InfoList = () => {
         }
     }
     const tuuchiOnload = function (e) {
-        // if (liff.isLoggedIn()) {
-        //     liff.getProfile()
-        //         .then(profile => {
-        //             setNName(profile.displayName)
-        //             setName(profile.userId)
-        //             setAvatar(profile.pictureUrl)
-        //             console.log("{infolist}", `${nName}`, `${avatar}`, `${name}`);
-        //             db.collection('users').doc(`${profile.userId}`).set({
-        //                 name: `${profile.userId}`,
-        //                 nName: `${profile.displayName}`,
-        //                 avatar: `${profile.pictureUrl}`,
-        //                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        //             }, { merge: true }//←上書きされないおまじない
-        //             )
         handleClick()
-        //         })
-        // }
     }
     const handleClick = (event) => {
         setAnchorMl(event.currentTarget);
         console.log(event.currentTarget)
-        // firebase
-        //     .firestore()
-        //     .collection("messages")
-        //     .orderBy("timestamp", "desc")
-        //     .onSnapshot((snapshot) => {
-        //         const messages = snapshot.docs.map((doc) => {
-        //             return doc.id &&
-        //                 doc.data()
-        //         });
-        //         setMessages(messages);
         console.log(messages.id)
-        // history.push(`/EventTuuchi/${messagesId}`)
-        // })
     };
-    // const handleClose = () => {
-    //     setAnchorMl(null);
-    // };
 
     return (
         <div className={classes.root}>
@@ -137,11 +94,10 @@ const InfoList = () => {
             {messages.length !== 0 &&
                 messages
                     // .filter((messages) => messages.limit > today - 7)
-                    .filter((messages) => messages.news > today - 2)
+                    .filter((messages) => messages.news > today - 7)
                     .map((messages, index) => {
                         return (
                             <InfoPaper messages={messages} key={`${messages.id} `} />
-
                         )
                     })
             }

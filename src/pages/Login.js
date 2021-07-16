@@ -35,7 +35,7 @@ const Login = () => {
         },
         green: {
             color: '#ffffff',
-            backgroundColor: '#06c775',
+            backgroundColor: '#00b900',
         },
     }));
     const classes = useStyles();
@@ -97,13 +97,13 @@ const Login = () => {
         }
     }
 
-    // const googleClick = () => {
-    //     setNName("おりのえりこ")
-    //     setName("Ue990787da85bbd95eae9595867add9ba")
-    //     setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
-    //     console.log("name", `${name}`)
-    //     history.push(`/Main`)
-    // }
+    const googleClick = () => {
+        setNName("おりのえりこ")
+        setName("Ue990787da85bbd95eae9595867add9ba")
+        setAvatar("https://profile.line-scdn.net/0hjPIS5uTyNX90KhnFiBdKKEhvOxIDBDM3DEt-EQV_Pk5YH3F9S0QtHlMrO0cOEnYvSU55TlR9OE4M")
+        // console.log("name", `${name}`)
+        history.push(`/Main`)
+    }
 
     return (
         // <div className={classes.root}>
